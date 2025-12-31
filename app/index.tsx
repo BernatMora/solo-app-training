@@ -98,7 +98,7 @@ export default function TrainingScreen() {
                   ]}
                 >
                   <Text style={[styles.phaseBadgeText, { color: phaseColor }]}>
-                    Fase {phase.id}
+                    {phase.emoji} Fase {phase.id}
                   </Text>
                 </View>
                 <View style={styles.phaseInfo}>
@@ -200,7 +200,7 @@ export default function TrainingScreen() {
                             </Text>
                           </View>
                           <Text style={[styles.exerciseTitle, { color: colors.text }]}>
-                            {exercise.title}
+                            {exercise.emoji ? `${exercise.emoji} ` : ''}{exercise.title}
                           </Text>
                           <Text
                             style={[

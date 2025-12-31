@@ -90,7 +90,7 @@ export default function ExerciseDetailScreen() {
       <ScrollView style={styles.scrollView}>
         <View style={styles.content}>
           <Text style={[styles.title, { color: colors.text }]}>
-            {exercise.title}
+            {exercise.emoji ? `${exercise.emoji} ` : ''}{exercise.title}
           </Text>
 
           <TouchableOpacity

@@ -1,6 +1,7 @@
 export interface Exercise {
   id: string;
   title: string;
+  emoji?: string;
   soloSteps?: string[];
   practice: string;
   progression: string;
@@ -16,6 +17,7 @@ export interface WeekSection {
 export interface Phase {
   id: number;
   title: string;
+  emoji: string;
   weeks: string;
   objectives: string[];
   sections: WeekSection[];
@@ -25,6 +27,7 @@ export const phases: Phase[] = [
   {
     id: 1,
     title: "Fonaments i Visualització del Mànec",
+    emoji: "🎸",
     weeks: "Setmanes 1-8",
     objectives: [
       "Dominar la visualització de totes les notes al mànec",
@@ -39,6 +42,7 @@ export const phases: Phase[] = [
           {
             id: "1.1",
             title: "Notes individuals",
+            emoji: "🎯",
             soloSteps: [
               "1. Obre Solo App",
               "2. Toca el botó 'Note Trainer' al menú principal",
@@ -56,6 +60,7 @@ export const phases: Phase[] = [
           {
             id: "1.2",
             title: "Intervals des d'una nota root",
+            emoji: "📏",
             soloSteps: [
               "1. Obre Solo App",
               "2. Toca 'Interval Trainer' al menú principal",
@@ -73,6 +78,7 @@ export const phases: Phase[] = [
           {
             id: "1.2b",
             title: "Notes aleatòries en tot el mànec",
+            emoji: "🎲",
             soloSteps: [
               "1. Obre Solo App",
               "2. Toca 'Note Trainer'",
@@ -89,6 +95,7 @@ export const phases: Phase[] = [
           {
             id: "1.2c",
             title: "Limitació per zones del mànec",
+            emoji: "🗺️",
             soloSteps: [
               "1. Obre Solo App",
               "2. Toca 'Note Trainer'",
@@ -111,6 +118,7 @@ export const phases: Phase[] = [
           {
             id: "1.3",
             title: "Formes d'acords CAGED",
+            emoji: "🔤",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Chord Trainer'",
@@ -128,6 +136,7 @@ export const phases: Phase[] = [
           {
             id: "1.3b",
             title: "Connexió CAGED vertical",
+            emoji: "🔗",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Chord Trainer'",
@@ -144,6 +153,7 @@ export const phases: Phase[] = [
           {
             id: "1.4",
             title: "Arpegis CAGED",
+            emoji: "🎼",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Arpeggio Trainer'",
@@ -160,6 +170,7 @@ export const phases: Phase[] = [
           {
             id: "1.4b",
             title: "Intervals dins de CAGED",
+            emoji: "🔍",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Interval Trainer'",
@@ -182,6 +193,7 @@ export const phases: Phase[] = [
           {
             id: "1.5",
             title: "Escala Major (Sistema 3NPS)",
+            emoji: "⚡",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Scale Trainer'",
@@ -199,6 +211,7 @@ export const phases: Phase[] = [
           {
             id: "1.5b",
             title: "Seqüències d'escala Major",
+            emoji: "🔄",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Scale Trainer' > 'Major Scale'",
@@ -215,6 +228,7 @@ export const phases: Phase[] = [
           {
             id: "1.6",
             title: "Modes de l'escala major",
+            emoji: "🌈",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Mode Trainer'",
@@ -231,6 +245,7 @@ export const phases: Phase[] = [
           {
             id: "1.6b",
             title: "Comparació modal",
+            emoji: "⚖️",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Mode Trainer'",
@@ -247,6 +262,7 @@ export const phases: Phase[] = [
           {
             id: "1.6c",
             title: "Intervals en modes",
+            emoji: "🎪",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Interval Trainer'",
@@ -263,6 +279,7 @@ export const phases: Phase[] = [
           {
             id: "1.6d",
             title: "Tríades dins de modes",
+            emoji: "🔺",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Triad Trainer'",
@@ -279,6 +296,7 @@ export const phases: Phase[] = [
           {
             id: "1.6e",
             title: "Two-String Scales",
+            emoji: "✌️",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Scale Trainer' > Major Scale",
@@ -295,6 +313,7 @@ export const phases: Phase[] = [
           {
             id: "1.6f",
             title: "Intervals aleatoris amb Root fixa",
+            emoji: "🎰",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Interval Trainer'",
@@ -315,6 +334,7 @@ export const phases: Phase[] = [
   {
     id: 2,
     title: "Harmonia i Colors Jazz",
+    emoji: "🎵",
     weeks: "Setmanes 9-16",
     objectives: [
       "Dominar escales i modes jazz essencials",
@@ -329,6 +349,7 @@ export const phases: Phase[] = [
           {
             id: "2.1",
             title: "Escala Melòdica Menor",
+            emoji: "🌙",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Scale Trainer'",
@@ -345,6 +366,7 @@ export const phases: Phase[] = [
           {
             id: "2.1b",
             title: "Modes de Melòdica Menor",
+            emoji: "✨",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Mode Trainer' > 'Melodic Minor Modes'",
@@ -361,6 +383,7 @@ export const phases: Phase[] = [
           {
             id: "2.2",
             title: "Escala Harmònica Menor",
+            emoji: "🎭",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Scale Trainer'",
@@ -376,6 +399,7 @@ export const phases: Phase[] = [
           {
             id: "2.2b",
             title: "Arpegis sobre Harmònica Menor",
+            emoji: "💫",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Arpeggio Trainer'",
@@ -392,6 +416,7 @@ export const phases: Phase[] = [
           {
             id: "2.3",
             title: "Diminished Scales",
+            emoji: "⭕",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Scale Trainer'",
@@ -407,6 +432,7 @@ export const phases: Phase[] = [
           {
             id: "2.3b",
             title: "Simetria Diminished",
+            emoji: "🔁",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Scale Trainer' > 'Diminished'",
@@ -423,6 +449,7 @@ export const phases: Phase[] = [
           {
             id: "2.3c",
             title: "Arpegis Diminished 7",
+            emoji: "🎪",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Arpeggio Trainer'",
@@ -439,6 +466,7 @@ export const phases: Phase[] = [
           {
             id: "2.3d",
             title: "Intervals en Diminished",
+            emoji: "🌀",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Interval Trainer'",
@@ -461,6 +489,7 @@ export const phases: Phase[] = [
           {
             id: "2.4",
             title: "Superposicions de tríades",
+            emoji: "🎨",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Triad Trainer'",
@@ -476,6 +505,7 @@ export const phases: Phase[] = [
           {
             id: "2.4b",
             title: "Triad Pairs en moviment",
+            emoji: "🎪",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Triad Trainer'",
@@ -492,6 +522,7 @@ export const phases: Phase[] = [
           {
             id: "2.4c",
             title: "Upper Structure Triads",
+            emoji: "🏗️",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Chord Trainer'",
@@ -508,6 +539,7 @@ export const phases: Phase[] = [
           {
             id: "2.5",
             title: "Quartal Harmony",
+            emoji: "🔲",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Interval Trainer'",
@@ -523,6 +555,7 @@ export const phases: Phase[] = [
           {
             id: "2.5b",
             title: "Stacked Fourths Melodies",
+            emoji: "📊",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Interval Trainer' amb 4tes",
@@ -545,6 +578,7 @@ export const phases: Phase[] = [
           {
             id: "2.6",
             title: "Tritone Substitutions",
+            emoji: "🔄",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Changes Trainer'",
@@ -560,6 +594,7 @@ export const phases: Phase[] = [
           {
             id: "2.7",
             title: "Approach Notes i Chromatisme",
+            emoji: "🎯",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona una escala diatònica",
@@ -578,6 +613,7 @@ export const phases: Phase[] = [
   {
     id: 3,
     title: "Tècniques Avançades i Fusion",
+    emoji: "🔥",
     weeks: "Setmanes 17-24",
     objectives: [
       "Desenvolupar tècnica de mà dreta i legato",
@@ -592,6 +628,7 @@ export const phases: Phase[] = [
           {
             id: "3.1",
             title: "Alternate Picking a alta velocitat",
+            emoji: "⚡",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Scale Trainer'",
@@ -608,6 +645,7 @@ export const phases: Phase[] = [
           {
             id: "3.1b",
             title: "String Skipping amb Solo App",
+            emoji: "🦘",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Arpeggio Trainer'",
@@ -624,6 +662,7 @@ export const phases: Phase[] = [
           {
             id: "3.2",
             title: "Legato Extensions",
+            emoji: "🌊",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Scale Trainer'",
@@ -639,6 +678,7 @@ export const phases: Phase[] = [
           {
             id: "3.2b",
             title: "Legato diagonal",
+            emoji: "↗️",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Scale Trainer' > escales 3NPS",
@@ -655,6 +695,7 @@ export const phases: Phase[] = [
           {
             id: "3.3",
             title: "Hybrid Picking",
+            emoji: "🤏",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Scale Trainer'",
@@ -670,6 +711,7 @@ export const phases: Phase[] = [
           {
             id: "3.3b",
             title: "Hybrid Picking amb Arpegis",
+            emoji: "💎",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Arpeggio Trainer'",
@@ -692,6 +734,7 @@ export const phases: Phase[] = [
           {
             id: "3.4",
             title: "Side-Stepping",
+            emoji: "↔️",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Scale Trainer'",
@@ -707,6 +750,7 @@ export const phases: Phase[] = [
           {
             id: "3.5",
             title: "Superimposició d'acords",
+            emoji: "🎨",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Chord Trainer'",
@@ -722,6 +766,7 @@ export const phases: Phase[] = [
           {
             id: "3.6",
             title: "Whole Tone i Augmented Scales",
+            emoji: "🌟",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Scale Trainer'",
@@ -737,6 +782,7 @@ export const phases: Phase[] = [
           {
             id: "3.6b",
             title: "Arpegis Augmented",
+            emoji: "➕",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Arpeggio Trainer'",
@@ -753,6 +799,7 @@ export const phases: Phase[] = [
           {
             id: "3.6c",
             title: "Intervals amb Random Root",
+            emoji: "🎲",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Interval Trainer'",
@@ -775,6 +822,7 @@ export const phases: Phase[] = [
           {
             id: "3.7",
             title: "Pentatòniques Modals",
+            emoji: "🎸",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Scale Trainer'",
@@ -790,6 +838,7 @@ export const phases: Phase[] = [
           {
             id: "3.8",
             title: "Riffs i Grooves Funk",
+            emoji: "🕺",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Mode Trainer'",
@@ -805,6 +854,7 @@ export const phases: Phase[] = [
           {
             id: "3.8b",
             title: "Pentatòniques amb Blues Notes",
+            emoji: "🎵",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Scale Trainer' > Pentatonic",
@@ -821,6 +871,7 @@ export const phases: Phase[] = [
           {
             id: "3.8c",
             title: "Changes Trainer: II-V-I",
+            emoji: "🔢",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Changes Trainer'",
@@ -837,6 +888,7 @@ export const phases: Phase[] = [
           {
             id: "3.8d",
             title: "Changes Trainer: Jazz Standards",
+            emoji: "🎺",
             soloSteps: [
               "1. Obre Solo App",
               "2. Selecciona 'Changes Trainer'",
@@ -857,6 +909,7 @@ export const phases: Phase[] = [
   {
     id: 4,
     title: "Repertori i Aplicació Musical",
+    emoji: "🎼",
     weeks: "Setmanes 25+",
     objectives: [
       "Aplicar tots els conceptes en contextos musicals reals",
@@ -871,6 +924,7 @@ export const phases: Phase[] = [
           {
             id: "4.1",
             title: "Transcripcions de mestres",
+            emoji: "👨‍🎓",
             practice: "Pat Metheny, Mike Stern, John Scofield, Scott Henderson, Allan Holdsworth. Mètode: Escolta 50+ vegades, transcriu, analitza amb Solo App, practica amb backing, internalitza",
             progression: "Vocabulari personal",
             duration: "Variable",
@@ -878,6 +932,7 @@ export const phases: Phase[] = [
           {
             id: "4.2",
             title: "Composició setmanal",
+            emoji: "✍️",
             practice: "Escriu peces curtes (2-3 min) aplicant conceptes. Planifica harmonia amb Solo App",
             progression: "Veu compositiva",
             duration: "Variable",
@@ -885,6 +940,7 @@ export const phases: Phase[] = [
           {
             id: "4.3",
             title: "Jam sessions",
+            emoji: "🎤",
             practice: "Improvisa sobre backing tracks complexos. Grava i analitza amb Solo App",
             progression: "Autoavaluació contínua",
             duration: "15-30 min/dia",
@@ -892,6 +948,7 @@ export const phases: Phase[] = [
           {
             id: "4.4",
             title: "Playing Over Changes",
+            emoji: "🎼",
             practice: "Standards reharmonitzats (Autumn Leaves, All The Things You Are). Aplica substitucions i extensions",
             progression: "Jazz fusion standards",
             duration: "Variable",
