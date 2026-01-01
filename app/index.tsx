@@ -25,6 +25,8 @@ export default function TrainingScreen() {
 
   const styles = createStyles(colors);
 
+  const visiblePhases = phases.filter((p) => p.id <= 3);
+
   const getPhaseColor = (phaseId: number) => {
     switch (phaseId) {
       case 1:
@@ -63,13 +65,46 @@ export default function TrainingScreen() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Pla d&apos;Entrenament</Text>
+        <Text style={styles.title}>Entrenament (Solo)</Text>
         <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-          4 Fases · 6-12 mesos
+          Mòduls 1-3 · Comença pel 1 i ves pujant
         </Text>
       </View>
 
-      {phases.map((phase) => {
+      <View style={styles.modulePicker} testID="modulePicker">
+        {visiblePhases.map((p) => {
+          const isSelected = expandedPhase === p.id;
+          const phaseColor = getPhaseColor(p.id);
+          return (
+            <TouchableOpacity
+              key={p.id}
+              style={[
+                styles.moduleChip,
+                {
+                  backgroundColor: isSelected ? phaseColor : colors.card,
+                  borderColor: isSelected ? phaseColor : colors.border,
+                },
+              ]}
+              onPress={() => {
+                setExpandedPhase(p.id);
+                updatePhase(p.id);
+              }}
+              testID={`moduleChip-${p.id}`}
+            >
+              <Text
+                style={[
+                  styles.moduleChipText,
+                  { color: isSelected ? "#FFFFFF" : colors.text },
+                ]}
+              >
+                {p.emoji} Mòdul {p.id}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+
+      {visiblePhases.map((phase) => {
         const isExpanded = expandedPhase === phase.id;
         const isCurrent = progress.currentPhase === phase.id;
         const phaseColor = getPhaseColor(phase.id);
@@ -98,7 +133,7 @@ export default function TrainingScreen() {
                   ]}
                 >
                   <Text style={[styles.phaseBadgeText, { color: phaseColor }]}>
-                    {phase.emoji} Fase {phase.id}
+                    {phase.emoji} Mòdul {phase.id}
                   </Text>
                 </View>
                 <View style={styles.phaseInfo}>
@@ -141,7 +176,7 @@ export default function TrainingScreen() {
                     onPress={() => updatePhase(phase.id)}
                   >
                     <Text style={[styles.setCurrentText, { color: phaseColor }]}>
-                      Establir com a fase actual
+                      Establir com a mòdul actual
                     </Text>
                   </TouchableOpacity>
                 )}
@@ -235,7 +270,24 @@ const createStyles = (colors: typeof Colors.light) =>
     header: {
       paddingHorizontal: 20,
       paddingTop: 60,
-      paddingBottom: 24,
+      paddingBottom: 16,
+    },
+    modulePicker: {
+      flexDirection: "row",
+      gap: 8,
+      paddingHorizontal: 20,
+      paddingBottom: 12,
+    },
+    moduleChip: {
+      paddingVertical: 10,
+      paddingHorizontal: 12,
+      borderRadius: 999,
+      borderWidth: 1,
+    },
+    moduleChipText: {
+      fontSize: 13,
+      fontWeight: "700" as const,
+      letterSpacing: 0.2,
     },
     title: {
       fontSize: 32,
