@@ -1,6 +1,7 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { CheckCircle2, Circle, ArrowLeft } from "lucide-react-native";
-import React from "react";
+import { CheckCircle2, Circle, ArrowLeft, Timer, Square, Save } from "lucide-react-native";
+import * as Haptics from "expo-haptics";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -8,6 +9,7 @@ import {
   View,
   TouchableOpacity,
   useColorScheme,
+  TextInput,
 } from "react-native";
 
 import Colors from "@/constants/colors";
@@ -19,43 +21,40 @@ export default function ExerciseDetailScreen() {
   const colorScheme = useColorScheme();
   const colors = colorScheme === "dark" ? Colors.dark : Colors.light;
   const router = useRouter();
-  const { progress, toggleExerciseComplete } = useProgress();
+  const { progress, toggleExerciseComplete, addPracticeSession } = useProgress();
+
+  const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
+  const [elapsedSeconds, setElapsedSeconds] = useState<number>(0);
+  const [sessionNotes, setSessionNotes] = useState<string>("");
+
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const startedAtRef = useRef<number | null>(null);
 
   const styles = createStyles(colors);
 
-  let exercise = null;
-  let phaseId = 1;
+  const { exercise, phaseId } = useMemo(() => {
+    let foundExercise: (typeof phases)[number]["sections"][number]["exercises"][number] | null = null;
+    let foundPhaseId = 1;
 
-  for (const phase of phases) {
-    for (const section of phase.sections) {
-      const found = section.exercises.find((ex) => ex.id === id);
-      if (found) {
-        exercise = found;
-        phaseId = phase.id;
-        break;
+    for (const phase of phases) {
+      for (const section of phase.sections) {
+        const found = section.exercises.find((ex) => ex.id === id);
+        if (found) {
+          foundExercise = found;
+          foundPhaseId = phase.id;
+          break;
+        }
       }
+      if (foundExercise) break;
     }
-    if (exercise) break;
-  }
 
-  if (!exercise) {
-    return (
-      <View style={[styles.container, { backgroundColor: colors.background }]}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-            <ArrowLeft size={24} color={colors.text} />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.errorContainer}>
-          <Text style={[styles.errorText, { color: colors.text }]}>
-            Exercici no trobat
-          </Text>
-        </View>
-      </View>
-    );
-  }
+    return { exercise: foundExercise, phaseId: foundPhaseId };
+  }, [id]);
 
-  const isCompleted = progress.completedExercises.includes(exercise.id);
+  const isCompleted = useMemo(() => {
+    if (!exercise) return false;
+    return progress.completedExercises.includes(exercise.id);
+  }, [exercise, progress.completedExercises]);
 
   const getPhaseColor = (phId: number) => {
     switch (phId) {
@@ -73,6 +72,94 @@ export default function ExerciseDetailScreen() {
   };
 
   const phaseColor = getPhaseColor(phaseId);
+
+  const elapsedLabel = useMemo(() => {
+    const mins = Math.floor(elapsedSeconds / 60);
+    const secs = elapsedSeconds % 60;
+    return `${mins}:${String(secs).padStart(2, "0")}`;
+  }, [elapsedSeconds]);
+
+  const stopTimer = async (opts?: { save: boolean }) => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+
+    setIsTimerRunning(false);
+
+    const shouldSave = opts?.save ?? false;
+    const durationMinutes = Math.max(1, Math.round(elapsedSeconds / 60));
+
+    if (shouldSave) {
+      try {
+        await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      } catch (e) {
+        console.log("Haptics error (stopTimer):", e);
+      }
+
+      if (!exercise) {
+        console.log("stopTimer(save): exercise not found, skipping save");
+      } else {
+        try {
+          addPracticeSession({
+            date: new Date().toISOString(),
+            duration: durationMinutes,
+            exerciseId: exercise.id,
+            notes: sessionNotes.trim().length > 0 ? sessionNotes.trim() : undefined,
+          });
+        } catch (e) {
+          console.error("Error saving practice session:", e);
+        }
+      }
+
+      setElapsedSeconds(0);
+      setSessionNotes("");
+    }
+
+    startedAtRef.current = null;
+  };
+
+  const startTimer = async () => {
+    if (isTimerRunning) return;
+
+    try {
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    } catch (e) {
+      console.log("Haptics error (startTimer):", e);
+    }
+
+    setIsTimerRunning(true);
+    const now = Date.now();
+    startedAtRef.current = now;
+
+    intervalRef.current = setInterval(() => {
+      setElapsedSeconds((s) => s + 1);
+    }, 1000);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+  }, []);
+
+  if (!exercise) {
+    return (
+      <View style={[styles.container, { backgroundColor: colors.background }]}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+            <ArrowLeft size={24} color={colors.text} />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.errorContainer}>
+          <Text style={[styles.errorText, { color: colors.text }]}>Exercici no trobat</Text>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -124,6 +211,87 @@ export default function ExerciseDetailScreen() {
             <Text style={[styles.infoValue, { color: colors.text }]}>
               {exercise.duration}
             </Text>
+          </View>
+
+          <View style={styles.section}>
+            <Text style={[styles.sectionTitle, { color: colors.text }]}>Sessió (cronòmetre)</Text>
+
+            <View style={[styles.timerCard, { backgroundColor: colors.card }]}
+              testID="practiceTimerCard"
+            >
+              <View style={styles.timerTopRow}>
+                <View style={styles.timerLabelRow}>
+                  <Timer size={18} color={phaseColor} />
+                  <Text style={[styles.timerLabel, { color: colors.textSecondary }]}>Temps actual</Text>
+                </View>
+                <Text style={[styles.timerValue, { color: colors.text }]} testID="practiceTimerValue">
+                  {elapsedLabel}
+                </Text>
+              </View>
+
+              <View style={styles.timerActions}>
+                {!isTimerRunning ? (
+                  <TouchableOpacity
+                    style={[styles.timerPrimaryButton, { backgroundColor: phaseColor }]}
+                    onPress={startTimer}
+                    testID="practiceTimerStart"
+                  >
+                    <Text style={styles.timerPrimaryText}>Start</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    style={[styles.timerStopButton, { backgroundColor: colors.backgroundSecondary, borderColor: colors.border }]}
+                    onPress={() => stopTimer({ save: false })}
+                    testID="practiceTimerStop"
+                  >
+                    <Square size={18} color={colors.text} />
+                    <Text style={[styles.timerStopText, { color: colors.text }]}>Stop</Text>
+                  </TouchableOpacity>
+                )}
+
+                <TouchableOpacity
+                  style={[
+                    styles.timerSaveButton,
+                    {
+                      backgroundColor: colors.backgroundSecondary,
+                      borderColor: colors.border,
+                      opacity: elapsedSeconds >= 10 ? 1 : 0.55,
+                    },
+                  ]}
+                  onPress={() => {
+                    if (elapsedSeconds < 10) return;
+                    stopTimer({ save: true });
+                  }}
+                  disabled={elapsedSeconds < 10}
+                  testID="practiceTimerSave"
+                >
+                  <Save size={18} color={colors.text} />
+                  <Text style={[styles.timerSaveText, { color: colors.text }]}>Guardar</Text>
+                </TouchableOpacity>
+              </View>
+
+              <TextInput
+                value={sessionNotes}
+                onChangeText={setSessionNotes}
+                placeholder="Notes (què t'ha costat, què millorar demà...)"
+                placeholderTextColor={colors.textSecondary}
+                style={[
+                  styles.timerNotes,
+                  {
+                    color: colors.text,
+                    borderColor: colors.border,
+                    backgroundColor: colors.backgroundSecondary,
+                  },
+                ]}
+                multiline
+                textAlignVertical="top"
+                testID="practiceTimerNotes"
+              />
+
+              <Text style={[styles.timerHint, { color: colors.textSecondary }]}>
+                Tip: fes servir aquest cronòmetre mentre segueixes els passos de Solo, i guarda la sessió quan acabis.
+              </Text>
+            </View>
           </View>
 
           {exercise.soloSteps && exercise.soloSteps.length > 0 && (
@@ -258,6 +426,89 @@ const createStyles = (colors: typeof Colors.light) =>
     cardText: {
       fontSize: 15,
       lineHeight: 22,
+    },
+    timerCard: {
+      padding: 16,
+      borderRadius: 14,
+    },
+    timerTopRow: {
+      flexDirection: "row",
+      alignItems: "flex-start",
+      justifyContent: "space-between",
+      marginBottom: 12,
+    },
+    timerLabelRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 8,
+    },
+    timerLabel: {
+      fontSize: 13,
+      fontWeight: "600" as const,
+    },
+    timerValue: {
+      fontSize: 22,
+      fontWeight: "800" as const,
+      letterSpacing: 0.2,
+    },
+    timerActions: {
+      flexDirection: "row",
+      gap: 10,
+      marginBottom: 12,
+    },
+    timerPrimaryButton: {
+      flex: 1,
+      paddingVertical: 12,
+      borderRadius: 12,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    timerPrimaryText: {
+      color: "#FFFFFF",
+      fontSize: 16,
+      fontWeight: "700" as const,
+    },
+    timerStopButton: {
+      flex: 1,
+      paddingVertical: 12,
+      borderRadius: 12,
+      borderWidth: 1,
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 8,
+    },
+    timerStopText: {
+      fontSize: 16,
+      fontWeight: "700" as const,
+    },
+    timerSaveButton: {
+      flex: 1,
+      paddingVertical: 12,
+      borderRadius: 12,
+      borderWidth: 1,
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 8,
+    },
+    timerSaveText: {
+      fontSize: 16,
+      fontWeight: "700" as const,
+    },
+    timerNotes: {
+      borderWidth: 1,
+      borderRadius: 12,
+      paddingHorizontal: 12,
+      paddingVertical: 10,
+      minHeight: 92,
+      fontSize: 14,
+      lineHeight: 20,
+      marginBottom: 10,
+    },
+    timerHint: {
+      fontSize: 12,
+      lineHeight: 16,
     },
     errorContainer: {
       flex: 1,
