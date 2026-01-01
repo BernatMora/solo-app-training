@@ -25,7 +25,7 @@ export default function TrainingScreen() {
 
   const styles = createStyles(colors);
 
-  const visiblePhases = phases.filter((p) => p.id <= 3);
+  const visiblePhases = phases;
 
   const getPhaseColor = (phaseId: number) => {
     switch (phaseId) {
@@ -67,7 +67,7 @@ export default function TrainingScreen() {
       <View style={styles.header}>
         <Text style={styles.title}>Entrenament (Solo)</Text>
         <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-          Mòduls 1-3 · Comença pel 1 i ves pujant
+          Mòduls 1-4 · Comença pel 1 i ves pujant
         </Text>
       </View>
 
