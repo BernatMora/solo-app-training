@@ -40,7 +40,13 @@ export const [ProgressProvider, useProgress] = createContextHook(() => {
     try {
       const stored = await AsyncStorage.getItem(STORAGE_KEY);
       if (stored) {
-        setProgress(JSON.parse(stored));
+        try {
+          const parsed = JSON.parse(stored);
+          setProgress(parsed);
+        } catch (parseError) {
+          console.error("Error parsing stored progress, resetting:", parseError);
+          await AsyncStorage.removeItem(STORAGE_KEY);
+        }
       }
     } catch (error) {
       console.error("Error loading progress:", error);
