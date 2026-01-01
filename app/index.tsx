@@ -274,6 +274,7 @@ const createStyles = (colors: typeof Colors.light) =>
     },
     modulePicker: {
       flexDirection: "row",
+      flexWrap: "wrap",
       gap: 8,
       paddingHorizontal: 20,
       paddingBottom: 12,
