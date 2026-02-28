@@ -1901,6 +1901,98 @@ export const phases: Phase[] = [
             progression: "Repeteix setmanalment i compara resultats",
             duration: "5-8 min",
           },
+          {
+            id: "5.15",
+            title: "Un compàs, una alteració, resolució obligada",
+            emoji: "🎯",
+            soloSteps: [
+              "1. Configura un V7 estàtic (ex: G7)",
+              "2. Compàs 1: usa només b9",
+              "3. Compàs 2: resol a Cmaj7 (3a o 9a)",
+              "4. Repeteix amb #9, després b5, després #5",
+              "5. Mantén exactament el mateix ritme a cada ronda",
+              "6. Fes 3 cicles complets"
+            ],
+            practice: "Separar clarament color i resolució sense embolicar-te.",
+            progression: "Fes-ho en 4 tonalitats seguides",
+            duration: "8-10 min",
+          },
+          {
+            id: "5.16",
+            title: "Dim7 en diagonal: 3 notes per corda curta",
+            emoji: "🕷️",
+            soloSteps: [
+              "1. Entra a arpegis i tria dim7",
+              "2. Toca patró curt en diagonal (2-3 cordes)",
+              "3. Mou-lo +3 semitons mantenint digitació",
+              "4. Fes 4 posicions seguides sense parar",
+              "5. Resol l'última nota a l'acord I"
+            ],
+            practice: "Automatitzar simetria disminuïda amb moviment real de mà.",
+            progression: "Afegeix swing o tresets mantenint netedat",
+            duration: "7-9 min",
+          },
+          {
+            id: "5.17",
+            title: "Tritó call-and-response (2 compassos)",
+            emoji: "🗣️",
+            soloSteps: [
+              "1. Configura II-V-I",
+              "2. Compàs A: frase sobre V original",
+              "3. Compàs B: respon amb mateixa idea sobre substitut de tritó",
+              "4. Mantén inici rítmic idèntic",
+              "5. Tanca cada parella resolent al I",
+              "6. Fes 10 parelles"
+            ],
+            practice: "Comparar oïda i ditatge entre dominant original i substitut.",
+            progression: "Canvia tempo i mantén coherència melòdica",
+            duration: "10-12 min",
+          },
+          {
+            id: "5.18",
+            title: "Backdoor exprés: 3 endings reutilitzables",
+            emoji: "🚪",
+            soloSteps: [
+              "1. Posa bucle Imaj7 ← bVII7",
+              "2. Crea 3 finals de 3-4 notes que resolguin a Imaj7",
+              "3. Repeteix cada final 5 cops",
+              "4. Barreja'ls en ordre aleatori",
+              "5. Porta'ls a 2 tonalitats noves"
+            ],
+            practice: "Construir finalitzacions curtes que sonin professionals.",
+            progression: "Afegeix aproximació cromàtica a l'última nota",
+            duration: "8-11 min",
+          },
+          {
+            id: "5.19",
+            title: "Límit 4 notes per compàs sobre dominants",
+            emoji: "✂️",
+            soloSteps: [
+              "1. Crea cadena curta de dominants (ex: A7-D7-G7-C7)",
+              "2. Improvisa amb màxim 4 notes per compàs",
+              "3. Cada compàs ha d'incloure 3a o 7a",
+              "4. Afegeix una sola alteració quan toqui",
+              "5. Grava 1 minut i revisa si tot resol"
+            ],
+            practice: "Pensar harmònicament amb frases mínimes i clares.",
+            progression: "Baixa a 3 notes per compàs",
+            duration: "9-12 min",
+          },
+          {
+            id: "5.20",
+            title: "Sprint mental: anomena abans de tocar",
+            emoji: "⚡",
+            soloSteps: [
+              "1. Posa V7alt en loop",
+              "2. Abans de cada nota, digues en veu alta la funció (3a, b9, #9, b7...)",
+              "3. Toca només després d'haver-la anomenat",
+              "4. Cada 30 segons canvia de root",
+              "5. Últim minut: combina disminuït + tritó lliurement"
+            ],
+            practice: "Connectar teoria instantània amb resposta física al mànec.",
+            progression: "Redueix temps de decisió i mantén precisió",
+            duration: "6-8 min",
+          },
         ],
       },
     ],
