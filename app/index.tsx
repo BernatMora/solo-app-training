@@ -37,6 +37,8 @@ export default function TrainingScreen() {
         return colors.phase3;
       case 4:
         return colors.phase4;
+      case 5:
+        return colors.phase5;
       default:
         return colors.tint;
     }
@@ -67,7 +69,7 @@ export default function TrainingScreen() {
       <View style={styles.header}>
         <Text style={styles.title}>Entrenament (Solo)</Text>
         <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-          Mòduls 1-4 · Comença pel 1 i ves pujant
+          Mòduls 1-5 · Comença pel 1 i ves pujant
         </Text>
       </View>
 

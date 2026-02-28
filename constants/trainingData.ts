@@ -1651,6 +1651,163 @@ export const phases: Phase[] = [
       },
     ],
   },
+  {
+    id: 5,
+    title: "Harmonia Avançada: Alterats, Diminuïts i Substitucions",
+    emoji: "🔥",
+    weeks: "Setmanes 33-40",
+    objectives: [
+      "Aplicar dominant alterada amb intenció melòdica real",
+      "Dominar la lògica dels disminuïts simètrics sobre dominants",
+      "Fer substitucions de tritó i backdoor amb resolució neta",
+    ],
+    sections: [
+      {
+        weeks: "Setmanes 33-36",
+        title: "Color alterat i resolució",
+        exercises: [
+          {
+            id: "5.1",
+            title: "Dominant alterada 1 acord, 3 resolucions",
+            emoji: "🌶️",
+            soloSteps: [
+              "1. Obre Solo App",
+              "2. Entra a 'Changes Trainer'",
+              "3. Configura un únic acord dominant (ex: G7)",
+              "4. Activa tensions alterades: b9, #9, b5, #5",
+              "5. Fes 4 compassos sobre G7alt",
+              "6. Resol en Cmaj7, després CmMaj7, després C7",
+              "7. Mantén la mateixa frase i canvia només la resolució"
+            ],
+            practice: "Sentir com la mateixa tensió canvia de funció segons on resol.",
+            progression: "Canvia root cada 2 minuts en mode random",
+            duration: "12-18 min",
+          },
+          {
+            id: "5.2",
+            title: "Línia guia 3a-7a + una alteració",
+            emoji: "🧬",
+            soloSteps: [
+              "1. Obre Solo App",
+              "2. Entra a 'Interval Trainer' o 'Changes Trainer'",
+              "3. Practica només 3a i 7a de cada dominant",
+              "4. Afegeix UNA sola tensió alterada (b9 o #9)",
+              "5. Toca frases de 4 notes: 3a → alteració → 7a → resolució",
+              "6. Mou-te per II-V-I en 3 tonalitats"
+            ],
+            practice: "Control funcional: guia + color, sense sobrecarregar.",
+            progression: "Afegeix una segona alteració sense perdre la guia",
+            duration: "15 min",
+          },
+          {
+            id: "5.3",
+            title: "Diminuït sobre dominant (7b9)",
+            emoji: "🕸️",
+            soloSteps: [
+              "1. Obre Solo App",
+              "2. Entra a 'Arpeggio Trainer'",
+              "3. Tria acord dominant 7b9 (ex: G7b9)",
+              "4. Practica arpegi disminuït des de 3a, 5a, b7 i b9",
+              "5. Mou el patró cada 3 semitons (simetria)",
+              "6. Resol sempre a Cmaj7 o Cm7",
+              "7. Objectiu: que soni musical, no mecànic"
+            ],
+            practice: "Veure el disminuït com a eina de tensió dirigida.",
+            progression: "Afegeix cromatismes d'entrada/sortida",
+            duration: "15-20 min",
+          },
+          {
+            id: "5.4",
+            title: "Substitució de tritó en II-V-I",
+            emoji: "🔄",
+            soloSteps: [
+              "1. Obre Solo App",
+              "2. Entra a 'Changes Trainer'",
+              "3. Configura II-V-I major (Dm7-G7-Cmaj7)",
+              "4. Substitueix G7 per Db7",
+              "5. Practica 8 voltes alternant V original i tritó",
+              "6. Marca al fraseig les notes guia (F/B vs F/Cb)",
+              "7. Acaba amb 2 voltes lliures improvisant"
+            ],
+            practice: "Escoltar i controlar la fricció del tritó abans de resoldre.",
+            progression: "Passa-ho a tonalitats amb més alteracions",
+            duration: "18-22 min",
+          },
+        ],
+      },
+      {
+        weeks: "Setmanes 37-40",
+        title: "Combinacions avançades i aplicació real",
+        exercises: [
+          {
+            id: "5.5",
+            title: "Cadena de dominants alterades",
+            emoji: "⛓️",
+            soloSteps: [
+              "1. Obre Solo App",
+              "2. Entra a 'Changes Trainer'",
+              "3. Crea cadena: E7alt → A7alt → D7alt → G7alt → Cmaj7",
+              "4. Mantén un motiu curt i adapta'l a cada acord",
+              "5. Prioritza resolució de semitò cap al següent acord",
+              "6. Grava 2 takes i compara"
+            ],
+            practice: "Continuïtat melòdica dins molta tensió harmònica.",
+            progression: "Augmenta tempo mantenint claredat",
+            duration: "20 min",
+          },
+          {
+            id: "5.6",
+            title: "Backdoor dominant + color bluesy",
+            emoji: "🚪",
+            soloSteps: [
+              "1. Obre Solo App",
+              "2. Entra a 'Chord/Changes Trainer'",
+              "3. Practica seqüència: Imaj7 ← bVII7 (backdoor)",
+              "4. Ex: Cmaj7 amb Bb7 com a dominant de porta del darrere",
+              "5. Combina mixolidi b7 amb cromatismes de blues",
+              "6. Tanca sempre amb frase curta de resolució clara"
+            ],
+            practice: "Afegir sofisticació sense perdre groove.",
+            progression: "Barreja backdoor + tritó en una sola roda",
+            duration: "12-16 min",
+          },
+          {
+            id: "5.7",
+            title: "Micro-licks d'alterats: 4 shapes, 4 tons",
+            emoji: "🧠",
+            soloSteps: [
+              "1. Obre Solo App",
+              "2. Tria 4 mini licks sobre dominant alterada (2-4 notes)",
+              "3. Toca cada lick en 4 tonalitats",
+              "4. Canvia entrada rítmica (a temps, contratemps, anticipat)",
+              "5. Connecta 2 licks en una frase de 1 compàs",
+              "6. Repeteix fins sonar natural"
+            ],
+            practice: "Vocabulari curt, reutilitzable i molt pràctic.",
+            progression: "Afegeix nota objectiu de resolució a cada lick",
+            duration: "10-14 min",
+          },
+          {
+            id: "5.8",
+            title: "Challenge final: 3 versions del mateix solo curt",
+            emoji: "🏁",
+            soloSteps: [
+              "1. Obre Solo App o backing track extern",
+              "2. Tria una progressió de 8 compassos",
+              "3. Fes versió A: sense alteracions",
+              "4. Fes versió B: amb una alteració per dominant",
+              "5. Fes versió C: alteracions + tritó/substitució",
+              "6. Grava les 3 i escolta quina comunica millor",
+              "7. Queda't la millor i repeteix-la 5 cops"
+            ],
+            practice: "Aplicació real i comparativa del teu llenguatge harmònic.",
+            progression: "Porta el challenge a una cançó real",
+            duration: "20-25 min",
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 export interface DailyRoutine {
