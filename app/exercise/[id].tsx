@@ -70,6 +70,8 @@ export default function ExerciseDetailScreen() {
         return colors.phase5;
       case 6:
         return colors.phase6;
+      case 7:
+        return colors.phase7;
       default:
         return colors.tint;
     }

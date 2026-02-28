@@ -2324,6 +2324,333 @@ export const phases: Phase[] = [
       },
     ],
   },
+  {
+    id: 7,
+    title: "Mastery Lab: Harmonia Musical Real",
+    emoji: "🧠",
+    weeks: "Setmanes 49-56",
+    objectives: [
+      "Integrar harmonia avançada amb so musical i narratiu",
+      "Controlar alterats, disminuït i substitucions dins de frases cantables",
+      "Passar de micro-reptes a improvisació coherent en context real",
+    ],
+    sections: [
+      {
+        weeks: "Setmanes 49-52",
+        title: "Micro-musicalitat aplicada",
+        exercises: [
+          {
+            id: "7.1",
+            title: "Guia tones cantades abans de tocar",
+            emoji: "🎙️",
+            soloSteps: [
+              "1. Posa loop II-V-I lent",
+              "2. Canta 3a i 7a de cada acord",
+              "3. Toca exactament el que has cantat",
+              "4. Afegeix una alteració només al V",
+              "5. Grava 90 segons"
+            ],
+            practice: "Connectar oïda interna i execució real al mànec.",
+            progression: "Fer-ho en 3 tonalitats seguides",
+            duration: "8-10 min",
+          },
+          {
+            id: "7.2",
+            title: "b9/#9 amb resolució cantable",
+            emoji: "🌶️",
+            soloSteps: [
+              "1. Tria un V7alt estàtic",
+              "2. Crea frase curta amb b9",
+              "3. Repeteix amb #9",
+              "4. Resol sempre a 3a o 9a del I",
+              "5. Alterna b9/#9 durant 3 minuts"
+            ],
+            practice: "Diferenciar tensions alterades amb final musical clar.",
+            progression: "Afegir b13 sense perdre netedat",
+            duration: "7-9 min",
+          },
+          {
+            id: "7.3",
+            title: "Dim passing entre dues notes guia",
+            emoji: "🕳️",
+            soloSteps: [
+              "1. Tria dues notes guia consecutives",
+              "2. Omple el camí amb patró disminuït curt",
+              "3. Mantén frase de màxim 6 notes",
+              "4. Resol amb descans clar",
+              "5. Repeteix en 4 roots diferents"
+            ],
+            practice: "Fer servir disminuït com a pont, no com a fi.",
+            progression: "Canviar rítmica de l'entrada",
+            duration: "8-11 min",
+          },
+          {
+            id: "7.4",
+            title: "Tritó substitut amb mateixa melodia",
+            emoji: "🪞",
+            soloSteps: [
+              "1. Escriu una línia de 1 compàs sobre V",
+              "2. Toca-la sobre el seu substitut de tritó",
+              "3. Ajusta només 1-2 notes",
+              "4. Mantén inici i final iguals",
+              "5. Compara quin so et convenç més"
+            ],
+            practice: "Aprendre a adaptar idees sense perdre identitat melòdica.",
+            progression: "Aplicar en cadenes II-V-I",
+            duration: "10-12 min",
+          },
+          {
+            id: "7.5",
+            title: "Backdoor amb finals de 3 notes",
+            emoji: "🚪",
+            soloSteps: [
+              "1. Posa loop Imaj7 ← bVII7",
+              "2. Crea 5 finals de només 3 notes",
+              "3. Cada final ha d'acabar diferent (3a, 5a, 9a)",
+              "4. Barreja finals en ordre aleatori",
+              "5. Porta-ho a una tonalitat nova"
+            ],
+            practice: "Crear finalitzacions memorables i transferibles.",
+            progression: "Allargar a finals de 4-5 notes",
+            duration: "8-10 min",
+          },
+          {
+            id: "7.6",
+            title: "Pregunta-resposta funcional",
+            emoji: "❓",
+            soloSteps: [
+              "1. Compàs 1: pregunta sobre V7alt",
+              "2. Compàs 2: resposta resolta al I",
+              "3. Mantén relació rítmica entre les dues",
+              "4. Fes 12 parelles",
+              "5. Escolta si realment sona conversa"
+            ],
+            practice: "Construir discurs, no només col·lecció de licks.",
+            progression: "Fer-ho en tempo més alt",
+            duration: "9-12 min",
+          },
+          {
+            id: "7.7",
+            title: "1 idea, 4 entrades rítmiques",
+            emoji: "🥁",
+            soloSteps: [
+              "1. Tria una frase curta sobre dominant",
+              "2. Toca-la entrant al temps 1",
+              "3. Repeteix entrant a l'& de 1",
+              "4. Repeteix entrant al temps 2 i 4",
+              "5. Mantén mateix final i resolució"
+            ],
+            practice: "Variació forta amb poc material melòdic.",
+            progression: "Aplicar sobre progressió completa",
+            duration: "7-9 min",
+          },
+          {
+            id: "7.8",
+            title: "Silenci obligat cada 2 compassos",
+            emoji: "🤫",
+            soloSteps: [
+              "1. Improvisa 2 compassos",
+              "2. Fes 1 compàs complet de silenci",
+              "3. Torna amb nova frase",
+              "4. Evita reprendre exactament igual",
+              "5. Mantén 4 minuts seguits"
+            ],
+            practice: "Millorar respiració i intenció en fraseig harmònic.",
+            progression: "Silenci variable (mig compàs / 1 compàs)",
+            duration: "6-8 min",
+          },
+          {
+            id: "7.9",
+            title: "Resolució no òbvia: 9a i 13a",
+            emoji: "🪤",
+            soloSteps: [
+              "1. Tria V7alt en loop",
+              "2. Prohibeix resoldre a la 3a",
+              "3. Resol només a 9a o 13a del I",
+              "4. Fes frases de màxim 5 notes",
+              "5. Grava i revisa tensió/relax"
+            ],
+            practice: "Sortir de resolucions previsibles i ampliar color.",
+            progression: "Afegir #11 com a resolució puntual",
+            duration: "8-10 min",
+          },
+          {
+            id: "7.10",
+            title: "Mini etude de 8 compassos",
+            emoji: "📝",
+            soloSteps: [
+              "1. Escriu 8 compassos sobre II-V-I",
+              "2. Inclou: 1 alterat, 1 dim, 1 tritó, 1 backdoor",
+              "3. Toca lent amb metrònom",
+              "4. Memoritza sense mirar",
+              "5. Grava take final"
+            ],
+            practice: "Convertir conceptes dispersos en llenguatge estable.",
+            progression: "Transposar a 2 tonalitats",
+            duration: "12-15 min",
+          },
+        ],
+      },
+      {
+        weeks: "Setmanes 53-56",
+        title: "Integració musical avançada",
+        exercises: [
+          {
+            id: "7.11",
+            title: "Tensió per capes: 2 nivells",
+            emoji: "🎚️",
+            soloSteps: [
+              "1. Minut 1-2: només tensions suaus (9, 13)",
+              "2. Minut 3-4: afegeix alterats forts (b9, #9)",
+              "3. Mantén mateixa base rítmica",
+              "4. Comparteix final de frase en ambdós nivells",
+              "5. Escolta el contrast"
+            ],
+            practice: "Controlar intensitat harmònica de forma narrativa.",
+            progression: "Afegir un tercer nivell extrem",
+            duration: "8-10 min",
+          },
+          {
+            id: "7.12",
+            title: "Outside 2 notes, inside 2 notes",
+            emoji: "🛫",
+            soloSteps: [
+              "1. En cada frase toca 2 notes outside",
+              "2. Continua amb 2 notes inside resoltes",
+              "3. Mantén frase de 4-6 notes",
+              "4. No allarguis outside més de mig compàs",
+              "5. Repeteix en 3 dominants diferents"
+            ],
+            practice: "Entrar i sortir de tensió amb control temporal.",
+            progression: "Canviar punt d'entrada outside",
+            duration: "9-11 min",
+          },
+          {
+            id: "7.13",
+            title: "Enclosure triple sobre nota objectiu",
+            emoji: "🧬",
+            soloSteps: [
+              "1. Tria target (3a o 7a)",
+              "2. Fes 3 aproximacions cromàtiques diferents",
+              "3. Aterra exactament al temps fort",
+              "4. Resol immediatament",
+              "5. Fes 10 repeticions netes"
+            ],
+            practice: "Precisió de timing i diana harmònica.",
+            progression: "Aplicar amb targets mòbils",
+            duration: "7-9 min",
+          },
+          {
+            id: "7.14",
+            title: "Cadena de dominants amb motiu fix",
+            emoji: "⛓️",
+            soloSteps: [
+              "1. Configura 4 dominants seguits",
+              "2. Crea un motiu de 3-4 notes",
+              "3. Repetiu el motiu adaptat a cada dominant",
+              "4. Tanca al I amb variació",
+              "5. Repetició completa 5 vegades"
+            ],
+            practice: "Coherència melòdica dins de moviment harmònic ràpid.",
+            progression: "Pujar tempo gradualment",
+            duration: "10-12 min",
+          },
+          {
+            id: "7.15",
+            title: "Anti-patró: inici prohibit",
+            emoji: "🚫",
+            soloSteps: [
+              "1. Detecta el teu inici de frase habitual",
+              "2. Prohibeix-lo durant 5 minuts",
+              "3. Obliga't a 5 inicis nous",
+              "4. Mantén resolució funcional",
+              "5. Guarda les 2 frases més musicals"
+            ],
+            practice: "Trencar automatismes i guanyar vocabulari personal.",
+            progression: "Canviar també final habitual",
+            duration: "6-8 min",
+          },
+          {
+            id: "7.16",
+            title: "Comping-resposta de solista",
+            emoji: "🗨️",
+            soloSteps: [
+              "1. Comping 1 compàs amb voicings simples",
+              "2. Respon 1 compàs amb línia curta",
+              "3. Inclou 1 alteració només a la resposta",
+              "4. Mantén pulsació estable",
+              "5. Fes 3 minuts sense parar"
+            ],
+            practice: "Unir visió rítmica d'acompanyament i línia solista.",
+            progression: "Fer-ho en swing i straight",
+            duration: "8-10 min",
+          },
+          {
+            id: "7.17",
+            title: "Limit 5 notes tota la sessió",
+            emoji: "🧩",
+            soloSteps: [
+              "1. Tria 5 notes compatibles amb el context",
+              "2. Improvisa només amb aquestes 5",
+              "3. Canvia ritme i dinàmica constantment",
+              "4. Inclou tensió/resolució amb les mateixes notes",
+              "5. Sessió de 4 minuts"
+            ],
+            practice: "Creativitat real amb restricció extrema.",
+            progression: "Canviar set de 5 notes",
+            duration: "6-8 min",
+          },
+          {
+            id: "7.18",
+            title: "3 takes: clean, spicy, balanced",
+            emoji: "🌶️",
+            soloSteps: [
+              "1. Take 1: gairebé tot inside",
+              "2. Take 2: molta tensió alterada",
+              "3. Take 3: equilibri entre ambdós",
+              "4. Compara quin explica millor la música",
+              "5. Puntua cada take de 1 a 5"
+            ],
+            practice: "Aprendre a dosificar color segons intenció musical.",
+            progression: "Aplicar a diferents tempos",
+            duration: "9-12 min",
+          },
+          {
+            id: "7.19",
+            title: "Story arc en 16 compassos",
+            emoji: "📚",
+            soloSteps: [
+              "1. Compassos 1-4: simple i clar",
+              "2. 5-8: puja tensió amb alterats",
+              "3. 9-12: punt alt amb substitucions",
+              "4. 13-16: resolució cantable",
+              "5. Grava i escolta si hi ha narrativa"
+            ],
+            practice: "Improvisar amb estructura dramàtica conscient.",
+            progression: "Repetir amb nou motiu principal",
+            duration: "10-14 min",
+          },
+          {
+            id: "7.20",
+            title: "Challenge final: 6 minuts dirigits",
+            emoji: "🏆",
+            soloSteps: [
+              "1. Minut 1: guia tones",
+              "2. Minut 2: alterats",
+              "3. Minut 3: disminuït",
+              "4. Minut 4: tritó",
+              "5. Minut 5: backdoor",
+              "6. Minut 6: combinació lliure musical",
+              "7. Autoavaluació immediata"
+            ],
+            practice: "Integració completa amb consciència de forma i color.",
+            progression: "Fer challenge setmanal i comparar evolució",
+            duration: "6-8 min",
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 export interface DailyRoutine {
