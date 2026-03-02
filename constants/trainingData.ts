@@ -3009,6 +3009,344 @@ export const phases: Phase[] = [
       },
     ],
   },
+  {
+    id: 10,
+    title: "Chord Trainer Bootcamp: precisió, inversions i tempo",
+    emoji: "🧩",
+    weeks: "Setmanes 73-80",
+    objectives: [
+      "Automatitzar triades i inversions en tot el mànec",
+      "Millorar lectura instantània d'acords sota pressió de temps",
+      "Construir control de timing amb comping net i constant",
+    ],
+    sections: [
+      {
+        weeks: "Setmanes 73-76",
+        title: "Micro exercicis d'inversions",
+        exercises: [
+          {
+            id: "10.1",
+            title: "Triades majors en 3 jocs de cordes",
+            emoji: "🔺",
+            soloSteps: [
+              "1. Obre Solo App > Chord Trainer",
+              "2. Activa només triades majors",
+              "3. Practica jocs 1-2-3, 2-3-4 i 3-4-5",
+              "4. Fes 3 inversions per tonalitat",
+              "5. Canvia tonalitat cada 45 segons"
+            ],
+            practice: "Claredat absoluta de les formes majors en zones diferents.",
+            progression: "Pujar metrònom de 60 a 90 bpm",
+            duration: "8 min",
+          },
+          {
+            id: "10.2",
+            title: "Triades menors amb canvi cada compàs",
+            emoji: "🌘",
+            soloSteps: [
+              "1. Activa triades menors",
+              "2. Posa metrònom a negres",
+              "3. Canvia inversió cada compàs",
+              "4. Mantén la mateixa tonalitat 2 minuts",
+              "5. Repeteix en 4 tonalitats"
+            ],
+            practice: "Moviment ràpid sense perdre netedat.",
+            progression: "Canvi cada mig compàs",
+            duration: "7-9 min",
+          },
+          {
+            id: "10.3",
+            title: "Major ↔ Minor mateixa root",
+            emoji: "🔁",
+            soloSteps: [
+              "1. Tria una root fixa",
+              "2. Alterna acord major i menor",
+              "3. Mantén veu superior propera",
+              "4. Fes-ho en 3 zones del mànec",
+              "5. Grava 60 segons"
+            ],
+            practice: "Canvi de color harmònic amb mínim desplaçament.",
+            progression: "Afegir patró rítmic sincopat",
+            duration: "8 min",
+          },
+          {
+            id: "10.4",
+            title: "Inversions en cercle de quartes",
+            emoji: "⭕",
+            soloSteps: [
+              "1. Configura seqüència C-F-Bb-Eb...",
+              "2. Toca sempre la 1a inversió",
+              "3. Segona volta: 2a inversió",
+              "4. Tercera volta: posició tònica",
+              "5. Mantén pulsació estable"
+            ],
+            practice: "Orientació funcional per tocar en qualsevol tonalitat.",
+            progression: "Fer cicle complet sense aturar-te",
+            duration: "10 min",
+          },
+          {
+            id: "10.5",
+            title: "Top note target",
+            emoji: "🎯",
+            soloSteps: [
+              "1. Tria nota objectiu (ex: E)",
+              "2. Busca 4 acords diferents amb E a dalt",
+              "3. Toca progressió curta mantenint aquesta top note",
+              "4. Canvia nota objectiu",
+              "5. Repeteix 3 rondes"
+            ],
+            practice: "Connectar comping amb pensament melòdic.",
+            progression: "Afegir 7es mantenint la top note",
+            duration: "8-10 min",
+          },
+          {
+            id: "10.6",
+            title: "Drop-2 bàsic en set 2-3-4-5",
+            emoji: "🪜",
+            soloSteps: [
+              "1. Activa voicings 4 notes",
+              "2. Selecciona set de cordes 2-3-4-5",
+              "3. Toca 2 drop-2 per acord",
+              "4. Mou cromàticament",
+              "5. Controla soroll de cordes"
+            ],
+            practice: "Primer contacte ferm amb voicing modern usable.",
+            progression: "Portar-ho a 3 tonalitats extra",
+            duration: "9 min",
+          },
+          {
+            id: "10.7",
+            title: "Comping 2 acords / 1 compàs",
+            emoji: "🥁",
+            soloSteps: [
+              "1. Tria ii-V en una tonalitat",
+              "2. Toca ii al primer temps i V al tercer",
+              "3. Mantén 2 minuts seguits",
+              "4. Canvia inversions cada volta",
+              "5. Evita accents massa forts"
+            ],
+            practice: "Timing intern i canvi net sota pressió.",
+            progression: "Passar a 4 acords per compàs",
+            duration: "7 min",
+          },
+          {
+            id: "10.8",
+            title: "Ritme fantasma + atac real",
+            emoji: "👻",
+            soloSteps: [
+              "1. Marca semicorxeres amb la mà dreta",
+              "2. Només toca so a temps 2 i 4",
+              "3. Mantén voicing simple",
+              "4. Després canvia a 1 i 3",
+              "5. Grava i revisa groove"
+            ],
+            practice: "Comping més professional i respirat.",
+            progression: "Afegir síncopes finals",
+            duration: "6-8 min",
+          },
+          {
+            id: "10.9",
+            title: "Lectura instantània d'acords aleatoris",
+            emoji: "⚡",
+            soloSteps: [
+              "1. A Chord Trainer activa mode random",
+              "2. Filtra triades + 7es bàsiques",
+              "3. Objectiu: primera resposta correcta",
+              "4. No corregeixis més de 2 segons",
+              "5. Continua flux 3 minuts"
+            ],
+            practice: "Reducir dubte mental davant símbols d'acord.",
+            progression: "Pujar velocitat de canvi",
+            duration: "6 min",
+          },
+          {
+            id: "10.10",
+            title: "Challenge 90 segons sense errors",
+            emoji: "🏁",
+            soloSteps: [
+              "1. Tria 6 acords diferents",
+              "2. Toca'ls en loop durant 90 segons",
+              "3. Si hi ha error, reinicia comptador",
+              "4. Mantén dinàmica uniforme",
+              "5. Completa 2 rondes"
+            ],
+            practice: "Consistència real per tocar amb banda.",
+            progression: "Pujar a 120 segons",
+            duration: "5-7 min",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 11,
+    title: "Chord Colors Lab: sus, add, slash i substitucions",
+    emoji: "🌈",
+    weeks: "Setmanes 81-88",
+    objectives: [
+      "Expandir vocabulari d'acords amb colors moderns",
+      "Aplicar slash chords i sus en context musical real",
+      "Desenvolupar orella per tensió/resolució en comping",
+    ],
+    sections: [
+      {
+        weeks: "Setmanes 81-84",
+        title: "Micro exercicis de color harmònic",
+        exercises: [
+          {
+            id: "11.1",
+            title: "Sus2 / Sus4 en progressió pop",
+            emoji: "🌊",
+            soloSteps: [
+              "1. Configura I-V-vi-IV",
+              "2. Substitueix I per sus2 cada 2 voltes",
+              "3. Substitueix V per sus4",
+              "4. Resol sempre a acord estàndard",
+              "5. Escolta el contrast"
+            ],
+            practice: "Crear tensió suau amb resolució clara.",
+            progression: "Alternar sus2 i sus4 dins mateix compàs",
+            duration: "8 min",
+          },
+          {
+            id: "11.2",
+            title: "Add9 en acords majors",
+            emoji: "✨",
+            soloSteps: [
+              "1. Activa acords majors i add9",
+              "2. Toca una volta major normal",
+              "3. Segona volta amb add9",
+              "4. Mantén mateixa rítmica",
+              "5. Repetició en 5 tonalitats"
+            ],
+            practice: "Sentir l'obertura del color add9.",
+            progression: "Afegir add9 a acords menors",
+            duration: "7-9 min",
+          },
+          {
+            id: "11.3",
+            title: "Minor add9 ambient",
+            emoji: "🌙",
+            soloSteps: [
+              "1. Tria progressió menor curta",
+              "2. Construeix m(add9) en 2 posicions",
+              "3. Toca amb atac suau",
+              "4. Deixa espai entre compassos",
+              "5. Grava 90 segons"
+            ],
+            practice: "Control de textura i espai musical.",
+            progression: "Afegir veu superior mòbil",
+            duration: "8 min",
+          },
+          {
+            id: "11.4",
+            title: "Slash chords bàsics",
+            emoji: "🪄",
+            soloSteps: [
+              "1. Practica C/E, G/B, D/F#",
+              "2. Mantén baix clar i acord net",
+              "3. Toca progressió lenta",
+              "4. Canvia inversió superior",
+              "5. Repetició 3 minuts"
+            ],
+            practice: "Dominar baixos dirigits en progressions.",
+            progression: "Afegir slash en tonalitats amb bemolls",
+            duration: "7 min",
+          },
+          {
+            id: "11.5",
+            title: "Line cliché amb slash",
+            emoji: "📉",
+            soloSteps: [
+              "1. Crea baix descendent: C-B-Bb-A",
+              "2. Construeix slash chords a sobre",
+              "3. Toca en loop lent",
+              "4. Mantén top note constant",
+              "5. Explora 2 tonalitats"
+            ],
+            practice: "Moviment intern elegant i musical.",
+            progression: "Aplicar en menor i major",
+            duration: "9 min",
+          },
+          {
+            id: "11.6",
+            title: "Tritone sub del dominant",
+            emoji: "🔀",
+            soloSteps: [
+              "1. Toca ii-V-I en C",
+              "2. Substitueix G7 per Db7",
+              "3. Mantén veu guia 3a/7a",
+              "4. Resol a Cmaj7",
+              "5. Repeteix en 4 tonalitats"
+            ],
+            practice: "Color jazz modern sense perdre funció.",
+            progression: "Afegir b9 al substitut",
+            duration: "8-10 min",
+          },
+          {
+            id: "11.7",
+            title: "Backcycling de dominants",
+            emoji: "🌀",
+            soloSteps: [
+              "1. Tria acord objectiu (ex: Cmaj7)",
+              "2. Afegeix dominants encadenats cap enrere",
+              "3. Toca 2 compassos per acord",
+              "4. Mantén voice leading curt",
+              "5. Tanca amb resolució neta"
+            ],
+            practice: "Pensament funcional avançat de progressions.",
+            progression: "Fer cadenes més curtes i ràpides",
+            duration: "10 min",
+          },
+          {
+            id: "11.8",
+            title: "Acord pedal amb tensions movibles",
+            emoji: "📌",
+            soloSteps: [
+              "1. Mantén baix pedal (ex: D)",
+              "2. Mou acords superiors cada compàs",
+              "3. Prova sus, add9 i 7",
+              "4. Escolta quins colors funcionen",
+              "5. Grava mini loop"
+            ],
+            practice: "Crear ambient modern i estable.",
+            progression: "Canviar pedal a altra nota",
+            duration: "7-8 min",
+          },
+          {
+            id: "11.9",
+            title: "Comping en capes (2 notes + extensió)",
+            emoji: "🧱",
+            soloSteps: [
+              "1. Comença amb shell 3a+7a",
+              "2. Afegeix 9 o 13 a cada segon compàs",
+              "3. Torna a shell base",
+              "4. Mantén metrònom a 70",
+              "5. Repetició de 4 minuts"
+            ],
+            practice: "Controlar densitat harmònica en temps real.",
+            progression: "Fer-ho sobre ii-V-I en 6 tonalitats",
+            duration: "8 min",
+          },
+          {
+            id: "11.10",
+            title: "Challenge final: 10 colors en 10 minuts",
+            emoji: "🏆",
+            soloSteps: [
+              "1. Prepara 10 tipus d'acords (sus/add/slash/sub)",
+              "2. Toca 1 minut cada color",
+              "3. Sense parar entre canvis",
+              "4. Mantén comping musical",
+              "5. Autoavalua claredat i timing"
+            ],
+            practice: "Integrar colors moderns amb flow real.",
+            progression: "Repetir 2 cops/setmana amb més tempo",
+            duration: "10 min",
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 export interface DailyRoutine {
