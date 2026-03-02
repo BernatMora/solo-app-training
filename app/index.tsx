@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { ChevronRight, CheckCircle2, Circle } from "lucide-react-native";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -25,7 +25,21 @@ export default function TrainingScreen() {
 
   const styles = createStyles(colors);
 
-  const visiblePhases = phases;
+  const visiblePhases = useMemo(() => {
+    const uniquePhases = phases.filter(
+      (phase, index, array) => array.findIndex((item) => item.id === phase.id) === index
+    );
+
+    return [...uniquePhases].sort((a, b) => a.id - b.id);
+  }, []);
+
+  useEffect(() => {
+    console.log("[TrainingScreen] total modules available:", visiblePhases.length);
+    console.log(
+      "[TrainingScreen] module ids:",
+      visiblePhases.map((phase) => phase.id).join(", ")
+    );
+  }, [visiblePhases]);
 
   const getPhaseColor = (phaseId: number) => {
     switch (phaseId) {
@@ -88,6 +102,9 @@ export default function TrainingScreen() {
         <Text style={styles.title}>Entrenament (Solo)</Text>
         <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
           Mòduls 1-14 · Comença pel 1 i ves pujant
+        </Text>
+        <Text style={[styles.moduleCount, { color: colors.textSecondary }]} testID="moduleCountText">
+          Mostrant {visiblePhases.length} mòduls
         </Text>
       </View>
 
@@ -318,6 +335,11 @@ const createStyles = (colors: typeof Colors.light) =>
     },
     subtitle: {
       fontSize: 16,
+    },
+    moduleCount: {
+      marginTop: 6,
+      fontSize: 13,
+      fontWeight: "500" as const,
     },
     phaseContainer: {
       marginBottom: 12,
