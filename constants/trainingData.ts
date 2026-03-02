@@ -3347,6 +3347,175 @@ export const phases: Phase[] = [
       },
     ],
   },
+  {
+    id: 12,
+    title: "Chord Trainer Pro: quartals avançats i upper-structures",
+    emoji: "🔥",
+    weeks: "Setmanes 89-96",
+    objectives: [
+      "Aplicar quartal harmony amb control de veu i funció",
+      "Dominar upper-structure triads sobre dominants alterats",
+      "Integrar substitucions modernes en comping musical i estable",
+    ],
+    sections: [
+      {
+        weeks: "Setmanes 89-92",
+        title: "Voicings avançats i tensió controlada",
+        exercises: [
+          {
+            id: "12.1",
+            title: "Quartals sobre ii-V-I major",
+            emoji: "🧊",
+            soloSteps: [
+              "1. Configura ii-V-I en 3 tonalitats",
+              "2. Toca voicings quartals de 3 notes",
+              "3. Mantén top note per pas conjunt",
+              "4. Repetició 8 voltes lentes",
+              "5. Escolta resolució final clara"
+            ],
+            practice: "Sonoritat moderna sense perdre funció tonal.",
+            progression: "Afegir una 4a nota a cada voicing",
+            duration: "9-10 min",
+          },
+          {
+            id: "12.2",
+            title: "Upper-structure triad sobre V7alt",
+            emoji: "⚙️",
+            soloSteps: [
+              "1. Tria dominant (ex: G7)",
+              "2. Aplica triades superiors (Ab, Bb, Db)",
+              "3. Toca i resol a Cmaj7",
+              "4. Mantén mateix ritme 3 minuts",
+              "5. Repeteix en 4 tonalitats"
+            ],
+            practice: "Control de #9, b9, #11, b13 per color real.",
+            progression: "Canviar triada cada 2 compassos",
+            duration: "8-10 min",
+          },
+          {
+            id: "12.3",
+            title: "Drop-2 + extensió a veu superior",
+            emoji: "🪜",
+            soloSteps: [
+              "1. Toca drop-2 bàsic en set 2-3-4-5",
+              "2. Afegeix 9 o 13 a la veu superior",
+              "3. Mantén la veu superior cantable",
+              "4. Comping de 4 minuts",
+              "5. Grava i revisa netedat"
+            ],
+            practice: "Equilibri entre estructura i color.",
+            progression: "Aplicar també en tonalitat menor",
+            duration: "9 min",
+          },
+          {
+            id: "12.4",
+            title: "Dominants en cadena amb tritone sub",
+            emoji: "🔀",
+            soloSteps: [
+              "1. Crea cadena de dominants de 4 acords",
+              "2. Substitueix 2n i 4t per tritone sub",
+              "3. Mantén voice-leading curt",
+              "4. Resol al I final",
+              "5. Repetició contínua 5 minuts"
+            ],
+            practice: "Moviment funcional avançat i fluid.",
+            progression: "Pujar tempo +10 bpm",
+            duration: "8-9 min",
+          },
+          {
+            id: "12.5",
+            title: "Hybrid comping: shell + upper triad",
+            emoji: "🧱",
+            soloSteps: [
+              "1. Toca shell (3a+7a) com a base",
+              "2. Afegeix triada superior en offbeat",
+              "3. Torna al shell al compàs següent",
+              "4. Mantén groove estable",
+              "5. 3 rondes de 2 minuts"
+            ],
+            practice: "Comping modern amb densitat controlada.",
+            progression: "Afegir anticipacions rítmiques",
+            duration: "8 min",
+          },
+          {
+            id: "12.6",
+            title: "Minor ii-V-i amb tensions modernes",
+            emoji: "🌘",
+            soloSteps: [
+              "1. Programa iiø-V7alt-i",
+              "2. Usa b9/#9 al V7",
+              "3. Resol a m(maj7) o m6",
+              "4. Mantén 2 inversions per acord",
+              "5. Practica en 5 tonalitats"
+            ],
+            practice: "Color menor avançat amb resolució elegant.",
+            progression: "Afegir moviment cromàtic de baixos",
+            duration: "10 min",
+          },
+          {
+            id: "12.7",
+            title: "Planing quartal per blocs",
+            emoji: "🛩️",
+            soloSteps: [
+              "1. Tria un bloc quartal de 3 notes",
+              "2. Mou-lo per semitons dins una base estàtica",
+              "3. Atura en punts de resolució forts",
+              "4. Alterna moviment ascendent/descendent",
+              "5. Repetició 4 minuts"
+            ],
+            practice: "Textura fusion controlada musicalment.",
+            progression: "Integrar-ho dins ii-V-I",
+            duration: "7-8 min",
+          },
+          {
+            id: "12.8",
+            title: "Polychord color drill",
+            emoji: "🎨",
+            soloSteps: [
+              "1. Tria baix fix (ex: C)",
+              "2. Superposa triades llunyanes (D, E, Gb)",
+              "3. Toca 2 compassos per color",
+              "4. Escolta quins funcionen millor",
+              "5. Documenta 3 preferits"
+            ],
+            practice: "Exploració de colors no convencionals.",
+            progression: "Aplicar en progressió real",
+            duration: "8 min",
+          },
+          {
+            id: "12.9",
+            title: "Comping reactiu avançat (espai i resposta)",
+            emoji: "🗨️",
+            soloSteps: [
+              "1. Toca frases d'1 compàs màxim",
+              "2. Deixa espai intencional",
+              "3. Respon amb voicing contrastat",
+              "4. Alterna dens i minimal",
+              "5. Mantén 3 minuts sense parar"
+            ],
+            practice: "Discurs harmònic madur i respirat.",
+            progression: "Fer-ho sobre backing track real",
+            duration: "6-7 min",
+          },
+          {
+            id: "12.10",
+            title: "Challenge Pro: 5 llenguatges en 8 minuts",
+            emoji: "🏆",
+            soloSteps: [
+              "1. Min 1-2: drop-2 + tensions",
+              "2. Min 3: quartals",
+              "3. Min 4: upper-structures",
+              "4. Min 5-6: substitucions/tritone",
+              "5. Min 7-8: comping lliure integrat"
+            ],
+            practice: "Integració completa del mòdul avançat.",
+            progression: "Repetir 2 cops/setmana amb metrònom",
+            duration: "8 min",
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 export interface DailyRoutine {
