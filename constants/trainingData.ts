@@ -3516,6 +3516,196 @@ export const phases: Phase[] = [
       },
     ],
   },
+  {
+    id: 13,
+    title: "Chord Trainer: triades i inversions funcionals",
+    emoji: "🎹",
+    weeks: "Setmanes 97-104",
+    objectives: [
+      "Reconèixer i tocar triades majors, menors, disminuïdes i augmentades per tot el mànec",
+      "Dominar inversions en set de cordes adjacents amb canvi net",
+      "Aplicar triades en progressions reals amb timing estable",
+    ],
+    sections: [
+      {
+        weeks: "Setmanes 97-100",
+        title: "Triades i veu superior",
+        exercises: [
+          {
+            id: "13.1",
+            title: "Triades majors en 3 sets de cordes",
+            emoji: "🔺",
+            soloSteps: [
+              "1. Obre Solo App",
+              "2. Entra a 'Chord Trainer'",
+              "3. Activa només acords Maj",
+              "4. Practica set 1-2-3, després 2-3-4 i 3-4-5",
+              "5. Toca root position + 1a i 2a inversió",
+              "6. Mantén metrònom a 60-70 bpm"
+            ],
+            practice: "Toca triades majors amb canvi suau entre inversions.",
+            progression: "Pujar a 80 bpm i canviar tonalitat cada 2 minuts",
+            duration: "10 min",
+          },
+          {
+            id: "13.2",
+            title: "Triades menors amb veu superior cantable",
+            emoji: "🌙",
+            soloSteps: [
+              "1. Obre 'Chord Trainer'",
+              "2. Filtra acords Min",
+              "3. Tria 2 tonalitats (ex: Am, Dm)",
+              "4. Toca 4 compassos per inversió",
+              "5. Mou només la veu superior per pas conjunt",
+              "6. Repeteix cicle 5 minuts"
+            ],
+            practice: "Control de color menor i melodia superior clara.",
+            progression: "Aplicar sobre backing track lent",
+            duration: "8-9 min",
+          },
+          {
+            id: "13.3",
+            title: "Triades disminuïdes i augmentades de color",
+            emoji: "✨",
+            soloSteps: [
+              "1. Entra a 'Chord Trainer'",
+              "2. Activa Dim i Aug",
+              "3. Toca cada triada en 3 inversions",
+              "4. Resol sempre a un acord estable (Maj o Min)",
+              "5. Escolta tensió i resolució"
+            ],
+            practice: "Usar triades de tensió sense perdre control harmònic.",
+            progression: "Reduir temps de decisió entre acords",
+            duration: "7-8 min",
+          },
+          {
+            id: "13.4",
+            title: "Connexió triades sobre ii-V-I",
+            emoji: "🔗",
+            soloSteps: [
+              "1. Configura ii-V-I (ex: Dm7-G7-Cmaj7)",
+              "2. Toca triada guia sobre cada acord",
+              "3. Mantén veu superior propera",
+              "4. Repetició 10 voltes sense parar",
+              "5. Canvia a 3 tonalitats més"
+            ],
+            practice: "Veure funció harmònica a través de triades simples.",
+            progression: "Afegir anticipació rítmica",
+            duration: "10 min",
+          },
+          {
+            id: "13.5",
+            title: "Challenge triad sprint 90s",
+            emoji: "🏁",
+            soloSteps: [
+              "1. Tria tipus de triada",
+              "2. Temporitzador 90 segons",
+              "3. Màxim canvis correctes per inversions",
+              "4. Anota errors",
+              "5. Repeteix 3 rondes"
+            ],
+            practice: "Velocitat + precisió en formes de triades.",
+            progression: "Passar de 90s a 60s",
+            duration: "6 min",
+          }
+        ],
+      },
+    ],
+  },
+  {
+    id: 14,
+    title: "Chord Trainer: dominants, slash chords i comping musical",
+    emoji: "🚀",
+    weeks: "Setmanes 105-112",
+    objectives: [
+      "Dominar dominants secundaris i substitucions bàsiques amb veu guiada",
+      "Integrar slash chords per crear línia de baix melòdica",
+      "Construir comping musical amb espai, accent i dinàmica",
+    ],
+    sections: [
+      {
+        weeks: "Setmanes 105-108",
+        title: "Aplicació musical avançada",
+        exercises: [
+          {
+            id: "14.1",
+            title: "Dominants secundaris funcionals",
+            emoji: "🎯",
+            soloSteps: [
+              "1. Obre 'Chord Trainer'",
+              "2. Prepara progressió I-vi-ii-V",
+              "3. Afegeix V/vi i V/ii",
+              "4. Toca amb voice-leading curt",
+              "5. Resol cada dominant amb claredat"
+            ],
+            practice: "Sentir i controlar dominants que apunten a acords objectiu.",
+            progression: "Afegir una tonalitat nova cada dia",
+            duration: "9-10 min",
+          },
+          {
+            id: "14.2",
+            title: "Slash chords amb línia de baix",
+            emoji: "🧭",
+            soloSteps: [
+              "1. Configura acords slash (ex: C/E, F/G, D/F#)",
+              "2. Toca baix com melodia independent",
+              "3. Mantén acord superior estable",
+              "4. Practica 4 compassos per patró",
+              "5. Repetició en 3 tonalitats"
+            ],
+            practice: "Baix melòdic i harmonia clara a la vegada.",
+            progression: "Canvis més ràpids de slash chord",
+            duration: "8-9 min",
+          },
+          {
+            id: "14.3",
+            title: "Comping reactiu: espai i resposta",
+            emoji: "💬",
+            soloSteps: [
+              "1. Tria backing track lent",
+              "2. Toca màxim 2 atacs per compàs",
+              "3. Deixa espai i respon a la frase següent",
+              "4. Alterna dens/minimal cada 4 compassos",
+              "5. Grava 3 minuts"
+            ],
+            practice: "Comping musical amb intenció i respiració.",
+            progression: "Augmentar tempo mantenint espai",
+            duration: "7 min",
+          },
+          {
+            id: "14.4",
+            title: "Cadena de substitucions suaus",
+            emoji: "🌀",
+            soloSteps: [
+              "1. Tria progressió de 8 compassos",
+              "2. Substitueix 2 acords per alternatives compatibles",
+              "3. Mantén top note comú quan sigui possible",
+              "4. Verifica que el groove no cau",
+              "5. Repiteix 5 passades"
+            ],
+            practice: "Substituir sense trencar el discurs rítmic.",
+            progression: "Afegir una tercera substitució",
+            duration: "9 min",
+          },
+          {
+            id: "14.5",
+            title: "Challenge final de comping",
+            emoji: "🏆",
+            soloSteps: [
+              "1. 2 minuts triades/inversions",
+              "2. 2 minuts slash chords",
+              "3. 2 minuts dominants secundaris",
+              "4. 2 minuts comping lliure",
+              "5. Autoavalua timing, netedat i flow"
+            ],
+            practice: "Integració total dels mòduls d'acords.",
+            progression: "Repetir 2 cops/setmana i comparar gravacions",
+            duration: "8 min",
+          }
+        ],
+      },
+    ],
+  },
 ];
 
 export interface DailyRoutine {

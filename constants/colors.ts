@@ -28,6 +28,8 @@ export default {
     phase10: "#00A896",
     phase11: "#F25F5C",
     phase12: "#E76F51",
+    phase13: "#2A9D8F",
+    phase14: "#3D5AEE",
   },
   dark: {
     text: "#FFFFFF",
@@ -55,5 +57,7 @@ export default {
     phase10: "#21C7B7",
     phase11: "#FF7B78",
     phase12: "#FF9B82",
+    phase13: "#4FCBB7",
+    phase14: "#6E84FF",
   },
 };
