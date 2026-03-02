@@ -2651,6 +2651,364 @@ export const phases: Phase[] = [
       },
     ],
   },
+  {
+    id: 8,
+    title: "Acords Essentials: Triades i Inversions",
+    emoji: "🧱",
+    weeks: "Setmanes 57-64",
+    objectives: [
+      "Dominar triades majors, menors, disminuïdes i augmentades",
+      "Connectar inversions en 3 cordes per tot el mànec",
+      "Aplicar voicings compactes en comping musical i net",
+    ],
+    sections: [
+      {
+        weeks: "Setmanes 57-60",
+        title: "Triades i inversions pràctiques",
+        exercises: [
+          {
+            id: "8.1",
+            title: "Triades majors en set de 3 cordes",
+            emoji: "🔺",
+            soloSteps: [
+              "1. Obre Solo App",
+              "2. Entra a 'Chord Trainer'",
+              "3. Acord type: activa només 'Major'",
+              "4. Selecciona string set 1-2-3",
+              "5. Toca root position, 1a i 2a inversió",
+              "6. Repeteix en 2-3-4 i 3-4-5",
+              "7. Canvia tonalitat cada 2 minuts"
+            ],
+            practice: "Root + inversions majors en 3 sets de cordes.",
+            progression: "Augmentar tempo i canviar tonalitat sense pausa",
+            duration: "10-12 min",
+          },
+          {
+            id: "8.2",
+            title: "Triades menors en moviment horitzontal",
+            emoji: "🌙",
+            soloSteps: [
+              "1. Obre 'Chord Trainer'",
+              "2. Activa només 'Minor'",
+              "3. Tria una sola corda guia (set 2-3-4)",
+              "4. Mou la mateixa triada per 5 posicions",
+              "5. Mantén mateix ritme en corxeres",
+              "6. Canvia a una altra tonalitat",
+              "7. Repetició completa 4 cops"
+            ],
+            practice: "Visualitzar triades menors de forma lineal.",
+            progression: "Afegir dinàmica fort/piano cada compàs",
+            duration: "9-11 min",
+          },
+          {
+            id: "8.3",
+            title: "Triades disminuïdes i augmentades",
+            emoji: "⚡",
+            soloSteps: [
+              "1. Obre Solo App > 'Chord Trainer'",
+              "2. Activa 'Diminished' i 'Augmented'",
+              "3. Toca 4 repeticions de cada tipus",
+              "4. Alterna dim → aug en mateixa root",
+              "5. Mou cada forma en blocs de 3 trastos",
+              "6. Grava 2 minuts i escolta netedat"
+            ],
+            practice: "Control del so inestable i resolució neta.",
+            progression: "Resoldre cada acord a major o menor proper",
+            duration: "8-10 min",
+          },
+          {
+            id: "8.4",
+            title: "Triada objectiu per temps fort",
+            emoji: "🎯",
+            soloSteps: [
+              "1. Entra a 'Chord Trainer'",
+              "2. Tria progressió I-vi-IV-V",
+              "3. Marca com objectiu arribar a 3a de cada acord",
+              "4. Toca triada curta abans del temps 1",
+              "5. Aterra al target al temps fort",
+              "6. Repeteix 12 voltes"
+            ],
+            practice: "Precisió de target notes amb triades.",
+            progression: "Canviar target entre 3a i 5a",
+            duration: "10 min",
+          },
+          {
+            id: "8.5",
+            title: "Cadena CAGED només triades",
+            emoji: "🧭",
+            soloSteps: [
+              "1. Obre 'Chord Trainer'",
+              "2. Escull tonalitat fixa (ex: G)",
+              "3. Recorre formes C-A-G-E-D",
+              "4. Toca només les 3 notes de triada",
+              "5. Sense rasgueig complet, només blocs curts",
+              "6. Fes el cicle amunt i avall"
+            ],
+            practice: "Integrar CAGED a nivell de triada funcional.",
+            progression: "Fer-ho en 2 tonalitats addicionals",
+            duration: "12 min",
+          },
+          {
+            id: "8.6",
+            title: "Drop-2 bàsic en 4 cordes",
+            emoji: "🪂",
+            soloSteps: [
+              "1. Obre Solo App",
+              "2. A 'Chord Trainer', activa Maj7 i m7",
+              "3. Filtra string set 1-2-3-4",
+              "4. Construeix shape tancada i aplica drop-2",
+              "5. Mou per quintes (C-F-Bb-Eb)",
+              "6. Mantén atac curt i net"
+            ],
+            practice: "Introducció real a voicings oberts.",
+            progression: "Afegir dominant 7 al mateix circuit",
+            duration: "10-12 min",
+          },
+          {
+            id: "8.7",
+            title: "Comping 2 notes guia (3a + 7a)",
+            emoji: "🧩",
+            soloSteps: [
+              "1. Obre 'Chord Trainer'",
+              "2. Activa progressió ii-V-I",
+              "3. Per cada acord toca només 3a i 7a",
+              "4. Mantén metrònom a 70 bpm",
+              "5. Accent al 2 i 4",
+              "6. Repetició de 3 minuts sense parar"
+            ],
+            practice: "Comping mínim però harmònicament clar.",
+            progression: "Afegir una tensió suau (9 o 13)",
+            duration: "7-9 min",
+          },
+          {
+            id: "8.8",
+            title: "Triada superior sobre dominant",
+            emoji: "🌈",
+            soloSteps: [
+              "1. Entra a 'Chord Trainer'",
+              "2. Tria acord dominant 7",
+              "3. A sobre, toca triada major des de 9a",
+              "4. Escolta color 9/#11/13",
+              "5. Resol al I major",
+              "6. Repetició en 4 roots diferents"
+            ],
+            practice: "Crear color modern amb material simple.",
+            progression: "Provar triada menor superior",
+            duration: "9-11 min",
+          },
+          {
+            id: "8.9",
+            title: "Ritme de comping: curt-llarg-silenci",
+            emoji: "🥁",
+            soloSteps: [
+              "1. Obre backing intern o metrònom",
+              "2. Tria 3 voicings que dominis",
+              "3. Patró: corxera curta, blanca, silenci",
+              "4. Mantén patró durant 16 compassos",
+              "5. Canvia voicing sense trencar groove",
+              "6. Grava i escolta pulsació"
+            ],
+            practice: "Timing i respiració rítmica en acords.",
+            progression: "Canviar accents cada 4 compassos",
+            duration: "8-10 min",
+          },
+          {
+            id: "8.10",
+            title: "Mini challenge: 5 tonalitats en 5 minuts",
+            emoji: "🏁",
+            soloSteps: [
+              "1. Obre 'Chord Trainer'",
+              "2. Selecciona triades major + menor",
+              "3. Toca una volta d'inversions per tonalitat",
+              "4. Canvia tonalitat cada minut",
+              "5. Prioritza netedat i sense aturades",
+              "6. Apunta tonalitats amb més errors"
+            ],
+            practice: "Resistència mental i velocitat de lectura.",
+            progression: "Passar de 5 a 7 tonalitats",
+            duration: "5-7 min",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 9,
+    title: "Acords Moderns: 7es, tensions i progressions",
+    emoji: "✨",
+    weeks: "Setmanes 65-72",
+    objectives: [
+      "Dominar voicings de 7a i tensions útils per context real",
+      "Fer comping sòlid en ii-V-I i progressions pop/jazz",
+      "Guanyar control de color harmònic amb resolució musical",
+    ],
+    sections: [
+      {
+        weeks: "Setmanes 65-68",
+        title: "Voicings moderns i aplicació",
+        exercises: [
+          {
+            id: "9.1",
+            title: "Maj7 i m7 en 3 grups de cordes",
+            emoji: "🪄",
+            soloSteps: [
+              "1. Obre Solo App > 'Chord Trainer'",
+              "2. Activa només Maj7 i m7",
+              "3. Practica en sets 1-2-3-4, 2-3-4-5 i 3-4-5-6",
+              "4. Toca 2 inversions per acord",
+              "5. Mou en cercle de quartes",
+              "6. Mantén atac suau i consistent"
+            ],
+            practice: "Base estable de 7es en tot el mànec.",
+            progression: "Augmentar tempo i reduir moviment de mà",
+            duration: "10-12 min",
+          },
+          {
+            id: "9.2",
+            title: "Dominants 7 amb b9 i #9",
+            emoji: "🌶️",
+            soloSteps: [
+              "1. Entra a 'Chord Trainer'",
+              "2. Activa Dominant7, b9 i #9",
+              "3. Toca mateix acord en versió neutra i alterada",
+              "4. Resol immediatament al I",
+              "5. Repeteix en 6 tonalitats",
+              "6. Escolta la tensió abans de resoldre"
+            ],
+            practice: "Dominar tensió forta amb final controlat.",
+            progression: "Afegir #11 en segon cicle",
+            duration: "9-11 min",
+          },
+          {
+            id: "9.3",
+            title: "ii-V-I amb veu superior cantable",
+            emoji: "🎤",
+            soloSteps: [
+              "1. Obre progressió ii-V-I",
+              "2. Tria una nota guia a veu superior",
+              "3. Mantén-la o mou-la per pas conjunt",
+              "4. Ajusta voicings inferiors per encaixar",
+              "5. Toca 8 voltes lentes",
+              "6. Grava i comprova línia superior"
+            ],
+            practice: "Fer que els acords cantin com una melodia.",
+            progression: "Passar de major a menor",
+            duration: "10 min",
+          },
+          {
+            id: "9.4",
+            title: "Comping shell + tensió opcional",
+            emoji: "🧱",
+            soloSteps: [
+              "1. Toca shell voicing (3a + 7a + root opcional)",
+              "2. Cada 2 compassos afegeix 9 o 13",
+              "3. Torna a shell net",
+              "4. Mantén volum equilibrat",
+              "5. Repetició contínua de 4 minuts"
+            ],
+            practice: "Controlar densitat harmònica en temps real.",
+            progression: "Afegir alteració puntual al V",
+            duration: "8-10 min",
+          },
+          {
+            id: "9.5",
+            title: "Progressió pop-jazz amb acords oberts",
+            emoji: "🌊",
+            soloSteps: [
+              "1. Configura I-V-vi-IV",
+              "2. Usa voicings oberts de 4 notes",
+              "3. Evita saltar més de 4 trastos",
+              "4. Mantén groove constant",
+              "5. Prova 2 patrons rítmics diferents",
+              "6. Tanca amb variació final"
+            ],
+            practice: "Aplicació real en context modern melòdic.",
+            progression: "Afegir sus2/sus4 puntuals",
+            duration: "9-12 min",
+          },
+          {
+            id: "9.6",
+            title: "Backdoor cadence (ivm7-bVII7-I)",
+            emoji: "🚪",
+            soloSteps: [
+              "1. Obre 'Chord Trainer'",
+              "2. Programa ivm7-bVII7-I",
+              "3. Toca voicings compactes primer",
+              "4. Segona volta: afegeix 9a al bVII7",
+              "5. Resol suau al Imaj7",
+              "6. Repetició en 4 tonalitats"
+            ],
+            practice: "Color soul/jazz amb resolució elegant.",
+            progression: "Connectar amb ii-V-I després",
+            duration: "8-10 min",
+          },
+          {
+            id: "9.7",
+            title: "Pedal note + canvi d'acords",
+            emoji: "📍",
+            soloSteps: [
+              "1. Tria una nota pedal (ex: G a veu aguda)",
+              "2. Canvia acords sota aquesta nota",
+              "3. Mantén 4 compassos per cada color",
+              "4. Observa quins acords funcionen millor",
+              "5. Grava una seqüència de 2 minuts"
+            ],
+            practice: "Crear cohesió amb punt fix melòdic.",
+            progression: "Canviar pedal a una altra corda",
+            duration: "7-9 min",
+          },
+          {
+            id: "9.8",
+            title: "Quartal voicings inicials",
+            emoji: "🧊",
+            soloSteps: [
+              "1. A 'Chord Trainer', busca voicings quartals",
+              "2. Toca blocs de quartes en ii-V-I",
+              "3. Mantén atac curt i espaiat",
+              "4. No més de 3 notes per voicing",
+              "5. Alterna amb voicing tradicional",
+              "6. Escolta el contrast"
+            ],
+            practice: "Introduir sonoritat moderna sense saturar.",
+            progression: "Afegir moviment cromàtic entre blocs",
+            duration: "8-10 min",
+          },
+          {
+            id: "9.9",
+            title: "Comping reactiu: pregunta-resposta",
+            emoji: "🗨️",
+            soloSteps: [
+              "1. Toca 1 compàs amb acord curt (pregunta)",
+              "2. Deixa espai",
+              "3. Respon amb altre voicing al compàs següent",
+              "4. Mantén frases de 1-2 compassos",
+              "5. Repetició durant 3 minuts",
+              "6. Prioritza espai musical"
+            ],
+            practice: "Comping conversacional i menys mecànic.",
+            progression: "Afegir anticipacions al final de compàs",
+            duration: "6-8 min",
+          },
+          {
+            id: "9.10",
+            title: "Challenge final d'acords: 4 estils en 6 minuts",
+            emoji: "🏆",
+            soloSteps: [
+              "1. Minut 1-2: triades/inversions netes",
+              "2. Minut 3: voicings de 7a",
+              "3. Minut 4: dominants alterats",
+              "4. Minut 5: quartals i acords oberts",
+              "5. Minut 6: comping lliure musical",
+              "6. Autoavaluació ràpida al final"
+            ],
+            practice: "Integrar tot el mòdul en una sessió curta.",
+            progression: "Fer el challenge 2 cops per setmana",
+            duration: "6-8 min",
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 export interface DailyRoutine {
