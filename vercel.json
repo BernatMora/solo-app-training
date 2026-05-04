@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "buildCommand": "cd expo && npm install --legacy-peer-deps && npm run build",
+  "outputDirectory": "expo/dist",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
