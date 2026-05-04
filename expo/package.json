@@ -2,10 +2,13 @@
   "name": "expo-app",
   "main": "expo-router/entry",
   "version": "1.0.0",
+  "packageManager": "npm@11.6.2",
   "scripts": {
     "start": "bunx rork start -p ta1p99hiypevca7wderew --tunnel",
     "start-web": "bunx rork start -p ta1p99hiypevca7wderew --web --tunnel",
     "start-web-dev": "DEBUG=expo* bunx rork start -p ta1p99hiypevca7wderew --web --tunnel",
+    "build": "npx expo export --platform web",
+    "vercel-build": "npm run build",
     "lint": "expo lint"
   },
   "dependencies": {
@@ -35,6 +38,7 @@
     "lucide-react-native": "^0.475.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "zod": "^4.4.2",
     "react-native": "0.81.5",
     "react-native-gesture-handler": "~2.28.0",
     "react-native-safe-area-context": "~5.6.0",
