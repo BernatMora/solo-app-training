@@ -2474,7 +2474,7 @@ export const phases: Phase[] = [
             emoji: "🌊",
             soloSteps: [
               "1. Obre Solo i tria el Changes Trainer.",
-              "2. Prem 'Select Chord Changes' i tria una progressió I-V-vi-IV en major.",
+              "2. Prem 'Select Chord Changes' i tria una progressió I-V-vi-IV en major (crea-la amb 'Buy Custom Chord Progressions' si no hi és: és una compra dins l'app).",
               "3. Prem 'Select a Level' i tria un nivell que demani la root i la 5a de cada acord (les notes que canvien entre sus2 i sus4).",
               "4. Prem 'Start Changes Workout' i toca la progressió tal com és.",
               "5. Activa 'Repeat' perquè la progressió vagi donant voltes seguides.",
