@@ -16,12 +16,18 @@ interface WeeklyChecklistState {
   };
 }
 
+/** Passos ja fets de cada exercici: { "1.1": [0, 1] } */
+interface StepProgressState {
+  [exerciseId: string]: number[];
+}
+
 interface ProgressState {
   currentPhase: number;
   currentWeek: number;
   completedExercises: string[];
   practiceSessions: PracticeSession[];
   weeklyChecklist: WeeklyChecklistState;
+  stepProgress: StepProgressState;
 }
 
 const STORAGE_KEY = "@jazz_fusion_progress";
@@ -32,6 +38,7 @@ const DEFAULT_PROGRESS: ProgressState = {
   completedExercises: [],
   practiceSessions: [],
   weeklyChecklist: {},
+  stepProgress: {},
 };
 
 const getIsoWeekYearAndNumber = (date: Date): { year: number; week: number } => {
@@ -94,6 +101,20 @@ const normalizeProgress = (parsed: unknown): ProgressState => {
       raw.weeklyChecklist && typeof raw.weeklyChecklist === "object"
         ? (raw.weeklyChecklist as WeeklyChecklistState)
         : DEFAULT_PROGRESS.weeklyChecklist,
+    stepProgress:
+      raw.stepProgress && typeof raw.stepProgress === "object"
+        ? Object.fromEntries(
+            Object.entries(raw.stepProgress)
+              .filter(([, value]) => Array.isArray(value))
+              .map(([key, value]) => [
+                key,
+                (value as unknown[]).filter(
+                  (item): item is number =>
+                    typeof item === "number" && Number.isFinite(item)
+                ),
+              ])
+          )
+        : DEFAULT_PROGRESS.stepProgress,
   };
 };
 
@@ -262,6 +283,35 @@ export const [ProgressProvider, useProgress] = createContextHook(() => {
       .reduce((total, session) => total + session.duration, 0);
   };
 
+  /** Marca o desmarca un pas de configuració d'un exercici. */
+  const toggleStepDone = (exerciseId: string, stepIndex: number) => {
+    setProgress((prev) => {
+      const current = prev.stepProgress[exerciseId] ?? [];
+      const next = current.includes(stepIndex)
+        ? current.filter((index) => index !== stepIndex)
+        : [...current, stepIndex];
+
+      return {
+        ...prev,
+        stepProgress: {
+          ...prev.stepProgress,
+          [exerciseId]: next,
+        },
+      };
+    });
+  };
+
+  const getDoneSteps = (exerciseId: string): number[] =>
+    progress.stepProgress[exerciseId] ?? [];
+
+  const clearSteps = (exerciseId: string) => {
+    setProgress((prev) => {
+      const nextStepProgress = { ...prev.stepProgress };
+      delete nextStepProgress[exerciseId];
+      return { ...prev, stepProgress: nextStepProgress };
+    });
+  };
+
   return {
     progress,
     isLoading,
@@ -273,5 +323,8 @@ export const [ProgressProvider, useProgress] = createContextHook(() => {
     getWeeklyChecklistState,
     getTodayPracticeTime,
     getWeekPracticeTime,
+    toggleStepDone,
+    getDoneSteps,
+    clearSteps,
   };
 });

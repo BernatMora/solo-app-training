@@ -1,6 +1,7 @@
 import { useRouter } from "expo-router";
 import {
   BarChart3,
+  CalendarDays,
   CheckCircle2,
   ChevronRight,
   Circle,
@@ -20,6 +21,7 @@ import {
 import Colors from "@/constants/colors";
 import { phases, TRAINER_INFO, weeklyChecklist } from "@/constants/trainingData";
 import type { TrainerId } from "@/constants/trainingData";
+import { planForWeek } from "@/constants/planner";
 import { useProgress } from "@/contexts/ProgressContext";
 
 type Phase = (typeof phases)[number];
@@ -213,6 +215,13 @@ export default function TrainingScreen() {
     (item) => checklistState[item.id]
   ).length;
 
+  const weekNow = progress.currentWeek;
+  const weekPlan = useMemo(() => planForWeek(weekNow), [weekNow]);
+  const weekPlanExercises = weekPlan.reduce(
+    (sum, block) => sum + block.exerciseIds.length,
+    0
+  );
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
@@ -248,6 +257,30 @@ export default function TrainingScreen() {
           </Text>
         </View>
       </View>
+
+      <TouchableOpacity
+        style={[styles.progressLink, { backgroundColor: colors.card }]}
+        onPress={() => router.push("/setmana" as any)}
+        testID="setmanaLink"
+      >
+        <CalendarDays size={20} color={colors.tint} />
+        <View style={styles.progressLinkText}>
+          <Text style={[styles.progressLinkTitle, { color: colors.text }]}>
+            Aquesta setmana (setmana {weekNow})
+          </Text>
+          <Text
+            style={[
+              styles.progressLinkSubtitle,
+              { color: colors.textSecondary },
+            ]}
+          >
+            {weekPlan.length > 0
+              ? `Et toquen ${weekPlanExercises} exercicis de ${weekPlan.length} bloc${weekPlan.length === 1 ? "" : "s"}`
+              : "Mira què et toca segons el pla de setmanes"}
+          </Text>
+        </View>
+        <ChevronRight size={20} color={colors.textSecondary} />
+      </TouchableOpacity>
 
       <TouchableOpacity
         style={[styles.progressLink, { backgroundColor: colors.card }]}

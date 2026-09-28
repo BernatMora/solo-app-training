@@ -21,12 +21,11 @@ export default function ExerciseDetailScreen() {
   const colorScheme = useColorScheme();
   const colors = colorScheme === "dark" ? Colors.dark : Colors.light;
   const router = useRouter();
-  const { progress, toggleExerciseComplete, addPracticeSession } = useProgress();
+  const { progress, toggleExerciseComplete, addPracticeSession, toggleStepDone, getDoneSteps, clearSteps } = useProgress();
 
   const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
   const [elapsedSeconds, setElapsedSeconds] = useState<number>(0);
   const [sessionNotes, setSessionNotes] = useState<string>("");
-  const [doneSteps, setDoneSteps] = useState<number[]>([]);
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startedAtRef = useRef<number | null>(null);
@@ -456,23 +455,26 @@ export default function ExerciseDetailScreen() {
               <Text style={[styles.sectionTitle, { color: colors.text }]}>
                 Passos, un a un
               </Text>
-              <Text style={[styles.sectionHint, { color: colors.textSecondary }]}>
-                Ves marcant-los mentre els fas a l'app.
-              </Text>
+              <View style={styles.stepsHeader}>
+                <Text style={[styles.sectionHint, { color: colors.textSecondary }]}>
+                  {getDoneSteps(exercise.id).length}/{exercise.soloSteps.length} passos fets. Ves marcant-los mentre els fas a l'app.
+                </Text>
+                {getDoneSteps(exercise.id).length > 0 && (
+                  <TouchableOpacity onPress={() => clearSteps(exercise.id)}>
+                    <Text style={[styles.resetSteps, { color: colors.tint }]}>
+                      Reinicia
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              </View>
               <View style={[styles.card, { backgroundColor: colors.card }]}>
                 {exercise.soloSteps.map((step, index) => {
-                  const isDone = doneSteps.includes(index);
+                  const isDone = getDoneSteps(exercise.id).includes(index);
                   return (
                     <TouchableOpacity
                       key={index}
                       style={styles.stepRow}
-                      onPress={() =>
-                        setDoneSteps((prev) =>
-                          prev.includes(index)
-                            ? prev.filter((i) => i !== index)
-                            : [...prev, index]
-                        )
-                      }
+                      onPress={() => toggleStepDone(exercise.id, index)}
                       testID={`soloStep-${index + 1}`}
                     >
                       {isDone ? (
@@ -762,7 +764,19 @@ const createStyles = (colors: typeof Colors.light) =>
     },
     sectionHint: {
       fontSize: 12,
+      flex: 1,
       marginBottom: 12,
+      marginTop: -6,
+    },
+    stepsHeader: {
+      flexDirection: "row",
+      alignItems: "flex-start",
+      justifyContent: "space-between",
+      gap: 12,
+    },
+    resetSteps: {
+      fontSize: 12,
+      fontWeight: "700" as const,
       marginTop: -6,
     },
     stepRow: {

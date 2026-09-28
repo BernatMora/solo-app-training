@@ -29,6 +29,13 @@ function RootLayoutNav() {
         }}
       />
       <Stack.Screen
+        name="setmana"
+        options={{
+          title: "Aquesta setmana",
+          presentation: "card",
+        }}
+      />
+      <Stack.Screen
         name="exercise/[id]"
         options={{
           title: "Exercici",
