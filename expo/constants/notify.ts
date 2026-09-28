@@ -1,4 +1,4 @@
-import { lastPlannedWeek, planForWeek } from "@/constants/planner";
+import { lastPlannedWeek, planForWeek, weekSchedule } from "@/constants/planner";
 import { phases, TRAINER_INFO } from "@/constants/trainingData";
 
 /**
@@ -16,10 +16,14 @@ export const NTFY_TOPIC = "solo";
 /** Primera setmana del pla: serveix per calcular en quina setmana ets. */
 export const NOTIFY_START_DATE = "2026-09-28";
 /**
- * Adreça pública de la web. Viu a la Raspberry (nginx, port 3020): Vercel ja no
- * s'usa. Amb Tailscale actiu al mòbil, tant val `100.115.134.76` com `hortosona`.
+ * Adreça pública de la web. Viu a la Raspberry (nginx, port 3020).
+ *
+ * IMPORTANT: aquesta és l'ADREÇA CANÒNICA. El progrés es guarda al navegador
+ * per origen (esquema + host + port), així que `hortosona:3020` i
+ * `100.115.134.76:3020` són dues caixes diferents: fes servir sempre aquesta.
+ * Amb Tailscale actiu al mòbil, `hortosona` es resol sol.
  */
-export const SITE_URL = "http://100.115.134.76:3020";
+export const SITE_URL = "http://hortosona:3020";
 
 /** Cert si el navegador podrà publicar directament (cal HTTPS al servidor). */
 export const canPublishFromBrowser = (): boolean => {
@@ -94,6 +98,20 @@ export const buildWeekMessage = (week: number, today: Date = new Date()): NtfyMe
 
   if (planned.length === 0) {
     lines.push("Aquesta setmana no hi ha cap bloc definit al pla.");
+    lines.push("");
+  }
+
+  // repartiment diari, perquè no calgui triar mai què toca avui
+  const schedule = weekSchedule(safeWeek);
+  if (schedule.length > 0) {
+    lines.push("### Com repartir-ho");
+    for (const task of schedule) {
+      const main = exerciseById.get(task.main);
+      const review = task.review ? exerciseById.get(task.review) : undefined;
+      const parts = [main ? `${main.id} ${main.title}` : task.main];
+      if (review) parts.push(`repàs: ${review.id}`);
+      lines.push(`- **${task.day}**: ${parts.join(" · ")}`);
+    }
     lines.push("");
   }
 

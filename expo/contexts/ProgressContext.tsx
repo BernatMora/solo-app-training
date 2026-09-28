@@ -312,6 +312,26 @@ export const [ProgressProvider, useProgress] = createContextHook(() => {
     });
   };
 
+  /** Tot el progrés en JSON, per desar-ne una còpia o passar-lo a un altre dispositiu. */
+  const exportProgress = (): string =>
+    JSON.stringify({ app: "jazz-fusion-solo-training", version: 1, savedAt: new Date().toISOString(), progress }, null, 1);
+
+  /** Substitueix el progrés pel que hi hagi al JSON. Retorna false si no és vàlid. */
+  const importProgress = (json: string): boolean => {
+    try {
+      const parsed = JSON.parse(json);
+      const raw = parsed && typeof parsed === "object" && "progress" in parsed ? parsed.progress : parsed;
+      const normalized = normalizeProgress(raw);
+      setProgress(normalized);
+      return true;
+    } catch (error) {
+      console.warn("No s'ha pogut importar el progrés:", error);
+      return false;
+    }
+  };
+
+  const resetProgress = () => setProgress(DEFAULT_PROGRESS);
+
   return {
     progress,
     isLoading,
@@ -326,5 +346,8 @@ export const [ProgressProvider, useProgress] = createContextHook(() => {
     toggleStepDone,
     getDoneSteps,
     clearSteps,
+    exportProgress,
+    importProgress,
+    resetProgress,
   };
 });

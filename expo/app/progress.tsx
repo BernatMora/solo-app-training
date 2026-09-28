@@ -4,13 +4,15 @@ import {
   CheckCircle2,
   Circle,
   Flame,
+  Save,
   Timer,
 } from "lucide-react-native";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   View,
   TouchableOpacity,
   useColorScheme,
@@ -48,7 +50,15 @@ export default function ProgressScreen() {
     getWeeklyChecklistState,
     getTodayPracticeTime,
     getWeekPracticeTime,
+    exportProgress,
+    importProgress,
+    resetProgress,
   } = useProgress();
+
+  const [backupText, setBackupText] = useState("");
+  const [backupState, setBackupState] = useState<
+    "idle" | "exported" | "imported" | "error" | "reset"
+  >("idle");
 
   const styles = createStyles(colors);
 
@@ -342,6 +352,116 @@ export default function ProgressScreen() {
         )}
       </View>
 
+      <View style={[styles.card, { backgroundColor: colors.card }]}>
+        <View style={styles.cardTitleRow}>
+          <Text style={[styles.cardTitle, { color: colors.text }]}>
+            Còpia de seguretat del progrés
+          </Text>
+          <Save size={18} color={colors.tint} />
+        </View>
+        <Text style={[styles.backupHint, { color: colors.textSecondary }]}>
+          El progrés (exercicis fets, notes de sessió, passos marcats i repàs
+          setmanal) es guarda al navegador. Si canvies de dispositiu o buides les
+          dades, es perd: desa'n una còpia aquí.
+        </Text>
+
+        <TouchableOpacity
+          style={[styles.backupButton, { backgroundColor: colors.tint }]}
+          onPress={() => {
+            const json = exportProgress();
+            setBackupText(json);
+            if (typeof document !== "undefined") {
+              const blob = new Blob([json], { type: "application/json" });
+              const url = URL.createObjectURL(blob);
+              const link = document.createElement("a");
+              link.href = url;
+              link.download = `progres-solo-${new Date()
+                .toISOString()
+                .slice(0, 10)}.json`;
+              link.click();
+              URL.revokeObjectURL(url);
+            }
+            setBackupState("exported");
+          }}
+          testID="exportProgress"
+        >
+          <Save size={16} color="#FFFFFF" />
+          <Text style={styles.backupButtonText}>Exporta el progrés</Text>
+        </TouchableOpacity>
+
+        <TextInput
+          value={backupText}
+          onChangeText={setBackupText}
+          placeholder="Enganxa aquí una còpia per importar-la"
+          placeholderTextColor={colors.textSecondary}
+          multiline
+          style={[
+            styles.backupInput,
+            {
+              color: colors.text,
+              borderColor: colors.border,
+              backgroundColor: colors.backgroundSecondary,
+            },
+          ]}
+          testID="backupText"
+        />
+
+        <View style={styles.backupActions}>
+          <TouchableOpacity
+            style={[styles.backupButtonOutline, { borderColor: colors.border }]}
+            onPress={() => {
+              const ok = importProgress(backupText);
+              setBackupState(ok ? "imported" : "error");
+            }}
+            disabled={backupText.trim().length === 0}
+            testID="importProgress"
+          >
+            <Text style={[styles.backupButtonOutlineText, { color: colors.text }]}>
+              Importa
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.backupButtonOutline, { borderColor: colors.border }]}
+            onPress={() => {
+              if (typeof window !== "undefined") {
+                const sure = window.confirm(
+                  "Segur que vols esborrar tot el progrés? Aquesta acció no es pot desfer."
+                );
+                if (!sure) return;
+              }
+              resetProgress();
+              setBackupText("");
+              setBackupState("reset");
+            }}
+            testID="resetProgress"
+          >
+            <Text style={[styles.backupButtonOutlineText, { color: colors.error }]}>
+              Esborra-ho tot
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        {backupState !== "idle" && (
+          <Text
+            style={[
+              styles.backupStatus,
+              {
+                color:
+                  backupState === "error" ? colors.error : colors.success,
+              },
+            ]}
+          >
+            {backupState === "exported"
+              ? "Còpia generada. Si el navegador no l'ha baixada, copia el text de sobre."
+              : backupState === "imported"
+                ? "Progrés importat correctament."
+                : backupState === "reset"
+                  ? "Progrés esborrat."
+                  : "El text no és una còpia vàlida."}
+          </Text>
+        )}
+      </View>
+
       <View style={{ height: 40 }} />
     </ScrollView>
   );
@@ -515,5 +635,54 @@ const createStyles = (colors: typeof Colors.light) =>
       fontSize: 13,
       marginTop: 4,
       fontStyle: "italic",
+    },
+    backupHint: {
+      fontSize: 12,
+      lineHeight: 17,
+      marginBottom: 12,
+    },
+    backupButton: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 8,
+      paddingVertical: 12,
+      borderRadius: 12,
+      marginBottom: 12,
+    },
+    backupButtonText: {
+      color: "#FFFFFF",
+      fontSize: 14,
+      fontWeight: "700" as const,
+    },
+    backupInput: {
+      borderWidth: 1,
+      borderRadius: 12,
+      paddingHorizontal: 12,
+      paddingVertical: 10,
+      minHeight: 110,
+      fontSize: 12,
+      lineHeight: 16,
+      marginBottom: 12,
+    },
+    backupActions: {
+      flexDirection: "row",
+      gap: 10,
+    },
+    backupButtonOutline: {
+      flex: 1,
+      paddingVertical: 12,
+      borderRadius: 12,
+      borderWidth: 1,
+      alignItems: "center",
+    },
+    backupButtonOutlineText: {
+      fontSize: 14,
+      fontWeight: "700" as const,
+    },
+    backupStatus: {
+      fontSize: 12,
+      marginTop: 10,
+      lineHeight: 16,
     },
   });

@@ -135,6 +135,21 @@ const TRAINER_SHORT = {
   scale: 'Scale',
 };
 
+const DAY_NAMES = ['Dilluns', 'Dimarts', 'Dimecres', 'Dijous', 'Divendres', 'Dissabte', 'Diumenge'];
+
+/** Mateix repartiment diari que la web (expo/constants/planner.ts). */
+const weekSchedule = (blocks, week) => {
+  const planned = blocks.filter((b) => week >= b.from && week <= b.to);
+  const ids = planned.flatMap((b) => b.exercises.map((e) => e.id));
+  if (ids.length === 0) return [];
+  return DAY_NAMES.map((day, index) => {
+    const main = ids[index % ids.length];
+    const reviewIndex = (index + ids.length - 2) % ids.length;
+    const review = ids.length > 1 ? ids[reviewIndex] : undefined;
+    return { day, main, review: review === main ? undefined : review };
+  });
+};
+
 const formatMessage = (week, blocks, today, siteUrl) => {
   const planned = blocks.filter((b) => week >= b.from && week <= b.to);
   const total = planned.reduce((sum, b) => sum + b.exercises.length, 0);
@@ -155,6 +170,21 @@ const formatMessage = (week, blocks, today, siteUrl) => {
   }
 
   if (planned.length === 0) lines.push('Aquesta setmana no hi ha cap bloc definit al pla.', '');
+
+  const byId = new Map();
+  for (const block of blocks) for (const e of block.exercises) byId.set(e.id, e);
+
+  const schedule = weekSchedule(blocks, week);
+  if (schedule.length) {
+    lines.push('### Com repartir-ho');
+    for (const task of schedule) {
+      const main = byId.get(task.main);
+      const parts = [main ? `${main.id} ${main.title}` : task.main];
+      if (task.review) parts.push(`repàs: ${task.review}`);
+      lines.push(`- **${task.day}**: ${parts.join(' · ')}`);
+    }
+    lines.push('');
+  }
 
   if (siteUrl) lines.push(`[Obrir el pla a la web](${siteUrl}/setmana)`);
 

@@ -110,3 +110,45 @@ export const weekOfExercise = (exerciseId: string): WeekRange | null => {
   );
   return found ? found.range : null;
 };
+
+export const DAY_NAMES = [
+  "Dilluns",
+  "Dimarts",
+  "Dimecres",
+  "Dijous",
+  "Divendres",
+  "Dissabte",
+  "Diumenge",
+];
+
+export interface DayTask {
+  day: string;
+  main: string;
+  /** Un exercici del bloc, dos dies enrere, per no perdre'l. */
+  review?: string;
+}
+
+/**
+ * Reparteix els exercicis del bloc al llarg de la setmana:
+ * cada dia en toca un de principal i, si el bloc en té més d'un, el repàs
+ * d'un dels dies anteriors. Així no cal triar mai què toca avui.
+ */
+export const weekSchedule = (week: number): DayTask[] => {
+  const ids = planForWeek(week).flatMap((block) => block.exerciseIds);
+  if (ids.length === 0) return [];
+
+  return DAY_NAMES.map((day, index) => {
+    const main = ids[index % ids.length];
+    const reviewIndex = (index + ids.length - 2) % ids.length;
+    const review = ids.length > 1 ? ids[reviewIndex] : undefined;
+    return { day, main, review: review === main ? undefined : review };
+  });
+};
+
+/** Què toca avui (índex de dia: 0 = dilluns). */
+export const todayTask = (week: number, date: Date = new Date()): DayTask | null => {
+  const schedule = weekSchedule(week);
+  if (schedule.length === 0) return null;
+  const dayIndex = (date.getDay() + 6) % 7;
+  return schedule[dayIndex] ?? null;
+};

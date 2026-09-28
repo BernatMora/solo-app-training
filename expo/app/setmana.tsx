@@ -7,6 +7,7 @@ import {
   ChevronRight,
   Circle,
   Play,
+  Sun,
   Target,
 } from "lucide-react-native";
 import React, { useMemo, useState } from "react";
@@ -21,7 +22,7 @@ import {
 
 import Colors from "@/constants/colors";
 import { phases, TRAINER_INFO } from "@/constants/trainingData";
-import { lastPlannedWeek, planForWeek } from "@/constants/planner";
+import { lastPlannedWeek, planForWeek, todayTask, weekSchedule } from "@/constants/planner";
 import {
   NTFY_TOPIC,
   NTFY_URL,
@@ -92,6 +93,8 @@ export default function SetmanaScreen() {
   );
 
   const computedWeek = useMemo(() => currentPlanWeek(), []);
+  const today = useMemo(() => todayTask(week), [week]);
+  const schedule = useMemo(() => weekSchedule(week), [week]);
   const [sendState, setSendState] = useState<
     "idle" | "sending" | "ok" | "error" | "blocked"
   >("idle");
@@ -220,6 +223,78 @@ export default function SetmanaScreen() {
         <Text style={[styles.empty, { color: colors.textSecondary }]}>
           Aquesta setmana no hi ha cap bloc definit al pla.
         </Text>
+      )}
+
+      {today && exerciseMap.get(today.main) && (
+        <View style={[styles.todayCard, { backgroundColor: colors.tint }]}>
+          <View style={styles.todayHeader}>
+            <Sun size={16} color="#FFFFFF" />
+            <Text style={styles.todayLabel}>
+              Avui ({today.day.toLowerCase()}) et toca
+            </Text>
+          </View>
+          <TouchableOpacity
+            onPress={() => router.push(`/exercise/${today.main}` as any)}
+            testID="todayMain"
+          >
+            <Text style={styles.todayTitle}>
+              {exerciseMap.get(today.main)?.emoji}{" "}
+              {exerciseMap.get(today.main)?.title}
+            </Text>
+            <Text style={styles.todayMeta}>
+              Exercici {today.main} · {exerciseMap.get(today.main)?.duration}
+            </Text>
+          </TouchableOpacity>
+          {today.review && exerciseMap.get(today.review) && (
+            <TouchableOpacity
+              style={styles.todayReview}
+              onPress={() => router.push(`/exercise/${today.review}` as any)}
+              testID="todayReview"
+            >
+              <Text style={styles.todayReviewLabel}>Repàs</Text>
+              <Text style={styles.todayReviewText}>
+                {today.review} · {exerciseMap.get(today.review)?.title}
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      )}
+
+      {schedule.length > 0 && (
+        <View style={[styles.scheduleCard, { backgroundColor: colors.card }]}>
+          <Text style={[styles.scheduleTitle, { color: colors.text }]}>
+            Repartiment de la setmana
+          </Text>
+          {schedule.map((task) => {
+            const isToday = task.day === today?.day;
+            return (
+              <TouchableOpacity
+                key={task.day}
+                style={styles.scheduleRow}
+                onPress={() => router.push(`/exercise/${task.main}` as any)}
+              >
+                <Text
+                  style={[
+                    styles.scheduleDay,
+                    { color: isToday ? colors.tint : colors.textSecondary },
+                    isToday && styles.scheduleDayToday,
+                  ]}
+                >
+                  {task.day}
+                </Text>
+                <Text
+                  style={[
+                    styles.scheduleText,
+                    { color: isToday ? colors.text : colors.textSecondary },
+                  ]}
+                >
+                  {task.main}
+                  {task.review ? ` · repàs ${task.review}` : ""}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
       )}
 
       {planned.map((block, index) => {
@@ -444,6 +519,80 @@ const createStyles = (colors: typeof Colors.light) =>
     ntfyHint: {
       fontSize: 11,
       lineHeight: 16,
+    },
+    todayCard: {
+      marginHorizontal: 20,
+      marginTop: 12,
+      padding: 16,
+      borderRadius: 16,
+    },
+    todayHeader: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 8,
+      marginBottom: 8,
+    },
+    todayLabel: {
+      color: "#FFFFFF",
+      fontSize: 12,
+      fontWeight: "700" as const,
+      letterSpacing: 0.3,
+    },
+    todayTitle: {
+      color: "#FFFFFF",
+      fontSize: 19,
+      fontWeight: "700" as const,
+    },
+    todayMeta: {
+      color: "#FFFFFFCC",
+      fontSize: 12,
+      marginTop: 2,
+    },
+    todayReview: {
+      marginTop: 12,
+      paddingTop: 12,
+      borderTopWidth: 1,
+      borderTopColor: "#FFFFFF55",
+    },
+    todayReviewLabel: {
+      color: "#FFFFFFCC",
+      fontSize: 11,
+      fontWeight: "700" as const,
+      letterSpacing: 0.3,
+    },
+    todayReviewText: {
+      color: "#FFFFFF",
+      fontSize: 14,
+      fontWeight: "600" as const,
+      marginTop: 2,
+    },
+    scheduleCard: {
+      marginHorizontal: 20,
+      marginTop: 12,
+      padding: 16,
+      borderRadius: 16,
+    },
+    scheduleTitle: {
+      fontSize: 15,
+      fontWeight: "700" as const,
+      marginBottom: 8,
+    },
+    scheduleRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 10,
+      paddingVertical: 5,
+    },
+    scheduleDay: {
+      fontSize: 13,
+      minWidth: 84,
+    },
+    scheduleDayToday: {
+      fontWeight: "800" as const,
+    },
+    scheduleText: {
+      fontSize: 13,
+      flex: 1,
     },
     card: {
       marginHorizontal: 20,
