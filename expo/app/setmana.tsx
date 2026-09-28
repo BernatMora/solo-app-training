@@ -1,6 +1,7 @@
 import { useRouter } from "expo-router";
 import {
   ArrowLeft,
+  Bell,
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
@@ -8,7 +9,7 @@ import {
   Play,
   Target,
 } from "lucide-react-native";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -21,6 +22,12 @@ import {
 import Colors from "@/constants/colors";
 import { phases, TRAINER_INFO } from "@/constants/trainingData";
 import { lastPlannedWeek, planForWeek } from "@/constants/planner";
+import {
+  NTFY_TOPIC,
+  buildWeekMessage,
+  currentPlanWeek,
+  sendToNtfy,
+} from "@/constants/notify";
 import { useProgress } from "@/contexts/ProgressContext";
 
 type Exercise = (typeof phases)[number]["sections"][number]["exercises"][number];
@@ -82,6 +89,17 @@ export default function SetmanaScreen() {
     (id) => !progress.completedExercises.includes(id)
   );
 
+  const computedWeek = useMemo(() => currentPlanWeek(), []);
+  const [sendState, setSendState] = useState<"idle" | "sending" | "ok" | "error">(
+    "idle"
+  );
+
+  const sendPlan = async () => {
+    setSendState("sending");
+    const ok = await sendToNtfy(buildWeekMessage(week));
+    setSendState(ok ? "ok" : "error");
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
@@ -135,6 +153,19 @@ export default function SetmanaScreen() {
         setmanes surten dels blocs de cada mòdul.
       </Text>
 
+      {computedWeek !== week && (
+        <TouchableOpacity
+          style={[styles.suggestRow, { borderColor: colors.border }]}
+          onPress={() => updateWeek(computedWeek)}
+          testID="weekSuggestion"
+        >
+          <Text style={[styles.suggestText, { color: colors.tint }]}>
+            Segons la data d'inici del pla, ara ets a la setmana {computedWeek}.
+            Tocar-la per anar-hi.
+          </Text>
+        </TouchableOpacity>
+      )}
+
       <View style={[styles.summaryCard, { backgroundColor: colors.card }]}>
         <View style={styles.summaryRow}>
           <Target size={18} color={colors.tint} />
@@ -154,6 +185,27 @@ export default function SetmanaScreen() {
             </Text>
           </TouchableOpacity>
         )}
+        <TouchableOpacity
+          style={[styles.ntfyButton, { borderColor: colors.border }]}
+          onPress={sendPlan}
+          disabled={sendState === "sending"}
+          testID="setmanaNtfy"
+        >
+          <Bell size={16} color={colors.tint} />
+          <Text style={[styles.ntfyButtonText, { color: colors.tint }]}>
+            {sendState === "sending"
+              ? "Enviant..."
+              : sendState === "ok"
+                ? `Enviat al mòbil (ntfy · ${NTFY_TOPIC})`
+                : sendState === "error"
+                  ? "No s'ha pogut enviar. Torna-ho a provar."
+                  : `Envia'm aquest pla al mòbil (ntfy · ${NTFY_TOPIC})`}
+          </Text>
+        </TouchableOpacity>
+        <Text style={[styles.ntfyHint, { color: colors.textSecondary }]}>
+          Cada dilluns arriba sol si tens el recordatori setmanal activat al
+          repositori (Actions → Pla setmanal a ntfy).
+        </Text>
       </View>
 
       {planned.length === 0 && (
@@ -355,6 +407,35 @@ const createStyles = (colors: typeof Colors.light) =>
       paddingHorizontal: 20,
       marginTop: 16,
       fontSize: 14,
+    },
+    suggestRow: {
+      marginHorizontal: 20,
+      marginTop: 10,
+      padding: 12,
+      borderRadius: 12,
+      borderWidth: 1,
+    },
+    suggestText: {
+      fontSize: 13,
+      fontWeight: "600" as const,
+    },
+    ntfyButton: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 8,
+      paddingVertical: 12,
+      borderRadius: 12,
+      borderWidth: 1,
+    },
+    ntfyButtonText: {
+      fontSize: 14,
+      fontWeight: "700" as const,
+      textAlign: "center",
+    },
+    ntfyHint: {
+      fontSize: 11,
+      lineHeight: 16,
     },
     card: {
       marginHorizontal: 20,

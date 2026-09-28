@@ -33,6 +33,8 @@ export interface PlannedSection {
   sectionWeeks: string;
   range: WeekRange;
   exerciseIds: string[];
+  /** Cert si el bloc s'ha allargat perquè el pla no quedi amb forats. */
+  continued?: boolean;
 }
 
 interface RawSection extends PlannedSection {
@@ -74,7 +76,22 @@ const collectSections = (): RawSection[] => {
   return raw.sort((a, b) => a.from - b.from);
 };
 
-const SECTIONS = collectSections();
+const SECTIONS_BASE = collectSections();
+
+// El pla s'ha de cobrir tot sol: si entre dos blocs hi ha setmanes buides
+// (perquè s'hi van treure exercicis), el bloc anterior es considera en continuació.
+const withContinuity = (base: RawSection[]): RawSection[] => {
+  const sorted = base.map((item) => ({ ...item, range: { ...item.range } }));
+  for (let i = 0; i < sorted.length - 1; i += 1) {
+    if (sorted[i].range.to < sorted[i + 1].range.from - 1) {
+      sorted[i].continued = true;
+      sorted[i].range = { ...sorted[i].range, to: sorted[i + 1].range.from - 1 };
+    }
+  }
+  return sorted;
+};
+
+const SECTIONS = withContinuity(SECTIONS_BASE);
 
 /** Setmana més alta que descriu el pla. */
 export const lastPlannedWeek = (): number =>
@@ -88,6 +105,8 @@ export const planForWeek = (week: number): PlannedSection[] =>
 
 /** Setmana del pla que conté un exercici (per situar-lo al calendari). */
 export const weekOfExercise = (exerciseId: string): WeekRange | null => {
-  const found = SECTIONS.find((item) => item.exerciseIds.includes(exerciseId));
+  const found = SECTIONS_BASE.find((item) =>
+    item.exerciseIds.includes(exerciseId)
+  );
   return found ? found.range : null;
 };
