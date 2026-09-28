@@ -1,3 +1,20 @@
+export type TrainerId = "note" | "interval" | "changes" | "scale";
+
+export interface ExerciseSetup {
+  /** Entrenador principal amb què es fa l'exercici. */
+  trainer?: TrainerId;
+  /** Què cal triar al trainer (progressió, acord solt o escala). */
+  material?: string;
+  /** Funcions intervàl·liques que demana el nivell o el panell. */
+  functions?: string;
+  /** Mode de la tònica: fixa, aleatòria o les dues. */
+  root?: string;
+  /** Opcions del workout que cal activar. */
+  options?: string[];
+  /** Els trainers Note, Interval i Scale tenen workout amb durada. */
+  hasDuration?: boolean;
+}
+
 export interface Exercise {
   id: string;
   title: string;
@@ -6,6 +23,12 @@ export interface Exercise {
   practice: string;
   progression: string;
   duration: string;
+  /** Entrenadors de Solo que fa servir l'exercici. */
+  trainers?: TrainerId[];
+  /** Cal la compra "Buy Custom Chord Progressions" per fer-lo. */
+  needsPurchase?: boolean;
+  /** Resum de configuració derivat dels passos, per llegir-lo d'un cop d'ull. */
+  setup?: ExerciseSetup;
 }
 
 export interface WeekSection {
@@ -22,6 +45,33 @@ export interface Phase {
   objectives: string[];
   sections: WeekSection[];
 }
+
+export const TRAINER_INFO: Record<TrainerId, { label: string; short: string; color: string; what: string }> = {
+  note: {
+    label: "Note Trainer",
+    short: "Note",
+    color: "#4A90E2",
+    what: "Et mostra notes root a l'atzar i espera que les trobis al mànec.",
+  },
+  interval: {
+    label: "Interval Trainer",
+    short: "Interval",
+    color: "#50C878",
+    what: "Et demana funcions intervàl·liques concretes contra una tònica.",
+  },
+  changes: {
+    label: "Changes Trainer",
+    short: "Changes",
+    color: "#F5A623",
+    what: "Et fa delinear acords i progressions amb funcions intervàl·liques.",
+  },
+  scale: {
+    label: "Scale Trainer",
+    short: "Scale",
+    color: "#9B59B6",
+    what: "Et fa construir escales i modes amb funcions intervàl·liques.",
+  },
+};
 
 export const phases: Phase[] = [
   {
@@ -54,6 +104,13 @@ export const phases: Phase[] = [
             practice: "Fes la feina per cordes com a criteri propi: dedica uns 5 minuts a cada corda (6a, 5a, 4a, 3a, 2a, 1a) i, si et va bé, digues la nota en veu alta abans de tocar-la.",
             progression: "Quan trobis la nota sense dubtar, allarga la durada del workout i busca reconeixement immediat, sobretot de les tòniques i les notes naturals que més utilitzaràs.",
             duration: "30 min/dia",
+            trainers: ["note"],
+            setup: {
+              trainer: "note",
+              root: "Aleatòria",
+              options: ["Show Fretboard"],
+              hasDuration: true,
+            },
           },
           {
             id: "1.2",
@@ -71,6 +128,13 @@ export const phases: Phase[] = [
             practice: "Treballa una funció per sessió fins que la trobis automàticament en qualsevol corda; després combina 3, 5 i 7 en el mateix workout.",
             progression: "Quan tinguis la 3a, la 5a i la 7a controlades, afegeix gradualment b9, 9, #11, 13 i b13 al panell 'Choose Intervallic Functions'.",
             duration: "30 min/dia",
+            trainers: ["interval"],
+            setup: {
+              trainer: "interval",
+              functions: "3",
+              root: "Aleatòria",
+              options: ["Choose Intervallic Functions", "Show Fretboard"],
+            },
           },
           {
             id: "1.2b",
@@ -87,6 +151,12 @@ export const phases: Phase[] = [
             practice: "Objectiu: encertar cada nota en menys de 2 segons. Si falles, no miris; toca la mateixa nota en un altre lloc del mànec abans de continuar.",
             progression: "El rellotge el portes tu: mesura el temps de resposta amb un metrònom o un cronòmetre extern i intenta baixar-lo, però recorda que el que valora Solo és que l'encertis, no la velocitat.",
             duration: "15 min/dia",
+            trainers: ["note"],
+            setup: {
+              trainer: "note",
+              options: ["Show Fretboard"],
+              hasDuration: true,
+            },
           },
           {
             id: "1.2c",
@@ -103,6 +173,11 @@ export const phases: Phase[] = [
             practice: "Una zona per sessió: concentra la mirada al voltant de la zona que toca i no saltis a posicions còmodes fins que hagis acabat el workout.",
             progression: "Quan cada zona surti neta per separat, fes workouts sense zona fixada; l'objectiu és la fluïdesa en qualsevol punt del mànec.",
             duration: "20 min/dia",
+            trainers: ["note"],
+            setup: {
+              trainer: "note",
+              hasDuration: true,
+            },
           },
           {
             id: "1.2d",
@@ -119,6 +194,12 @@ export const phases: Phase[] = [
             practice: "Per cada nota, troba 3 posicions diferents sense mirar massa. Exemple amb G: 6a corda trast 3, 4a corda trast 5, 3a corda trast 12.",
             progression: "Augmenta a 4-5 posicions per nota i fes-ho en una sola passada del workout, sense aturar-te a pensar.",
             duration: "12 min/dia",
+            trainers: ["note"],
+            setup: {
+              trainer: "note",
+              options: ["Show Fretboard"],
+              hasDuration: true,
+            },
           },
           {
             id: "1.2e",
@@ -135,6 +216,13 @@ export const phases: Phase[] = [
             practice: "Localitza roots de manera automàtica a cada zona del mànec. Les 5 formes CAGED te les has de representar tu: l'app no les mostra.",
             progression: "Afegeix la 3a i la 5a (tríada) a les mateixes zones sense perdre les roots, i fes-ho a diferents tonalitats.",
             duration: "15 min/dia",
+            trainers: ["scale"],
+            setup: {
+              trainer: "scale",
+              material: "escala Major",
+              root: "Aleatòria",
+              options: ["Select a Scale"],
+            },
           },
           {
             id: "1.2f",
@@ -152,6 +240,14 @@ export const phases: Phase[] = [
             practice: "Concentració per parelles de cordes (zones febles): treballa la mateixa parella tota la sessió i comença per les que et costin més.",
             progression: "Canvia de parella de cordes cada dia (6a-5a, 5a-4a, 4a-3a, 3a-2a, 2a-1a) fins a cobrir-les totes.",
             duration: "18 min/dia",
+            trainers: ["note", "interval"],
+            setup: {
+              trainer: "note",
+              functions: "3 i 5",
+              root: "Aleatòria",
+              options: ["Choose Intervallic Functions"],
+              hasDuration: true,
+            },
           },
           {
             id: "1.2g",
@@ -167,6 +263,10 @@ export const phases: Phase[] = [
             practice: "Velocitat i precisió a cada corda: el repte d'un minut el cronometres tu (cronòmetre extern); a Solo hi compta la durada del workout i les notes encertades.",
             progression: "Aixeca el llistó de mica en mica: primer 60 segons per corda, després 45 i finalment 30, buscant sempre més notes encertades.",
             duration: "10 min/dia",
+            trainers: ["note"],
+            setup: {
+              trainer: "note",
+            },
           },
           {
             id: "1.2h",
@@ -182,6 +282,11 @@ export const phases: Phase[] = [
             practice: "Obliga el cervell a decidir abans del dit: digues la posició en veu alta, espera un segon i després toca. La memòria del nom de la nota és cosa teva, perquè Solo no mostra noms de notes.",
             progression: "Redueix el temps de decisió a menys de 2 segons i fes-ho amb roots aleatòries, sense repetir cap posició ja usada al mateix workout.",
             duration: "8 min/dia",
+            trainers: ["note"],
+            setup: {
+              trainer: "note",
+              hasDuration: true,
+            },
           },
           {
             id: "1.2i",
@@ -197,6 +302,52 @@ export const phases: Phase[] = [
             practice: "Velocitat sense cremar-te: 20 segons de resposta màxima, 10 segons amb les mans relaxades. Fes servir un cronòmetre extern per a les ràfegues.",
             progression: "Més zones del mànec i menys errors per ràfega; quan tinguis una zona dominada, canvia de zona o amplia la finestra de 20 a 30 segons.",
             duration: "6-8 min/dia",
+            trainers: ["note"],
+            setup: {
+              trainer: "note",
+            },
+          },
+          {
+            id: "1.7",
+            title: "El diagrama com a mapa",
+            emoji: "🗺️",
+            soloSteps: [
+              "1. Obre Solo i tria el Note Trainer.",
+              "2. Activa 'Show Fretboard' al setup del workout: tindràs el diagrama del mànec a pantalla.",
+              "3. Abans de tocar, busca la nota que et demana l'app al diagrama i mira quantes posicions alternatives tens.",
+              "4. Toca-la a la posició que hagis triat i comprova que l'app te la valida.",
+              "5. A cada nota nova, busca sempre una posició diferent de l'anterior.",
+              "6. Passa després a l'Interval Trainer i fes el mateix amb les funcions: al diagrama hi veuràs totes les opcions abans de decidir.",
+              "7. Quan tinguis el mapa clar, treu el diagrama i comprova si hi arribes igual de ràpid de memòria.",
+            ],
+            practice: "El diagrama serveix per estudiar totes les opcions d'una nota o d'una funció, no per anar-hi a buscar el dit. Fes 5 minuts de mapa i 5 minuts de resposta ràpida.",
+            progression: "Ves tancant el diagrama a mesura que el mapa el tinguis al cap; si falles, torna'l a activar un minut i torna-ho a provar.",
+            duration: "15 min/dia",
+            trainers: ["note", "interval"],
+            setup: {
+              trainer: "note",
+              options: ["Show Fretboard"],
+            },
+          },
+          {
+            id: "1.8",
+            title: "El mateix exercici amb un altre instrument",
+            emoji: "🎛️",
+            soloSteps: [
+              "1. Obre Solo i entra a Settings (engranatge, a dalt a la dreta).",
+              "2. Prem 'Instrument' i mira la llista: guitarra de 6 cordes (estàndard o en 4es), guitarra de 7 cordes, baix de 4 cordes i baix de 5 cordes.",
+              "3. Tria la guitarra de 6 cordes amb afinació en 4es i fes un workout del Note Trainer amb aquesta afinació.",
+              "4. Torna a Settings, posa l'instrument habitual i compara en quines notes has hagut de pensar més.",
+              "5. Si tens un baix, repeteix el mateix workout amb el baix de 4 cordes.",
+              "6. Tingues-ho present: si tries Concert Pitch, Bb/Eb Horn o Concert Pitch-1, el diagrama del mànec no està disponible.",
+            ],
+            practice: "Canviar d'afinació o d'instrument trenca els automatismes i obliga a pensar les notes de nou. Fes-ho un cop per setmana, no cada dia.",
+            progression: "Quan l'afinació en 4es et surti, torna a l'estàndard i comprova que no hi has perdut velocitat.",
+            duration: "20 min/setmana",
+            trainers: ["note"],
+            setup: {
+              trainer: "note",
+            },
           },
         ],
       },
@@ -219,6 +370,13 @@ export const phases: Phase[] = [
             practice: "Visualitza i toca les 5 formes en totes les tonalitats. Les formes CAGED no apareixen a l'app: les has de sobreposar tu sobre les roots que et demana el workout.",
             progression: "Connecta les zones adjacents del mànec i canvia de tonalitat amb 'Transpose' quan les tinguis clares; afegeix-hi un exercici d'acord solt menor per cobrir també les tríades menors.",
             duration: "15 min/dia",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "exercici d'acord solt major",
+              functions: "root i la 3a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Transpose"],
+            },
           },
           {
             id: "1.3b",
@@ -236,6 +394,13 @@ export const phases: Phase[] = [
             practice: "Connecta les zones del mànec sense pauses: un cicle complet pujant i un altre baixant, amb la mateixa digitació mental a cada zona.",
             progression: "Fluïdesa en transicions: primer amb 'Repeat' activat a tempo lent, i després amb 'Randomise Key On Repeat' perquè el canvi de tonalitat no et faci perdre el fil.",
             duration: "20 min/dia",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió o un exercici d'acord solt major",
+              functions: "funcions bàsiques de l'acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat", "Transpose"],
+            },
           },
           {
             id: "1.4",
@@ -252,6 +417,13 @@ export const phases: Phase[] = [
             practice: "Toca els arpegis en cada zona del mànec, ascendent i descendent, i amb les inversions que et surtin més naturals.",
             progression: "Alterna ascendent i descendent i afegeix extensions (9, #11, 13) amb l'Interval Trainer contra la mateixa root quan els arpegis bàsics ja et surtin sense pensar.",
             duration: "20 min/dia",
+            trainers: ["changes", "scale"],
+            setup: {
+              trainer: "changes",
+              material: "exercici d'acord solt Maj7, un de Min7 i un de Dom7",
+              functions: "root, la 3a, la 5a i la 7a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Select a Scale", "Repeat", "Transpose"],
+            },
           },
           {
             id: "1.4b",
@@ -269,6 +441,13 @@ export const phases: Phase[] = [
             practice: "Troba intervals dins de cada zona del mànec. Les 5 formes CAGED les hi has de reconèixer tu: l'app només et demana les funcions.",
             progression: "Quan 1, 3, 5 i 7 et surtin a totes les zones, afegeix intervals complexos (9, #11, 13) al panell 'Choose Intervallic Functions'.",
             duration: "25 min/dia",
+            trainers: ["interval"],
+            setup: {
+              trainer: "interval",
+              functions: "1, 3, 5 i 7",
+              root: "Aleatòria",
+              options: ["Choose Intervallic Functions", "Show Fretboard"],
+            },
           },
           {
             id: "1.4c",
@@ -285,6 +464,13 @@ export const phases: Phase[] = [
             practice: "Aprendre l'harmonia amb 2 notes: toca només la 3a i la 7a de cada acord, pujant i baixant, i canvia d'inversió sense parar.",
             progression: "Quan el parell 3-7 surti automàtic a totes les inversions, afegeix-hi la 9a o la 13a i, al final, la tònica.",
             duration: "10-12 min/dia",
+            trainers: ["interval", "changes"],
+            setup: {
+              trainer: "changes",
+              material: "exercici d'acord solt Maj7, un de Min7 i un de Dom7",
+              functions: "3a i la 7a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Choose Intervallic Functions", "Repeat", "Randomise Key On Repeat"],
+            },
           },
           {
             id: "1.4d",
@@ -301,6 +487,13 @@ export const phases: Phase[] = [
             practice: "Tríades petites = màxim control del mànec: mantén la mateixa tonalitat tota la sessió i canvia de joc de cordes a cada volta.",
             progression: "Fes-ho amb metrònom lent i puja la velocitat a poc a poc; l'objectiu és zero dubtes al canvi de joc de cordes i al canvi major/menor.",
             duration: "12 min/dia",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió o un exercici d'acord solt que inclogui acords majors i menors",
+              functions: "funcions de la tríada (1, 3 i 5)",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Transpose"],
+            },
           },
         ],
       },
@@ -323,6 +516,13 @@ export const phases: Phase[] = [
             practice: "7 posicions, totes les tonalitats: comença per una posició, fes-hi totes les funcions i passa a la següent en el mateix workout.",
             progression: "Quan les posicions et surtin netes, practica seqüències (3es, 4es, tríades) i amplia les funcions que et demana l'app.",
             duration: "25 min/dia",
+            trainers: ["scale"],
+            setup: {
+              trainer: "scale",
+              material: "escala Major",
+              root: "Aleatòria",
+              options: ["Select a Scale"],
+            },
           },
           {
             id: "1.5b",
@@ -339,6 +539,13 @@ export const phases: Phase[] = [
             practice: "Terceres, quartes i sisenes: toca la seqüència completa pujant i baixant sense aturar-te, mantenint el patró a totes les zones del mànec.",
             progression: "Quan cada interval et surti net, combina'ls en el mateix workout i puja la dificultat canviant la root amb 'Transpose'.",
             duration: "20 min/dia",
+            trainers: ["scale"],
+            setup: {
+              trainer: "scale",
+              material: "escala Major",
+              root: "Aleatòria",
+              options: ["Select a Scale", "Interval Order"],
+            },
           },
           {
             id: "1.6",
@@ -355,6 +562,13 @@ export const phases: Phase[] = [
             practice: "Ionian, Dorian, Phrygian, Lydian, Mixolydian, Aeolian i Locrian: practica cada mode sobre un backing track extern per escoltar-ne el color.",
             progression: "Progressió modal setmanal: una setmana per mode, i al final del cicle fes workouts amb la mateixa root per tots els modes.",
             duration: "20 min/dia",
+            trainers: ["scale"],
+            setup: {
+              trainer: "scale",
+              material: "mode que toqui",
+              root: "Aleatòria",
+              options: ["Select a Scale"],
+            },
           },
           {
             id: "1.6b",
@@ -371,6 +585,13 @@ export const phases: Phase[] = [
             practice: "Compara modes amb la mateixa tònica i identifica'n les notes característiques: digues-les en veu alta mentre les toques.",
             progression: "Fluïdesa en canvis modals: fes rondes de dos minuts per mode, sempre amb la mateixa root, i amplia la comparació a Lydian, Mixolydian, Aeolian i Locrian.",
             duration: "25 min/dia",
+            trainers: ["scale"],
+            setup: {
+              trainer: "scale",
+              material: "mode Ionian",
+              root: "Fixa",
+              options: ["Select a Scale"],
+            },
           },
           {
             id: "1.6c",
@@ -387,6 +608,13 @@ export const phases: Phase[] = [
             practice: "Intervals modalitzats: treballa les notes característiques de cada mode (b3 i b7 al Dorian, b2 al Phrygian, #4 al Lydian...) fins que les sentis abans de tocar-les.",
             progression: "Domini d'identitat modal: passa d'un mode a l'altre cada setmana i amplia el joc de funcions marcat a 'Choose Intervallic Functions'.",
             duration: "30 min/dia",
+            trainers: ["interval"],
+            setup: {
+              trainer: "interval",
+              functions: "funcions del mode que treballis (ex",
+              root: "Aleatòria",
+              options: ["Choose Intervallic Functions"],
+            },
           },
           {
             id: "1.6d",
@@ -404,6 +632,13 @@ export const phases: Phase[] = [
             practice: "Tríades diatòniques en cada mode: identifica Major, Minor i Diminished segons les funcions que et demana l'app i localitza-les al mànec.",
             progression: "Visualització ràpida de tríades: redueix el temps per trobar cada tríada i canvia de mode cada setmana.",
             duration: "25 min/dia",
+            trainers: ["changes", "scale"],
+            setup: {
+              trainer: "scale",
+              material: "mode que vulguis treballar",
+              root: "Aleatòria",
+              options: ["Select Chord Changes", "Select a Scale", "Transpose"],
+            },
           },
           {
             id: "1.6e",
@@ -421,6 +656,13 @@ export const phases: Phase[] = [
             practice: "Escales en dues cordes: fortifica zones febles treballant cada parella en sessions separades, sense sortir de les dues cordes.",
             progression: "Domini complet de totes les parelles de cordes; quan en tinguis una de neta, passa a la següent i acaba combinant-les.",
             duration: "20 min/dia",
+            trainers: ["scale"],
+            setup: {
+              trainer: "scale",
+              material: "escala Major",
+              root: "Aleatòria",
+              options: ["Select a Scale"],
+            },
           },
           {
             id: "1.6f",
@@ -437,6 +679,13 @@ export const phases: Phase[] = [
             practice: "Velocitat de resposta des d'una tònica fixa: comença amb poques funcions marcades i ves ampliant el joc quan les tinguis totes localitzades.",
             progression: "Menys de 2 segons per interval: primer fes-ho amb 1, 3 i 5, després amb totes les funcions, i finalment canvia la root fixa cada sessió.",
             duration: "20 min/dia",
+            trainers: ["interval"],
+            setup: {
+              trainer: "interval",
+              functions: "totes les funcions que vulguis treballar (1, 2, 3, 4, 5, 6 i 7)",
+              root: "Fixa",
+              options: ["Choose Intervallic Functions"],
+            },
           },
           {
             id: "1.6g",
@@ -453,6 +702,13 @@ export const phases: Phase[] = [
             practice: "Menys notes = més música: construeix mini frases de 4 notes amb aquestes tres funcions i la root abans d'ampliar el joc.",
             progression: "Canvia de mode cada 2 minuts dins la mateixa sessió i mantén sempre les tres notes característiques com a centre.",
             duration: "8-10 min/dia",
+            trainers: ["scale"],
+            setup: {
+              trainer: "scale",
+              material: "mode del dia",
+              root: "Aleatòria",
+              options: ["Select a Scale"],
+            },
           },
           {
             id: "1.6h",
@@ -470,6 +726,36 @@ export const phases: Phase[] = [
             practice: "Connecta posicions sense perdre't: 4 notes, slide, 4 notes, i torna enrere pel mateix camí.",
             progression: "Fes-ho amb metrònom i puja 5 BPM quan el slide surti net i el so de les notes no es trenqui.",
             duration: "10-12 min/dia",
+            trainers: ["scale"],
+            setup: {
+              trainer: "scale",
+              material: "escala Major",
+              root: "Aleatòria",
+              options: ["Select a Scale"],
+            },
+          },
+          {
+            id: "1.9",
+            title: "Canviar l'ordre dels intervals",
+            emoji: "🔀",
+            soloSteps: [
+              "1. Obre Solo i tria el Scale Trainer.",
+              "2. Prem 'Select a Scale' i tria l'escala Major.",
+              "3. Tria la root: fixa (ex. C) o aleatòria.",
+              "4. Als ajustos del workout, canvia l'ordre dels intervals: prova Random i, després, Reverse.",
+              "5. Prem 'Start Scale Workout' i toca les funcions en l'ordre que et demani l'app.",
+              "6. Torna a fer-ho amb l'ordre normal i compara on falles més.",
+            ],
+            practice: "Si només saps l'escala en ordre ascendent, no la saps: l'ordre aleatori trenca la dependència de la digitació apresa.",
+            progression: "Quan surti en qualsevol ordre, canvia d'escala (Dorian, Mixolydian) i comprova que el control es manté.",
+            duration: "15 min/dia",
+            trainers: ["scale"],
+            setup: {
+              trainer: "scale",
+              material: "escala Major",
+              root: "Aleatòria",
+              options: ["Select a Scale"],
+            },
           },
         ],
       },
@@ -506,6 +792,14 @@ export const phases: Phase[] = [
             practice: "7 posicions, focus en Altered i Lydian Dominant. Aplicació sobre acords V7alt i IVmaj7#11. Pots fer servir metrònom o backing track extern per posar-te una referència de tempo.",
             progression: "Integració harmònica: primer el mode sol i després el mateix material sobre el V7alt i el IVmaj7#11, cada vegada amb menys suport extern.",
             duration: "30 min/dia",
+            trainers: ["scale"],
+            setup: {
+              trainer: "scale",
+              material: "escala Melòdica Menor",
+              root: "Aleatòria",
+              options: ["Select a Scale", "Interval Order"],
+              hasDuration: true,
+            },
           },
           {
             id: "2.1b",
@@ -523,6 +817,14 @@ export const phases: Phase[] = [
             practice: "Domina els 7 modes de melòdica menor i aplica'ls en context: Lydian Dominant sobre V7 amb #11, Mixolydian b6 sobre dominants, Locrian #2 sobre m7b5 i Altered sobre V7alt. Pots gravar-te una volta per mode i comparar.",
             progression: "Identificació auditiva de cada mode: primer amb la root fixa i, quan els distingeixis, amb la root aleatòria.",
             duration: "35 min/dia",
+            trainers: ["scale"],
+            setup: {
+              trainer: "scale",
+              material: "escala Melòdica Menor",
+              root: "Aleatòria",
+              options: ["Select a Scale", "Interval Order"],
+              hasDuration: true,
+            },
           },
           {
             id: "2.1c",
@@ -540,6 +842,13 @@ export const phases: Phase[] = [
             practice: "Guia tones per entendre la harmonia sense escales llargues: mou-te amb veu guia (la 7a del II baixa a la 3a del V, etc.) i fes-ho en dues zones del mànec. El metrònom o un backing extern t'ajuden a mantenir el pols.",
             progression: "Afegeix la 9a o la 13a al V7 quan les notes guia surtin soles, i després passa a root aleatòria.",
             duration: "18 min/dia",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I",
+              functions: "3a i la 7a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat", "Transpose"],
+            },
           },
           {
             id: "2.1d",
@@ -557,6 +866,13 @@ export const phases: Phase[] = [
             practice: "Outside controlat: poques funcions i molt de color. Improvisa amb 3a, 7a i les tensions escollides, i resol sempre a la 3a o la 7a de l'acord de resolució. Un backing de II-V-I extern et dona el context.",
             progression: "Canvia de dominant (A7alt, D7alt...) i després passa a root aleatòria; quan ho tinguis, afegeix #11.",
             duration: "15 min/dia",
+            trainers: ["interval"],
+            setup: {
+              trainer: "interval",
+              functions: "3, b9, #9 i b13",
+              root: "Aleatòria",
+              options: ["Choose Intervallic Functions", "Advance to Next Note", "On Tap"],
+            },
           },
           {
             id: "2.1e",
@@ -574,6 +890,14 @@ export const phases: Phase[] = [
             practice: "Construcció de licks ràpids amb simetria i amb cromatisme d'aproximació a cada bloc. Pots fer servir metrònom extern per quadrar els blocs.",
             progression: "Afegeix un cromatisme d'aproximació abans de cada bloc i resol sempre a la 3a o la 7a de l'acord de destinació.",
             duration: "16 min/dia",
+            trainers: ["scale"],
+            setup: {
+              trainer: "scale",
+              material: "escala Diminished",
+              root: "Aleatòria",
+              options: ["Select a Scale"],
+              hasDuration: true,
+            },
           },
           {
             id: "2.1f",
@@ -591,6 +915,13 @@ export const phases: Phase[] = [
             practice: "Micro-lliçó curta per construir vocabulari modern: primer només les funcions de les dues tríades i després canvia de tríada cada poques funcions.",
             progression: "Fes-ho en dues zones del mànec i canvia de parella cada dia; quan ho tinguis, passa a root aleatòria.",
             duration: "10 min/dia",
+            trainers: ["interval", "changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "interval",
+              functions: "1, 3 i 5: són les funcions que formen una tríada",
+              options: ["Select Chord Changes", "Choose Intervallic Functions"],
+            },
           },
           {
             id: "2.1g",
@@ -608,6 +939,13 @@ export const phases: Phase[] = [
             practice: "Entendre els changes amb màxima simplicitat: dues funcions per acord, en dues zones del mànec. Un backing o metrònom extern et marca el pols.",
             progression: "Afegeix la 9a al V7 i, si vols, activa 'Randomise Key On Repeat' per no acostumar-te a una sola tonalitat.",
             duration: "8-12 min/dia",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I",
+              functions: "dues funcions per acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Transpose"],
+            },
           },
           {
             id: "2.1h",
@@ -625,6 +963,13 @@ export const phases: Phase[] = [
             practice: "Color controlat sense embolics: al dominant, 3a, b7 i la tensió triada; a la tònica, només una funció guia. Backing o metrònom extern per sostenir el pols.",
             progression: "Quan la tensió surti sola, afegeix-ne una segona al panell 'Choose Intervallic Functions' i repeteix el mateix esquema amb una altra root.",
             duration: "6-8 min/dia",
+            trainers: ["interval", "changes"],
+            setup: {
+              trainer: "interval",
+              material: "progressió que resolgui a l'acord de tònica",
+              functions: "3, b7 i una sola tensió (b9, #9 o b13)",
+              options: ["Select Chord Changes", "Select a Level", "Choose Intervallic Functions"],
+            },
           },
           {
             id: "2.2",
@@ -642,6 +987,14 @@ export const phases: Phase[] = [
             practice: "Focus en Phrygian Dominant (5è mode) i aplicació sobre progressions amb dominants exòtics. Visualitza-ho en diferents zones del mànec; un backing extern ajuda a sentir el color.",
             progression: "Aplicació contextual: primer l'escala sola, després el mode sobre el dominant i finalment dins d'una progressió amb el Changes Trainer.",
             duration: "20 min/dia",
+            trainers: ["scale"],
+            setup: {
+              trainer: "scale",
+              material: "escala Harmònica Menor",
+              root: "Aleatòria",
+              options: ["Select a Scale", "Interval Order"],
+              hasDuration: true,
+            },
           },
           {
             id: "2.2b",
@@ -659,6 +1012,14 @@ export const phases: Phase[] = [
             practice: "Vocabulari exòtic: arpegis característics de l'harmònica menor, primer un a un i després enllaçats. Pots gravar-te una volta per arpegi per comprovar que sonen clars.",
             progression: "Fraseig sobre progressions amb harmònica menor, combinant els tres arpegis amb 'Repeat' activat.",
             duration: "25 min/dia",
+            trainers: ["interval", "changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "interval",
+              material: "progressió que els enllaci",
+              functions: "1, b3, 5 i 7: són les funcions del mMaj7 de l'acord I",
+              options: ["Select Chord Changes", "Choose Intervallic Functions"],
+            },
           },
           {
             id: "2.3",
@@ -676,6 +1037,13 @@ export const phases: Phase[] = [
             practice: "Patrons simètrics en totes les zones del mànec, aplicats a acords dim7 i V7b9. El metrònom extern ajuda a mantenir el patró estable.",
             progression: "Simetria i aplicació: primer les dues escales aïllades i després sobre progressions amb dim7 i V7b9 al Changes Trainer.",
             duration: "25 min/dia",
+            trainers: ["scale"],
+            setup: {
+              trainer: "scale",
+              material: "escala Diminished Whole-Half",
+              options: ["Select a Scale", "Interval Order"],
+              hasDuration: true,
+            },
           },
           {
             id: "2.3b",
@@ -693,6 +1061,12 @@ export const phases: Phase[] = [
             practice: "Explota la simetria de l'escala per moure't ràpid pel mànec: el mateix lick val en tres llocs. Pots enregistrar-te per comprovar que els tres llocs sonen igual.",
             progression: "Licks que es desplacen simètricament cada 3 trastis i, després, combinats amb aproximacions cromàtiques.",
             duration: "20 min/dia",
+            trainers: ["scale"],
+            setup: {
+              trainer: "scale",
+              material: "escala Diminished",
+              options: ["Select a Scale", "Interval Order"],
+            },
           },
           {
             id: "2.3c",
@@ -710,6 +1084,12 @@ export const phases: Phase[] = [
             practice: "Arpegis dim7 simètrics aplicats sobre V7b9 i dim7, amb les quatre inversions. Metrònom extern per mantenir-los regulars.",
             progression: "Fluïdesa en les quatre inversions i, després, aplicació sobre progressions amb dominants al Changes Trainer.",
             duration: "20 min/dia",
+            trainers: ["interval"],
+            setup: {
+              trainer: "interval",
+              functions: "1, b3, b5 i 6: són les funcions de l'arpegi dim7",
+              options: ["Choose Intervallic Functions", "Show Fretboard"],
+            },
           },
           {
             id: "2.3d",
@@ -727,6 +1107,35 @@ export const phases: Phase[] = [
             practice: "Tensions avançades del so diminished (b9, #9, b5/#11, 13) treballades contra la root del dominant, amb metrònom extern si vols regularitat.",
             progression: "Navegació ràpida per les tensions: primer amb root fixa i després amb root aleatòria, i finalment sobre un V7alt al Changes Trainer.",
             duration: "25 min/dia",
+            trainers: ["interval", "scale"],
+            setup: {
+              trainer: "interval",
+              material: "escala Diminished per tocar les mateixes funcions en context d'escala",
+              functions: "1, 3, b7, b9, #9 i b5",
+              options: ["Select a Scale", "Choose Intervallic Functions", "Advance to Next Note"],
+            },
+          },
+          {
+            id: "2.8",
+            title: "Seqüències melòdiques des de cada chord tone",
+            emoji: "🎼",
+            soloSteps: [
+              "1. Obre Solo i tria el Scale Trainer.",
+              "2. Prem 'Select a Scale' i tria l'escala Major.",
+              "3. Als ajustos del workout, activa les opcions de seqüència melòdica per començar des de qualsevol chord tone de l'escala.",
+              "4. Fes un workout començant des de la 3a, un altre des de la 5a i un altre des de la 7a.",
+              "5. Repeteix-ho amb el mode Dorian i fixa't en quines notes canvien de caràcter.",
+              "6. Passa-ho al Changes Trainer: sobre un II-V-I, comença cada línia des de la 3a o la 7a de l'acord que sona.",
+            ],
+            practice: "Començar des de cada chord tone és el que fa que una escala soni a música i no a escala. Canta la nota d'inici abans de tocar-la.",
+            progression: "Quan les tres entrades surtin soles, fes-ho amb l'ordre d'intervals en Random per no saber mai on comences.",
+            duration: "20 min/dia",
+            trainers: ["changes", "scale"],
+            setup: {
+              trainer: "scale",
+              material: "escala Major",
+              options: ["Select a Scale"],
+            },
           },
         ],
       },
@@ -750,6 +1159,13 @@ export const phases: Phase[] = [
             practice: "G major + A major sobre Cmaj7 i Eb major + F major sobre Cm7: connecta les dues tríades en tot el mànec. Backing extern per sentir-les en context.",
             progression: "Combinacions avançades: primer cada tríada sola, després alternades i finalment les dues dins del mateix exercici del Changes Trainer.",
             duration: "20 min/dia",
+            trainers: ["interval", "changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "interval",
+              functions: "1, 3 i 5",
+              options: ["Select Chord Changes", "Select a Level", "Choose Intervallic Functions"],
+            },
           },
           {
             id: "2.4b",
@@ -767,6 +1183,13 @@ export const phases: Phase[] = [
             practice: "Alterna les dues tríades creant melodies i aplica-ho sobre diferents acords (per exemple D i E sobre Amaj7, que són els graus 4 i 5).",
             progression: "Fraseig modern amb triad pairs: de les funcions aïllades a les melodies llargues, i de root fixa a root aleatòria.",
             duration: "25 min/dia",
+            trainers: ["interval", "changes"],
+            setup: {
+              trainer: "interval",
+              material: "amb 'Select Chord Changes' un exercici d'acord solt maj7",
+              functions: "1, 3 i 5",
+              options: ["Select Chord Changes", "Choose Intervallic Functions"],
+            },
           },
           {
             id: "2.4c",
@@ -784,6 +1207,13 @@ export const phases: Phase[] = [
             practice: "Tríades superiors sobre dominants per obtenir tensions complexes amb poques funcions; practica diferents combinacions i, si vols, enregistra't per escoltar-les.",
             progression: "Voicings moderns: de les tensions aïllades a l'aplicació dins del II-V-I, i després a la root aleatòria.",
             duration: "30 min/dia",
+            trainers: ["interval", "changes"],
+            setup: {
+              trainer: "interval",
+              material: "progressió II-V-I per aplicar-ho al V7",
+              functions: "tensions que forma la superposició: b9, #11 i b13",
+              options: ["Select Chord Changes", "Choose Intervallic Functions", "Show Fretboard"],
+            },
           },
           {
             id: "2.5",
@@ -801,6 +1231,13 @@ export const phases: Phase[] = [
             practice: "Construeix voicings de quartes en tot el mànec i fes-los servir per a comping modern i melodies angulars. Backing extern per provar-los en context.",
             progression: "Aplicació compositiva: del voicing aïllat a l'ús dins d'un mode i, després, dins d'una progressió del Changes Trainer.",
             duration: "15 min/dia",
+            trainers: ["interval", "scale"],
+            setup: {
+              trainer: "interval",
+              material: "escala Dorian o Lydian si apareixen a la llista, per sentir el voicing dins del mode",
+              functions: "1, 4, b7 i b3: són les funcions de la pila de 4es",
+              options: ["Select a Scale", "Choose Intervallic Functions", "Show Fretboard"],
+            },
           },
           {
             id: "2.5b",
@@ -818,6 +1255,14 @@ export const phases: Phase[] = [
             practice: "Melodies basades en quartes, so contemporani: practica els salts (C-F-Bb-Eb...) i combina'ls amb altres funcions per varietat.",
             progression: "Vocabulari angular de fusió: de les 4es aïllades a les línies llargues i, després, aplicades sobre Lydian i Dorian.",
             duration: "20 min/dia",
+            trainers: ["interval", "scale"],
+            setup: {
+              trainer: "interval",
+              material: "amb 'Select a Scale' l'escala Lydian i després la Dorian per tocar-hi les mateixes 4es",
+              functions: "4 i 11",
+              root: "Aleatòria",
+              options: ["Select a Scale", "Choose Intervallic Functions", "Advance to Next Note"],
+            },
           },
           {
             id: "2.5c",
@@ -835,6 +1280,14 @@ export const phases: Phase[] = [
             practice: "Comping modern amb poques formes: alterna-les i acaba amb una estona de comping lliure sobre un backing extern.",
             progression: "Afegeix una tercera forma quan les dues primeres surtin sense pensar, i prova-ho sobre Dorian i Lydian.",
             duration: "10-12 min/dia",
+            trainers: ["interval", "changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "interval",
+              material: "exercici d'acord solt",
+              functions: "1, 4 i b7",
+              options: ["Select Chord Changes", "Select a Level", "Choose Intervallic Functions", "Repeat"],
+            },
           },
         ],
       },
@@ -858,6 +1311,13 @@ export const phases: Phase[] = [
             practice: "Resol tensions sobre substitucions de tritò i aplica-ho en turnarounds i II-V-I; el backing extern ajuda a sentir la resolució.",
             progression: "Reharmonització avançada: de les funcions guia del dominant a les del substitut, i després amb root aleatòria.",
             duration: "20 min/dia",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              functions: "3a i la 7a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat", "Transpose"],
+            },
           },
           {
             id: "2.7",
@@ -875,6 +1335,13 @@ export const phases: Phase[] = [
             practice: "Diatònic més cromàtic: combina les funcions de l'escala amb les d'aproximació i aplica-ho al fraseig melòdic. Metrònom extern per no perdre el pols.",
             progression: "Fraseig cromàtic: primer l'aproximació aïllada, després dins de l'escala i finalment sobre una progressió al Changes Trainer.",
             duration: "25 min/dia",
+            trainers: ["interval", "scale"],
+            setup: {
+              trainer: "interval",
+              material: "escala diatònica",
+              functions: "b2, 2, b3 i 3",
+              options: ["Select a Scale", "Choose Intervallic Functions"],
+            },
           },
           {
             id: "2.7b",
@@ -892,6 +1359,13 @@ export const phases: Phase[] = [
             practice: "Cromatisme que sona a jazz sense pensar-hi massa: repeteix el mateix objectiu unes quantes vegades i després canvia'l. Backing extern per sentir-ho en context.",
             progression: "Enclosures dobles (amb tres funcions) i canvi d'objectiu dins de la mateixa progressió.",
             duration: "8-10 min/dia",
+            trainers: ["interval", "changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I",
+              functions: "3a i la 7a de cada acord: aquestes seran les funcions objectiu",
+              options: ["Select Chord Changes", "Select a Level", "Choose Intervallic Functions"],
+            },
           },
           {
             id: "2.7c",
@@ -909,6 +1383,13 @@ export const phases: Phase[] = [
             practice: "Outside molt controlat, zero fum: al V7 només 3a, 7a i la tensió triada, i al I resol sempre a una funció guia.",
             progression: "Afegeix una segona tensió (b9 + #9, etc.) i després activa 'Randomise Key On Repeat' per fer-ho en tonalitats diferents.",
             duration: "6-8 min/dia",
+            trainers: ["interval", "changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I",
+              functions: "3a i la 7a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Choose Intervallic Functions", "Repeat"],
+            },
           },
           {
             id: "2.7d",
@@ -926,6 +1407,14 @@ export const phases: Phase[] = [
             practice: "Entendre la simetria i les substitucions gratuïtes: el mateix lick serveix per a quatre dominants. Backing extern per comprovar que sona igual.",
             progression: "Aplica-ho en un turnaround real i després amb root aleatòria ('Randomise Key On Repeat').",
             duration: "10-12 min/dia",
+            trainers: ["changes", "scale"],
+            needsPurchase: true,
+            setup: {
+              trainer: "scale",
+              material: "escala Diminished Half-Whole",
+              options: ["Select Chord Changes", "Select a Scale", "Repeat", "Transpose"],
+              hasDuration: true,
+            },
           },
           {
             id: "2.7e",
@@ -943,6 +1432,14 @@ export const phases: Phase[] = [
             practice: "Fer substitucions sense caos: només funcions guia, alternant dominant i substitut. Metrònom o backing extern per mantenir la forma.",
             progression: "Afegeix una sola tensió a cada dominant quan les notes guia surtin soles.",
             duration: "12-15 min/dia",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I",
+              functions: "3a i la 7a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat", "Transpose"],
+            },
           },
           {
             id: "2.7f",
@@ -960,6 +1457,13 @@ export const phases: Phase[] = [
             practice: "Una substitució que sona molt jazz amb poques funcions: dues per acord i, després, un cromatisme d'enllaç com a criteri teu.",
             progression: "Afegeix b9 al bVII7 o #11 quan el material bàsic surti solt, i passa a root aleatòria.",
             duration: "10-12 min/dia",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              functions: "dues funcions per acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat", "Transpose"],
+            },
           },
           {
             id: "2.7g",
@@ -977,6 +1481,13 @@ export const phases: Phase[] = [
             practice: "Contrastos dins del mateix dominant (molt fusion): primer el so sus i després el so alt, sense canviar de root.",
             progression: "Fes-ho en dues zones del mànec i després repeteix l'esquema amb una altra root.",
             duration: "8-10 min/dia",
+            trainers: ["interval", "changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              functions: "funcions del sus (1, 3, 5 i b7)",
+              options: ["Select Chord Changes", "Select a Level", "Choose Intervallic Functions", "Repeat"],
+            },
           },
           {
             id: "2.7h",
@@ -994,6 +1505,13 @@ export const phases: Phase[] = [
             practice: "El dim7 com a enllaç harmònic molt pràctic: primer l'arpegi sol i després com a acord de pas dins de la progressió.",
             progression: "Afegeix-hi enclosures cap a les funcions guia del següent acord i canvia de tonalitat amb 'Transpose'.",
             duration: "10-12 min/dia",
+            trainers: ["interval", "changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              functions: "funcions de l'acord de pas",
+              options: ["Select Chord Changes", "Select a Level", "Choose Intervallic Functions", "Repeat"],
+            },
           },
         ],
       },
@@ -1030,6 +1548,13 @@ export const phases: Phase[] = [
             practice: "Alterna inside/outside. Crea tensió i resolució. Pots fer-ho sobre un backing track de Cmaj7 o amb metrònom lent.",
             progression: "Comença amb un compàs fora i un dins; quan ho controlis, allarga la tensió i augmenta el tempo com a meta pròpia.",
             duration: "20 min/dia",
+            trainers: ["scale"],
+            setup: {
+              trainer: "scale",
+              material: "escala Major",
+              root: "Fixa",
+              options: ["Select a Scale"],
+            },
           },
           {
             id: "3.5",
@@ -1047,6 +1572,13 @@ export const phases: Phase[] = [
             practice: "Gmaj7#11 sobre Cmaj7, Dbmaj7 sobre G7. Canvia entre centres; pots recolzar-te en un backing track de cada centre.",
             progression: "Politonalitat: alterna els dos centres cada volta de la progressió.",
             duration: "25 min/dia",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "exercici d'acord solt sobre Cmaj7",
+              functions: "7a, la 9a i el #11 de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat", "Transpose"],
+            },
           },
           {
             id: "3.6",
@@ -1064,6 +1596,13 @@ export const phases: Phase[] = [
             practice: "Patrons simètrics, exploració sonora. Dissonància i resolució.",
             progression: "Moments dramàtics: passa de patrons llargs a frases curtes i resol sempre al centre tonal.",
             duration: "20 min/dia",
+            trainers: ["scale"],
+            setup: {
+              trainer: "scale",
+              material: "escala Whole Tone",
+              root: "Fixa",
+              options: ["Select a Scale", "Interval Order"],
+            },
           },
           {
             id: "3.6b",
@@ -1081,6 +1620,13 @@ export const phases: Phase[] = [
             practice: "Arpegis augmented simètrics. Inversions. Pots gravar-te per comprovar que la simetria sona igual a cada transposició.",
             progression: "Sonoritat exòtica: combina el patró amb l'escala Whole Tone treballada al Scale Trainer.",
             duration: "20 min/dia",
+            trainers: ["interval", "changes"],
+            setup: {
+              trainer: "interval",
+              functions: "1, 3 i #5",
+              root: "Fixa",
+              options: ["Select Chord Changes", "Select a Level", "Choose Intervallic Functions", "Show Fretboard"],
+            },
           },
           {
             id: "3.6c",
@@ -1098,6 +1644,12 @@ export const phases: Phase[] = [
             practice: "Intervals amb tòniques aleatòries. Màxima dificultat: cap ajuda de posicions ni de cordes.",
             progression: "Domini absolut del mànec: més funcions, root sempre aleatòria i cap mirada al mànec.",
             duration: "25 min/dia",
+            trainers: ["interval"],
+            setup: {
+              trainer: "interval",
+              functions: "funcions que vulguis treballar",
+              options: ["Choose Intervallic Functions", "Advance to Next Note", "On Tap"],
+            },
           },
           {
             id: "3.6d",
@@ -1115,6 +1667,14 @@ export const phases: Phase[] = [
             practice: "Outside amb control (no random). Compta els compassos tu mateix; pots recolzar-te en un backing track per no perdre el pols.",
             progression: "Outside 2 compassos, sempre amb resolució clara al centre tonal.",
             duration: "10-12 min/dia",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "exercici d'acord solt sobre Cmaj7 o una progressió que contingui Cmaj7 i Dbmaj7",
+              functions: "funcions bàsiques de cada acord: 1, 3, 5 i 7",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat"],
+            },
           },
         ],
       },
@@ -1138,6 +1698,14 @@ export const phases: Phase[] = [
             practice: "E minor pent. sobre Cmaj7, F# minor pent. sobre Dmaj7. Totes les combinacions.",
             progression: "Totes les superposicions: canvia la root de la pentatònica mantenint l'acord i escolta què hi encaixa.",
             duration: "30 min/dia",
+            trainers: ["changes", "scale"],
+            needsPurchase: true,
+            setup: {
+              trainer: "scale",
+              material: "escala Pentatonic Minor",
+              root: "Fixa",
+              options: ["Select Chord Changes", "Select a Scale", "Repeat"],
+            },
           },
           {
             id: "3.8b",
@@ -1155,6 +1723,13 @@ export const phases: Phase[] = [
             practice: "Pentatòniques amb blue notes. Bends i vibrato: el metrònom o un backing de blues t'ajuden a mantenir el pols mentre els treballes.",
             progression: "Fusió de blues i jazz: combina la pentatònica amb la blue note i resol cap a les funcions de l'acord.",
             duration: "25 min/dia",
+            trainers: ["interval", "scale"],
+            setup: {
+              trainer: "interval",
+              functions: "1, 3, 4, b5, 5 i 7 (pentatònica menor amb la blue note)",
+              root: "Fixa",
+              options: ["Select a Scale", "Choose Intervallic Functions", "Show Fretboard"],
+            },
           },
           {
             id: "3.8c",
@@ -1172,6 +1747,14 @@ export const phases: Phase[] = [
             practice: "II-V-I en totes les tonalitats. Intervals i tensions sobre cada acord.",
             progression: "Fluïdesa en canvis d'acords: passa a tensions i substitucions quan la línia guia (3a-7a) ja et surti automàtica.",
             duration: "30 min/dia",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I en Major",
+              functions: "root, la 3a i la 7a de cada acord",
+              root: "Aleatòria",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat", "Transpose"],
+            },
           },
           {
             id: "3.8d",
@@ -1189,6 +1772,14 @@ export const phases: Phase[] = [
             practice: "Progressions de jazz amb Solo. Chord tones i tensions, sense aturar-te en els canvis.",
             progression: "Navegació sobre changes: primer chord tones, després approach notes i tensions.",
             duration: "35 min/dia",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió de jazz de la llista",
+              functions: "primer les funcions bàsiques de cada acord: 1, 3, 5 i 7",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat", "Interval Order"],
+            },
           },
         ],
       },
@@ -1225,6 +1816,13 @@ export const phases: Phase[] = [
             practice: "10 minuts per franja. Objectiu: trobar la nota en menys de 2 segons.",
             progression: "Fes el mateix amb l'Interval Trainer (root fixa) dins la mateixa franja i acaba traient la limitació per comprovar si la zona ja està equilibrada.",
             duration: "20-30 min",
+            trainers: ["note", "interval"],
+            setup: {
+              trainer: "note",
+              root: "Fixa",
+              options: ["Choose Intervallic Functions", "Show Fretboard"],
+              hasDuration: true,
+            },
           },
           {
             id: "4.4",
@@ -1242,6 +1840,13 @@ export const phases: Phase[] = [
             practice: "Mapeig de chord tones i tensions sobre progressions completes.",
             progression: "Passa de root fixa a root aleatòria i, al Changes Trainer, de tonalitat fixa a 'Randomise Key On Repeat'.",
             duration: "20-35 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I en Major",
+              functions: "root, la 3a i la 7a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat"],
+            },
           },
           {
             id: "4.5",
@@ -1259,6 +1864,13 @@ export const phases: Phase[] = [
             practice: "Treballar la resposta mental a intervals, no a shapes: toca i canta la funció abans de tocar-la.",
             progression: "Afegeix 9, 11, 13 i b9 i mantén la root aleatòria.",
             duration: "15-25 min",
+            trainers: ["interval"],
+            setup: {
+              trainer: "interval",
+              functions: "1, 3, 5 i 7",
+              root: "Fixa",
+              options: ["Choose Intervallic Functions", "Advance to Next Note", "On Tap"],
+            },
           },
           {
             id: "4.6",
@@ -1276,6 +1888,13 @@ export const phases: Phase[] = [
             practice: "Connectar tríades per obtenir tensions (9, #11, 13) sense pensar en escales.",
             progression: "Augmenta la velocitat i canvia de parells cada 2 minuts.",
             duration: "20-30 min",
+            trainers: ["interval", "changes"],
+            setup: {
+              trainer: "interval",
+              functions: "funcions de les dues tríades: 3, 5 i 7 per a una, i 9, #11 i 13 per a l'altra (el parell sobre Cmaj7)",
+              root: "Fixa",
+              options: ["Select Chord Changes", "Select a Level", "Choose Intervallic Functions"],
+            },
           },
           {
             id: "4.7",
@@ -1293,6 +1912,13 @@ export const phases: Phase[] = [
             practice: "Arpegis com a 'GPS' sobre els changes: 3a/7a primer, extensions després. Pots gravar-te per comprovar-ho.",
             progression: "Fes-ho dins el Changes Trainer amb arpegis en lloc d'escales.",
             duration: "20-30 min",
+            trainers: ["interval", "changes"],
+            setup: {
+              trainer: "interval",
+              functions: "1, 3, 5 i 7 (l'arpegi de 7a)",
+              root: "Fixa",
+              options: ["Select Chord Changes", "Select a Level", "Choose Intervallic Functions"],
+            },
           },
           {
             id: "4.8",
@@ -1310,6 +1936,13 @@ export const phases: Phase[] = [
             practice: "Voicings i inversions per comping modern (fusion).",
             progression: "Afegeix tensions (9, 13) quan sigui estable.",
             duration: "15-25 min",
+            trainers: ["interval"],
+            setup: {
+              trainer: "interval",
+              functions: "1, 3, 5 i 7",
+              root: "Fixa",
+              options: ["Choose Intervallic Functions"],
+            },
           },
           {
             id: "4.9",
@@ -1327,6 +1960,13 @@ export const phases: Phase[] = [
             practice: "Consistència: menys errors, més velocitat sense perdre claredat. Pots fer-ho amb metrònom o sobre un backing track.",
             progression: "Passa a tensions i substitucions (tritó i alterades) mantenint la volta neta.",
             duration: "15-30 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I en Major",
+              functions: "root, la 3a i la 7a",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat"],
+            },
           },
           {
             id: "4.10",
@@ -1344,6 +1984,59 @@ export const phases: Phase[] = [
             practice: "Mantenir viu el sistema dels quatre entrenadors de Solo sense estancar-se.",
             progression: "Augmenta dificultat cada 2 setmanes: més funcions al panell, root aleatòria i 'Randomise Key On Repeat'.",
             duration: "60-90 min/setmana (repartit)",
+            trainers: ["note", "interval", "changes", "scale"],
+            setup: {
+              trainer: "note",
+              root: "Fixa o aleatòria",
+              options: ["Select Chord Changes", "Select a Level", "Select a Scale", "Choose Intervallic Functions", "Repeat", "Randomise Key On Repeat"],
+              hasDuration: true,
+            },
+          },
+          {
+            id: "4.13",
+            title: "Crear una progressió pròpia i fer-la servir",
+            emoji: "🛠️",
+            soloSteps: [
+              "1. Obre Solo i entra a Settings (engranatge, a dalt a la dreta).",
+              "2. Prem 'Buy Custom Chord Progressions' per activar l'editor: és una compra dins de l'app.",
+              "3. Crea una progressió curta de 4 compassos amb el teclat guiat, començant per dos acords que ja dominis.",
+              "4. A cada acord, mira quina escala et proposa l'app i canvia-la si vols una altra funció harmònica (per exemple, el mateix m7 com a IIm o com a VIm).",
+              "5. Desa la progressió i obre-la al Changes Trainer des de 'Select Chord Changes'.",
+              "6. Prem 'Select a Level', tria un nivell de chord tones i prem 'Start Changes Workout'.",
+              "7. Passa per Settings i fes un 'Backup Custom Chord Progressions': si desinstal·les l'app, les progressions pròpies es perden.",
+            ],
+            practice: "Una progressió pròpia val més que cent dels altres: hi pots posar els acords dels temes que toques de veritat.",
+            progression: "Afegeix-hi un acord nou cada setmana i repeteix el workout amb 'Repeat' activat i 'Randomise Key On Repeat'.",
+            duration: "25 min/dia",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              options: ["Select Chord Changes", "Select a Level"],
+            },
+          },
+          {
+            id: "4.14",
+            title: "Transposar per aprendre, no per córrer",
+            emoji: "🔁",
+            soloSteps: [
+              "1. Obre Solo i tria el Changes Trainer.",
+              "2. Prem 'Select Chord Changes' i tria una progressió que ja hagis treballat.",
+              "3. Prem 'Select a Level' i tria un nivell de chord tones bàsics.",
+              "4. Prem 'Start Changes Workout' i fes una volta en la tonalitat original.",
+              "5. Prem 'Transpose' i mou la progressió un to: fes la mateixa volta amb les mateixes funcions.",
+              "6. Activa 'Repeat' i 'Randomise Key On Repeat' i encadena cinc voltes més, canviant de tonalitat a cada volta.",
+              "7. Apunta en quines tonalitats has hagut de pensar més: són les que has de repetir demà.",
+            ],
+            practice: "Transposar no és un càstig: és la manera de comprovar si el que saps és harmonia o és una digitació memoritzada.",
+            progression: "Quan les dotze tonalitats surtin igual, puja de nivell per treballar tensions en lloc de chord tones.",
+            duration: "20 min/dia",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió que ja hagis treballat",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat", "Transpose"],
+            },
           },
         ],
       },
@@ -1380,6 +2073,14 @@ export const phases: Phase[] = [
             practice: "Sentir com la mateixa tensió canvia de funció segons on resol.",
             progression: "Canvia la root cada 2 minuts amb la root aleatòria del Changes Trainer.",
             duration: "12-18 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "exercici d'acord solt sobre un dominant",
+              functions: "tensions alterades: b9, #9, b5 i #5",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "5.2",
@@ -1397,6 +2098,14 @@ export const phases: Phase[] = [
             practice: "Control funcional: guia + color, sense sobrecarregar.",
             progression: "Afegeix una segona alteració sense perdre la guia.",
             duration: "15 min",
+            trainers: ["interval", "changes"],
+            setup: {
+              trainer: "changes",
+              material: "II-V-I en Major",
+              functions: "3a i la 7a de cada acord",
+              root: "Fixa o aleatòria",
+              options: ["Select Chord Changes", "Select a Level", "Choose Intervallic Functions", "Repeat", "Randomise Key On Repeat"],
+            },
           },
           {
             id: "5.3",
@@ -1414,6 +2123,14 @@ export const phases: Phase[] = [
             practice: "Veure el disminuït com a eina de tensió dirigida.",
             progression: "Afegeix cromatismes d'entrada i de sortida cap a la resolució.",
             duration: "15-20 min",
+            trainers: ["interval", "changes"],
+            setup: {
+              trainer: "interval",
+              material: "nivell de tensions amb 'Select a Level'",
+              functions: "3, 5, 7 i b9 (les funcions de l'arpegi disminuït sobre un dominant)",
+              root: "Fixa",
+              options: ["Select Chord Changes", "Select a Level", "Choose Intervallic Functions"],
+            },
           },
           {
             id: "5.4",
@@ -1431,6 +2148,14 @@ export const phases: Phase[] = [
             practice: "Escoltar i controlar la fricció del tritó abans de resoldre.",
             progression: "Passa-ho a tonalitats amb més alteracions amb 'Transpose' o 'Randomise Key On Repeat'.",
             duration: "18-22 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I en Major",
+              functions: "3a i la 7a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
         ],
       },
@@ -1454,6 +2179,13 @@ export const phases: Phase[] = [
             practice: "Continuïtat melòdica dins molta tensió harmònica. Grava dues preses i compara-les.",
             progression: "Augmenta la velocitat mantenint la claredat (meta pròpia, amb metrònom o backing track).",
             duration: "20 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              functions: "tensions alterades (b9, #9, b5, #5) sobre cada dominant",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat"],
+            },
           },
           {
             id: "5.6",
@@ -1471,6 +2203,14 @@ export const phases: Phase[] = [
             practice: "Afegir sofisticació sense perdre groove.",
             progression: "Barreja backdoor + tritó en una sola roda de tonalitats.",
             duration: "12-16 min",
+            trainers: ["changes", "scale"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió amb un bVII7 que resolgui al Imaj7",
+              functions: "3a i la 7a del bVII7 juntament amb les funcions del Imaj7",
+              options: ["Select Chord Changes", "Select a Level", "Select a Scale", "Repeat", "Randomise Key On Repeat"],
+            },
           },
           {
             id: "5.9",
@@ -1488,6 +2228,13 @@ export const phases: Phase[] = [
             practice: "Color modern d'alterada amb material petit i controlable.",
             progression: "Canvia el punt d'entrada rítmica i mantén claredat.",
             duration: "12-16 min",
+            trainers: ["interval", "changes"],
+            setup: {
+              trainer: "interval",
+              functions: "funcions de les dues tríades: 1, 3 i 5 per a la primera, i les tres funcions de la segona, situada a un to de distància (per exemple 9, 11 i 13)",
+              root: "Fixa",
+              options: ["Select Chord Changes", "Select a Level", "Choose Intervallic Functions", "Show Fretboard"],
+            },
           },
           {
             id: "5.10",
@@ -1505,6 +2252,13 @@ export const phases: Phase[] = [
             practice: "Precisió melòdica: tensió curta que resol amb intenció.",
             progression: "Afegeix anticipacions en contratemps mantenint el mateix nivell de funcions.",
             duration: "10-14 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I en Major",
+              functions: "3a i la 7a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat"],
+            },
           },
           {
             id: "5.11",
@@ -1521,6 +2275,14 @@ export const phases: Phase[] = [
             practice: "Canvi de sistema sense perdre la línia narrativa: la tercera volta combina dos compassos de cada enfoc. Grava 1 minut i escolta la coherència.",
             progression: "Mateix exercici en mode menor i després en una altra tonalitat amb 'Transpose'.",
             duration: "16-20 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I",
+              functions: "3a, la 5a, la b7 i la b9 del dominant: el material disminuït",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "5.12",
@@ -1537,6 +2299,13 @@ export const phases: Phase[] = [
             practice: "Convertir tensió en resolució conscient i repetible: quatre rondes, una per alteració. Metrònom perquè el ritme no es mogui quan canvia la destinació.",
             progression: "Afegeix una nota cromàtica abans de la resolució i després augmenta el tempo amb metrònom.",
             duration: "12-15 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió amb un dominant que resolgui al I",
+              functions: "alteració del dominant (b9, #9, b5 o #5) i la 3a, la 5a i la 9a de l'acord destí",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Interval Order"],
+            },
           },
           {
             id: "5.13",
@@ -1553,6 +2322,14 @@ export const phases: Phase[] = [
             practice: "Fricció moderna amb retorn net al centre harmònic: el side-slip ha de sonar volgut, no perdut. Comença lent amb metrònom i després passa a tempo mig.",
             progression: "Combina side-slip i enclosure a la mateixa frase, i fes-ho en tempo lent i mig.",
             duration: "14-18 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió amb el moviment Imaj7 ← bVII7",
+              functions: "3a i la b7 de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "5.15",
@@ -1569,6 +2346,13 @@ export const phases: Phase[] = [
             practice: "Separar clarament color i resolució: un compàs de color, un compàs de resolució, sense embolicar-te. Backing track de V7-I per mantenir el pols.",
             progression: "Fes-ho en 4 tonalitats seguides i després apuja el tempo amb metrònom.",
             duration: "8-10 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "exercici d'acord solt sobre un V7 o una progressió V7-I",
+              functions: "sola alteració del dominant (b9, #9, b5 o #5)",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Transpose"],
+            },
           },
           {
             id: "5.16",
@@ -1585,6 +2369,13 @@ export const phases: Phase[] = [
             practice: "Automatitzar la simetria disminuïda amb moviment real de mà: mantén la digitació en diagonal mentre mous el patró i no perdis la regularitat (metrònom lent).",
             progression: "Afegeix swing o tresets mantenint la netedat, i després apuja el tempo amb metrònom.",
             duration: "7-9 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "exercici d'acord solt sobre un dim7",
+              functions: "3a, la 5a, la b7 i la b9: són les quatre funcions del dim7 sobre el dominant",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "5.17",
@@ -1601,6 +2392,14 @@ export const phases: Phase[] = [
             practice: "Comparar oïda i digitació entre el dominant original i el substitut: inici rítmic idèntic a les dues frases. Backing track de II-V-I per escoltar la resposta.",
             progression: "Canvia el tempo i mantén la coherència melòdica; després fes 10 parelles seguides amb metrònom.",
             duration: "10-12 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I",
+              functions: "3a i la b7 del dominant",
+              options: ["Select Chord Changes", "Select a Level"],
+            },
           },
           {
             id: "5.19",
@@ -1617,6 +2416,14 @@ export const phases: Phase[] = [
             practice: "Pensar harmònicament amb frases mínimes i clares: quatre notes, una de les quals ha de ser 3a o 7a. Grava 1 minut i revisa si tot resol.",
             progression: "Baixa a 3 notes per compàs i després apuja el tempo amb metrònom.",
             duration: "9-12 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "cadena de dominants que resolgui",
+              functions: "3a i la b7 de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "5.20",
@@ -1634,6 +2441,14 @@ export const phases: Phase[] = [
             practice: "Connectar teoria instantània amb resposta física al mànec: anomena i toca, sense endevinar. Backing track de dominant per comprovar-ho en context.",
             progression: "Redueix el temps de decisió mantenint la precisió, i acaba combinant el llenguatge disminuït amb el substitut de tritó.",
             duration: "6-8 min",
+            trainers: ["interval", "changes"],
+            setup: {
+              trainer: "interval",
+              material: "progressió amb un dominant alterat que resolgui al I",
+              functions: "funcions que vulguis anomenar (3, b7, b9, #9, b5)",
+              root: "Aleatòria",
+              options: ["Select Chord Changes", "Choose Intervallic Functions", "Advance to Next Note"],
+            },
           },
         ],
       },
@@ -1669,6 +2484,13 @@ export const phases: Phase[] = [
             practice: "Separar clarament els colors alterats sense perdre control rítmic: mantén el mateix ritme i canvia només el color del compàs. Si vols una referència de pulsació, fes servir un metrònom extern a poc a poc.",
             progression: "Canvia root cada ronda; quan les quatre alteracions surtin netes, puja el tempo de 5 en 5 BPM amb un metrònom.",
             duration: "6-8 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "exercici d'acord solt sobre el dominant que vulguis treballar",
+              functions: "alteracions b9, #9, b5 i #5 sobre el dominant",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat"],
+            },
           },
           {
             id: "6.2",
@@ -1685,6 +2507,13 @@ export const phases: Phase[] = [
             practice: "Precisió funcional amb mínim material: improvisa amb un màxim de 4 notes per compàs i baixa a 3 quan ho tinguis net. Pots acompanyar-te d'un backing track o gravar-te 60 segons per escoltar-te després.",
             progression: "Baixa a 3 notes per compàs i amplia a tres tonalitats; quan surti net, apuja el tempo amb un metrònom.",
             duration: "7-9 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I",
+              functions: "3a i la 7a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Transpose"],
+            },
           },
           {
             id: "6.3",
@@ -1701,6 +2530,13 @@ export const phases: Phase[] = [
             practice: "Automatitzar la simetria disminuïda amb final clar: mantén el patró regular (metrònom lent si cal) i no deixis mai la resolució a mitges. Grava't una volta i comprova que el final és net.",
             progression: "Resol a 9a i 13a del I en lloc de la 3a, i després alterna les tres destinacions.",
             duration: "8-10 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió amb un dominant que resolgui al I",
+              functions: "3a, la 5a, la b7 i la b9 del dominant: són les quatre funcions del dim7 sobre el V7",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Transpose"],
+            },
           },
           {
             id: "6.4",
@@ -1717,6 +2553,14 @@ export const phases: Phase[] = [
             practice: "Escolta comparativa directa: mateixa idea, dos dominants. Mantén la frase idèntica i fixa't només en com canvia la sensació de resolució. Grava les dues voltes i compara-les.",
             progression: "Puja tempo 5 BPM cada 2 rondes netes, amb metrònom o backing track.",
             duration: "10-12 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I amb el dominant original",
+              functions: "3a i la b7 del dominant",
+              options: ["Select Chord Changes", "Select a Level"],
+            },
           },
           {
             id: "6.5",
@@ -1733,6 +2577,14 @@ export const phases: Phase[] = [
             practice: "Portar el mateix concepte a diferents mapes visuals: mateixa frase, dues zones del mànec, i acaba sempre amb nota guia. Fes 3 minuts per zona amb metrònom.",
             progression: "Afegeix un side-slip d'1 semitò abans de tornar al centre tonal.",
             duration: "6-8 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió amb el moviment Imaj7 ← bVII7",
+              functions: "3a i la b7 de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "6.6",
@@ -1749,6 +2601,13 @@ export const phases: Phase[] = [
             practice: "Tensió micro amb aterratge net: comença cada enclosure en contratemps quan ho tinguis controlat. Metrònom lent per vigilar la col·locació.",
             progression: "Entrades en contratemps i canvi de tonalitat cada 90 segons.",
             duration: "8-10 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I o un exercici d'acord solt sobre un dominant",
+              functions: "3a i la 7a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat"],
+            },
           },
           {
             id: "6.7",
@@ -1764,6 +2623,13 @@ export const phases: Phase[] = [
             practice: "Color modern compacte i reusable: frases de 4 a 6 notes amb les dues tríades alternades, sense escales llargues. Backing track de dominant alterat per comprovar-ho.",
             progression: "Canvia l'acentuació rítmica de les mateixes dues tríades.",
             duration: "10-12 min",
+            trainers: ["interval", "changes"],
+            setup: {
+              trainer: "changes",
+              material: "exercici d'acord solt sobre un dominant alterat",
+              functions: "alteracions b9, #9, b5 i #5",
+              options: ["Select Chord Changes", "Select a Level", "Choose Intervallic Functions"],
+            },
           },
           {
             id: "6.8",
@@ -1779,6 +2645,13 @@ export const phases: Phase[] = [
             practice: "Controlar la destinació harmònica sense canviar el discurs: la frase no es toca, només canvia on aterra. Grava les tres voltes i compara.",
             progression: "Afegeix una anticipació abans de resoldre i després fes-ho en tres tonalitats amb 'Transpose'.",
             duration: "7-9 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió amb un dominant alterat que resolgui al I",
+              functions: "b9, #9 i b13 al dominant",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
         ],
       },
@@ -1801,6 +2674,14 @@ export const phases: Phase[] = [
             practice: "Comparar tres camins de tensió/resolució amb una sola idea: el motiu no canvia, només el camí. Grava la roda sencera i escolta-la.",
             progression: "Aplicar la roda en 2 tonalitats addicionals amb 'Transpose'.",
             duration: "12-15 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió que acabi en un dominant que resolgui al I",
+              functions: "3a i la b7 del dominant",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "6.17",
@@ -1817,6 +2698,13 @@ export const phases: Phase[] = [
             practice: "Unir teoria instantània amb execució física: cada error, repeteix la funció tres cops abans de continuar. Fes 4 minuts seguits sense parar.",
             progression: "Reduir el temps de decisió: passa a root aleatòria i anomena la funció cada cop més de pressa.",
             duration: "4-6 min",
+            trainers: ["interval"],
+            setup: {
+              trainer: "interval",
+              functions: "funcions que vulguis anomenar (per exemple 3, b7, b9, #9, b13)",
+              root: "Aleatòria",
+              options: ["Choose Intervallic Functions", "Advance to Next Note", "On Tap"],
+            },
           },
           {
             id: "6.18",
@@ -1833,6 +2721,14 @@ export const phases: Phase[] = [
             practice: "Ampliar zones de resolució i evitar patrons previsibles: frases curtes i cap caiguda automàtica a la 3a. Metrònom per no perdre el pols mentre busques la destinació.",
             progression: "Canviar els targets cada ronda i fer 3 rondes de 90 segons.",
             duration: "7-10 min",
+            trainers: ["interval", "changes"],
+            setup: {
+              trainer: "interval",
+              material: "progressió amb un dominant que resolgui al I",
+              functions: "13 i #11, les dues funcions que vols convertir en destinació",
+              root: "Aleatòria",
+              options: ["Select Chord Changes", "Select a Level", "Choose Intervallic Functions"],
+            },
           },
         ],
       },
@@ -1868,6 +2764,13 @@ export const phases: Phase[] = [
             practice: "Connectar oïda interna i execució: canta primer, toca després. Un backing track lent ajuda a no perdre el compàs; grava 90 segons i comprova si el que cantes és el que toques.",
             progression: "Fer-ho en 3 tonalitats seguides amb 'Randomise Key On Repeat'.",
             duration: "8-10 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I",
+              functions: "3a i la 7a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat"],
+            },
           },
           {
             id: "7.2",
@@ -1884,6 +2787,13 @@ export const phases: Phase[] = [
             practice: "Diferenciar tensions alterades amb final musical clar: la b9 i la #9 han de sonar com a colors diferents, no com a errors. Metrònom lent per mantenir la frase neta.",
             progression: "Afegir b13 sense perdre netedat, i després alternar b9/#9 durant 3 minuts seguits.",
             duration: "7-9 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "exercici d'acord solt sobre un dominant alterat",
+              functions: "b9 i #9",
+              options: ["Select Chord Changes", "Select a Level", "Interval Order"],
+            },
           },
           {
             id: "7.3",
@@ -1900,6 +2810,13 @@ export const phases: Phase[] = [
             practice: "Fer servir el disminuït com a pont, no com a fi: entra-hi i surt-ne en poques notes. Backing track de II-V-I per comprovar que el pont no trenca la línia.",
             progression: "Canviar la rítmica de l'entrada del patró i mantenir la frase de 6 notes màxim.",
             duration: "8-11 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I",
+              functions: "3a, la b7 i la b9 del dominant",
+              options: ["Select Chord Changes", "Select a Level", "Transpose"],
+            },
           },
           {
             id: "7.4",
@@ -1916,6 +2833,14 @@ export const phases: Phase[] = [
             practice: "Adaptar idees sense perdre identitat melòdica: la línia és la mateixa, només s'adapta al nou dominant. Grava les dues versions i compara quin so et convenç més.",
             progression: "Aplicar-ho en cadenes II-V-I i després en una altra tonalitat amb 'Transpose'.",
             duration: "10-12 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió amb un dominant que resolgui al I",
+              functions: "3a i la b7 del dominant",
+              options: ["Select Chord Changes", "Select a Level"],
+            },
           },
           {
             id: "7.9",
@@ -1932,6 +2857,13 @@ export const phases: Phase[] = [
             practice: "Sortir de resolucions previsibles i ampliar color: frases de 5 notes màxim. Grava i revisa el joc tensió/relax; backing track per comprovar el color.",
             progression: "Afegir #11 com a resolució puntual i fer-ho en tres tonalitats.",
             duration: "8-10 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió amb un dominant alterat que resolgui al I",
+              functions: "b9 i #9 al dominant i 9 i 13 al I",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat"],
+            },
           },
         ],
       },
@@ -1953,6 +2885,13 @@ export const phases: Phase[] = [
             practice: "Controlar la intensitat harmònica de forma narrativa: mateixa base rítmica i mateix final de frase en els dos nivells, perquè el contrast es noti només pel color. Grava les dues tongades seguides.",
             progression: "Afegir un tercer nivell extrem (b9, #9, b5 i #5 junts) amb 'Select a Level'.",
             duration: "8-10 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió amb un dominant que resolgui al I",
+              functions: "tensions suaus (9 i 13) al dominant",
+              options: ["Select Chord Changes", "Select a Level"],
+            },
           },
           {
             id: "7.12",
@@ -1969,6 +2908,13 @@ export const phases: Phase[] = [
             practice: "Entrar i sortir de la tensió amb control temporal: compta les notes de fora i assegura't que les de dins tanquen. Metrònom per no quedar-te penjat a fora.",
             progression: "Canviar el punt d'entrada del material de fora (segon temps, contratemps).",
             duration: "9-11 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió amb un dominant que resolgui al I",
+              functions: "b9, #9 i b13 (el material de fora) juntament amb la 3a i la 7a (el material de dins)",
+              options: ["Select Chord Changes", "Select a Level", "Transpose"],
+            },
           },
           {
             id: "7.13",
@@ -1985,6 +2931,14 @@ export const phases: Phase[] = [
             practice: "Precisió d'aproximació i diana harmònica: les tres notes d'aproximació han de caure bé i la nota objectiu ha d'aterrar al lloc fort. Metrònom per vigilar-ho.",
             progression: "Aplicar-ho amb targets mòbils (funcions diferents a cada acord) i fer 10 repeticions netes.",
             duration: "7-9 min",
+            trainers: ["interval", "changes"],
+            setup: {
+              trainer: "interval",
+              material: "progressió amb un dominant que resolgui al I, i prem 'Select a Level' per demanar-hi la 3a i la 7a",
+              functions: "funcions objectiu (3 i 7) i les d'aproximació (b9, 9 i #9)",
+              root: "Aleatòria",
+              options: ["Select Chord Changes", "Select a Level", "Choose Intervallic Functions", "Show Fretboard", "Advance to Next Note", "On Tap"],
+            },
           },
         ],
       },
@@ -2021,6 +2975,13 @@ export const phases: Phase[] = [
             practice: "Root + inversions majors en 3 jocs de cordes. El metrònom i el so de fons poden acompanyar la pràctica, però fora de l'app: Solo només et demana les funcions i escolta si les toques.",
             progression: "Apujar la velocitat del metrònom i canviar de tonalitat sense pausa.",
             duration: "10-12 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "exercici d'acord solt major",
+              functions: "1, la 3 i la 5 de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "8.2",
@@ -2038,6 +2999,13 @@ export const phases: Phase[] = [
             practice: "Visualitzar les tríades menors de forma lineal al llarg del mànec, amb metrònom extern per quadrar la pulsació.",
             progression: "Afegir dinàmica fort/piano cada compàs.",
             duration: "9-11 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "exercici d'acord solt m7",
+              functions: "1, la b3 i la 5",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat"],
+            },
           },
           {
             id: "8.3",
@@ -2055,6 +3023,13 @@ export const phases: Phase[] = [
             practice: "Control del so inestable i resolució neta; pots gravar-te fora de l'app i escoltar la netedat de cada resolució.",
             progression: "Resoldre cada acord a un acord major o menor proper.",
             duration: "8-10 min",
+            trainers: ["interval"],
+            setup: {
+              trainer: "interval",
+              functions: "1, b3 i b5",
+              root: "Fixa",
+              options: ["Choose Intervallic Functions", "Show Fretboard"],
+            },
           },
           {
             id: "8.4",
@@ -2072,6 +3047,14 @@ export const phases: Phase[] = [
             practice: "Precisió de la nota objectiu amb tríades; la col·locació rítmica la poses tu amb metrònom o backing track extern.",
             progression: "Canviar l'objectiu entre la 3 i la 5.",
             duration: "10 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió I-vi-IV-V",
+              functions: "3 de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "8.5",
@@ -2089,6 +3072,13 @@ export const phases: Phase[] = [
             practice: "Integrar les 5 zones del mànec a nivell de tríada funcional.",
             progression: "Fer-ho en 2 tonalitats addicionals.",
             duration: "12 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "exercici d'acord solt",
+              functions: "1, la 3 i la 5",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Transpose"],
+            },
           },
           {
             id: "8.6",
@@ -2106,6 +3096,13 @@ export const phases: Phase[] = [
             practice: "Introducció real a voicings oberts.",
             progression: "Afegir el dominant 7 al mateix circuit.",
             duration: "10-12 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "exercici d'acord solt Maj7",
+              functions: "1, la 3, la 5 i la 7",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "8.7",
@@ -2123,6 +3120,13 @@ export const phases: Phase[] = [
             practice: "Comping mínim però harmònicament clar, amb metrònom a 70 bpm i accent al 2 i al 4.",
             progression: "Afegir una tensió suau (9 o 13).",
             duration: "7-9 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I",
+              functions: "3 i la 7 de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Transpose"],
+            },
           },
           {
             id: "8.8",
@@ -2140,6 +3144,13 @@ export const phases: Phase[] = [
             practice: "Crear color modern amb material simple.",
             progression: "Provar la tríada menor superior.",
             duration: "9-11 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "exercici d'acord solt de dominant 7",
+              functions: "b7 i les tensions 9, #11 i 13",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat"],
+            },
           },
           {
             id: "8.10",
@@ -2157,6 +3168,35 @@ export const phases: Phase[] = [
             practice: "Resistència mental i velocitat de lectura, sense aturades entre tonalitats.",
             progression: "Passar de 5 a 7 tonalitats.",
             duration: "5-7 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió curta",
+              functions: "1, la 3 i la 5",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat", "Transpose"],
+            },
+          },
+          {
+            id: "8.11",
+            title: "Acords solts amb Repeat i Randomise Key On Repeat",
+            emoji: "♻️",
+            soloSteps: [
+              "1. Obre Solo i tria el Changes Trainer.",
+              "2. Prem 'Select Chord Changes' i tria un exercici d'acord solt (a l'app són els que surten com a Ex.1, Ex.2...).",
+              "3. Activa 'Repeat' i 'Randomise Key On Repeat': la idea és repetir el mateix acord canviant de tonalitat a cada volta.",
+              "4. Prem 'Select a Level' i tria un nivell de chord tones (1, 3, 5 i 7).",
+              "5. Prem 'Start Changes Workout' i encadena voltes sense parar.",
+              "6. Si el workout se't fa molt curt, és normal: els exercicis d'acord solt estan pensats per anar amb 'Repeat' activat.",
+            ],
+            practice: "Aquesta és la manera com el mateix equip de Solo recomana treballar els acords solts: poques notes i moltes tonalitats seguides.",
+            progression: "Canvia d'acord quan encadenis deu voltes netes (m7, dom7, dim7) i després puja de nivell per afegir tensions.",
+            duration: "15 min/dia",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "exercici d'acord solt",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat"],
+            },
           },
         ],
       },
@@ -2192,6 +3232,13 @@ export const phases: Phase[] = [
             practice: "Base estable de 7es en tot el mànec, amb atac suau i consistent.",
             progression: "Apujar la velocitat del metrònom i reduir el moviment de mà.",
             duration: "10-12 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "exercici d'acord solt Maj7",
+              functions: "1, la 3, la 5 i la 7",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Transpose"],
+            },
           },
           {
             id: "9.2",
@@ -2209,6 +3256,13 @@ export const phases: Phase[] = [
             practice: "Dominar la tensió forta amb una resolució controlada.",
             progression: "Afegir la #11 en un segon cicle.",
             duration: "9-11 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "exercici d'acord solt de dominant 7",
+              functions: "b7, la b9 i la #9",
+              options: ["Select Chord Changes", "Select a Level", "Transpose"],
+            },
           },
           {
             id: "9.3",
@@ -2226,6 +3280,13 @@ export const phases: Phase[] = [
             practice: "Fer que els acords cantin com una melodia; grava-ho fora de l'app i comprova la línia superior.",
             progression: "Passar de major a menor.",
             duration: "10 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I",
+              functions: "3 i la 7 de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "9.4",
@@ -2243,6 +3304,13 @@ export const phases: Phase[] = [
             practice: "Controlar la densitat harmònica en temps real, amb metrònom extern per mantenir el pols.",
             progression: "Afegir una alteració puntual al V.",
             duration: "8-10 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió de jazz que t'agradi",
+              functions: "3 i la 7",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "9.5",
@@ -2260,6 +3328,14 @@ export const phases: Phase[] = [
             practice: "Aplicació real en context modern melòdic, amb un backing track propi si vols treballar el groove.",
             progression: "Afegir sus2/sus4 puntuals.",
             duration: "9-12 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió I-V-vi-IV",
+              functions: "1, la 3 i la 5",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "9.6",
@@ -2277,6 +3353,14 @@ export const phases: Phase[] = [
             practice: "Color soul/jazz amb resolució elegant.",
             progression: "Connectar-ho amb un II-V-I després.",
             duration: "8-10 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió ivm7-bVII7-I",
+              functions: "3 i el b7 de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat"],
+            },
           },
           {
             id: "9.7",
@@ -2294,6 +3378,13 @@ export const phases: Phase[] = [
             practice: "Crear cohesió amb un punt fix melòdic; grava una seqüència de 2 minuts fora de l'app.",
             progression: "Canviar la nota pedal a una altra corda.",
             duration: "7-9 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió curta de 2 o 3 acords",
+              functions: "3 i el b7",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "9.8",
@@ -2311,6 +3402,13 @@ export const phases: Phase[] = [
             practice: "Introduir sonoritat moderna sense saturar.",
             progression: "Afegir moviment cromàtic entre blocs.",
             duration: "8-10 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I",
+              functions: "1, la 4 i el b7",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
         ],
       },
@@ -2347,6 +3445,13 @@ export const phases: Phase[] = [
             practice: "Claredat absoluta de les formes majors en zones diferents.",
             progression: "Pujar el metrònom de 60 a 90 bpm.",
             duration: "8 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "exercici d'acord solt major",
+              functions: "1, la 3 i la 5",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat", "Transpose"],
+            },
           },
           {
             id: "10.2",
@@ -2364,6 +3469,13 @@ export const phases: Phase[] = [
             practice: "Moviment ràpid sense perdre netedat, amb metrònom a negres fora de l'app.",
             progression: "Canviar cada mig compàs.",
             duration: "7-9 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "exercici d'acord solt m7",
+              functions: "1, la b3 i la 5",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat", "Transpose"],
+            },
           },
           {
             id: "10.3",
@@ -2380,6 +3492,12 @@ export const phases: Phase[] = [
             practice: "Canvi de color harmònic amb un desplaçament mínim.",
             progression: "Afegir un patró rítmic sincopat (fora de l'app).",
             duration: "8 min",
+            trainers: ["interval"],
+            setup: {
+              trainer: "interval",
+              functions: "3 i la b3",
+              options: ["Choose Intervallic Functions", "Show Fretboard"],
+            },
           },
           {
             id: "10.4",
@@ -2397,6 +3515,14 @@ export const phases: Phase[] = [
             practice: "Orientació funcional per tocar en qualsevol tonalitat.",
             progression: "Fer el cicle complet sense aturar-te.",
             duration: "10 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió en cercle de quartes",
+              functions: "1, la 3 i la 5 de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "10.5",
@@ -2414,6 +3540,13 @@ export const phases: Phase[] = [
             practice: "Connectar el comping amb el pensament melòdic.",
             progression: "Afegir la 7 mantenint la nota objectiu.",
             duration: "8-10 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió de 4 acords",
+              functions: "3 i el b7",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "10.6",
@@ -2431,6 +3564,13 @@ export const phases: Phase[] = [
             practice: "Primer contacte ferm amb un voicing modern usable.",
             progression: "Portar-ho a 3 tonalitats extra.",
             duration: "9 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "exercici d'acord solt Maj7",
+              functions: "1, la 3, la 5 i la 7",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "10.9",
@@ -2448,6 +3588,13 @@ export const phases: Phase[] = [
             practice: "Reduir el dubte mental davant dels símbols d'acord, mantenint un flux continu de 3 minuts.",
             progression: "Pujar la velocitat de canvi.",
             duration: "6 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió amb acords variats",
+              functions: "1, la 3 i el b7",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat", "Transpose"],
+            },
           },
         ],
       },
@@ -2483,6 +3630,14 @@ export const phases: Phase[] = [
             practice: "Crear tensió suau amb resolució clara: sostén el sus2 i el sus4 un compàs sencer i deixa que la resolució a l'acord estàndard arribi al temps fort. Pots fer-ho amb metrònom a velocitat lenta perquè la resolució caigui sempre al mateix lloc.",
             progression: "Alternar sus2 i sus4 dins mateix compàs (primer un per compàs, després els dos dins del mateix compàs) i, quan estigui còmode, fer-ho també sobre la vi i la V.",
             duration: "8 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió I-V-vi-IV en major",
+              functions: "root i la 5a de cada acord (les notes que canvien entre sus2 i sus4)",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "11.2",
@@ -2500,6 +3655,13 @@ export const phases: Phase[] = [
             practice: "Sentir l'obertura del color add9: toca el mateix acord amb i sense la 9a, un compàs cada un, i fixa't en l'obertura del so. Mantén la rítmica curta i igual a les dues versions perquè el que canviï sigui només el color. Pots enregistrar-te per comparar les dues voltes.",
             progression: "Afegir add9 també als acords menors (m(add9)) i després enregistrar una progressió lenta on el add9 aparegui només a l'últim compàs de cada volta.",
             duration: "7-9 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió en major que contingui bé el I i el IV",
+              functions: "3a i la 5a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat"],
+            },
           },
           {
             id: "11.3",
@@ -2516,6 +3678,13 @@ export const phases: Phase[] = [
             practice: "Control de textura i espai musical: toca cada voicing amb els dits plans i deixa'l sonar fins que s'apagui abans de tornar a atacar. Treballa la dinàmica (pp a mf) i no omplis els silencis; si vols, enregistra 90 segons i escolta quant de silenci hi ha realment.",
             progression: "Afegir una veu superior mòbil que es mogui per grau conjunt entre els acords, i després allargar la progressió amb un acord més.",
             duration: "8 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió curta de dos o tres acords en menor",
+              functions: "root, la 3a menor i la 5a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "11.4",
@@ -2532,6 +3701,14 @@ export const phases: Phase[] = [
             practice: "Dominar baixos dirigits en progressions: toca el baix més fort que la resta del voicing i vigila que l'acord superior no emmascari la nota greu. Amb metrònom o backing track lent pots comprovar si el baix arriba sempre al temps.",
             progression: "Afegir slash en tonalitats amb bemolls, començant per progressions de dos acords i ampliant-les a quatre.",
             duration: "7 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió que contingui acords amb nota de baix diferent de la root",
+              functions: "root i la 5a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "11.5",
@@ -2548,6 +3725,14 @@ export const phases: Phase[] = [
             practice: "Moviment intern elegant i musical: fes sonar la veu superior gairebé igual tota l'estona i deixa que el que es mogui sigui només el baix. Toca-ho lent i grava't per comprovar que la nota de dalt no es belluga.",
             progression: "Aplicar la mateixa línia descendent en menor i en major, i després fer-la servir com a pont cap a un altre acord.",
             duration: "9 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió que baixi cromàticament de la root o un acord solt sobre el qual vulguis treballar aquesta línia",
+              functions: "3a i la 7a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "11.6",
@@ -2564,6 +3749,13 @@ export const phases: Phase[] = [
             practice: "Color jazz modern sense perdre funció: toca el substitut amb la mateixa veu guia (3a i 7a del dominant original) i resol sempre cap a l'acord de tònica. Amb backing track o metrònom lent pots comprovar que la resolució cau al lloc.",
             progression: "Afegir b9 al substitut quan ja soni còmode, i després repetir el mateix en quatre tonalitats amb 'Transpose'.",
             duration: "8-10 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I en C",
+              functions: "3a i la 7a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Transpose"],
+            },
           },
           {
             id: "11.7",
@@ -2580,6 +3772,14 @@ export const phases: Phase[] = [
             practice: "Pensament funcional avançat: mantén la veu guia curta (3a i 7a) mentre la cadena s'allarga, i atura't a escoltar cada resolució. Amb metrònom lent pots assegurar-te que cada dominant cau al seu temps.",
             progression: "Fer cadenes més curtes i ràpides: primer dominants de dos en dos, després un compàs per acord i finalment dos acords per compàs.",
             duration: "10 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "exercici d'acord solt o una progressió curta que acabi en l'acord objectiu",
+              functions: "3a i la 7a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat"],
+            },
           },
           {
             id: "11.8",
@@ -2596,6 +3796,14 @@ export const phases: Phase[] = [
             practice: "Crear ambient modern i estable: deixa sonar el pedal com una nota contínua i mou només les notes de dalt. Prova el sus, el add9 i la 7a sobre el mateix pedal i escolta quins colors funcionen; pots enregistrar una mini peça de 60 segons per escoltar-ho en conjunt.",
             progression: "Canviar el pedal a una altra nota (per exemple de D a A) i repetir els colors que hagis triat.",
             duration: "7-8 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió sobre una nota de baix fixa o un acord solt que et serveixi de referència",
+              functions: "root i la 5a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "11.9",
@@ -2612,6 +3820,13 @@ export const phases: Phase[] = [
             practice: "Controlar densitat harmònica en temps real: comença amb metrònom a 70 i compta els compassos en què afegeixes l'extensió, perquè la densitat no es dispari. Grava't 3 minuts i revisa si el canvi de capa queda clar.",
             progression: "Fer-ho sobre ii-V-I en 6 tonalitats, amb 'Transpose' o 'Randomise Key On Repeat', i després anticipar l'extensió al últim temps del compàs anterior.",
             duration: "8 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I",
+              functions: "3a i la 7a de cada acord (el shell base)",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
         ],
       },
@@ -2648,6 +3863,13 @@ export const phases: Phase[] = [
             practice: "Sonoritat moderna sense perdre funció tonal: toca els voicings amb notes molt juntes i escolta com la 3a i la 7a sostenen la funció mentre les quartes donen el color. Fes-ho lent i amb metrònom perquè la resolució final quedi clara.",
             progression: "Afegir una 4a nota a cada voicing i després reduir el nombre de voltes fins a tocar la progressió en un sol compàs per acord.",
             duration: "9-10 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I en major",
+              functions: "3a, la 7a i la 9a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat"],
+            },
           },
           {
             id: "12.2",
@@ -2664,6 +3886,13 @@ export const phases: Phase[] = [
             practice: "Control de #9, b9, #11 i b13 per color real: toca la tríada superior com un bloc i escolta com cada tensió empeny cap a la resolució. Grava't i comprova que el color no tapa la funció del dominant.",
             progression: "Canviar de tríada superior cada 2 compassos i després cada compàs, mantenint el mateix ritme de comping.",
             duration: "8-10 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió que acabi en un dominant que resolgui a un acord major",
+              functions: "tensions alterades del dominant: b9, #9, #11 i b13",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Transpose"],
+            },
           },
           {
             id: "12.3",
@@ -2680,6 +3909,13 @@ export const phases: Phase[] = [
             practice: "Equilibri entre estructura i color: toca primer el drop-2 net i, quan soni còmode, hi afegeixes l'extensió amb el dit petit. Mantén la veu superior cantable i grava't per revisar la netedat del so.",
             progression: "Aplicar-ho també en tonalitat menor amb 'Randomise Key On Repeat', i després anticipar l'extensió al final del compàs.",
             duration: "9 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió en major que et permeti treballar inversions",
+              functions: "3a, la 5a i la 7a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "12.4",
@@ -2696,6 +3932,14 @@ export const phases: Phase[] = [
             practice: "Moviment funcional avançat i fluid: mantén la 3a i la 7a del dominant original encara que canviïs l'acord, i toca-ho amb metrònom per no perdre el pols. Enregistra't per comprovar que la cadena no s'alenteeix.",
             progression: "Pujar el tempo de 10 en 10 al metrònom quan la cadena surti neta, i després allargar-la amb un dominant més.",
             duration: "8-9 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió llarga de dominants encadenats que resolgui al I",
+              functions: "3a i la 7a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "12.5",
@@ -2712,6 +3956,13 @@ export const phases: Phase[] = [
             practice: "Comping modern amb densitat controlada: compta les notes que toques a cada compàs i no passis mai de quatre en el moment de més densitat. Amb metrònom o backing lent pots comprovar que el groove aguanta quan afegeixes la capa de dalt.",
             progression: "Afegir anticipacions rítmiques (desplaçar la tríada superior mig temps abans) i després fer rondes de 2 minuts alternant capa i shell.",
             duration: "8 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió de II-V-I en major",
+              functions: "3a i la 7a de cada acord (el shell base)",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "12.6",
@@ -2729,6 +3980,14 @@ export const phases: Phase[] = [
             practice: "Color menor avançat amb resolució elegant: mantén les tensions del dominant ben col·locades i deixa que la resolució al menor soni neta. Toca-ho lent amb metrònom i grava't per escoltar si les tensions queden bé.",
             progression: "Afegir moviment cromàtic de baixos entre els acords i després repetir en més tonalitats amb 'Transpose'.",
             duration: "10 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-i en menor",
+              functions: "3a i la 7a dels dos primers acords i les tensions del dominant (b9 i #9)",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat"],
+            },
           },
           {
             id: "12.7",
@@ -2745,6 +4004,13 @@ export const phases: Phase[] = [
             practice: "Textura fusion controlada musicalment: toca el bloc sempre amb la mateixa forma i deixa que el que canviï sigui només la posició. Alterna moviment ascendent i descendent i para sempre en un punt de resolució clar.",
             progression: "Integrar-ho dins un II-V-I: començar amb un bloc fix i anar-lo movent fins a resoldre a les funcions del nivell.",
             duration: "7-8 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió amb un acord estable per tenir una base harmònica clara",
+              functions: "3a, la 7a i la 9a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat"],
+            },
           },
           {
             id: "12.8",
@@ -2760,6 +4026,13 @@ export const phases: Phase[] = [
             practice: "Exploració de colors no convencionals: toca cada superposició dues voltes i anota quines sonen millor. Enregistra't per escoltar-ho sense tocar i tria les tres que et funcionin.",
             progression: "Aplicar-ho en una progressió real: mantenir dues superposicions triades i integrar-les al comping habitual.",
             duration: "8 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió curta o un acord solt que et serveixi de base estable",
+              functions: "3a i la 7a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
         ],
       },
@@ -2796,6 +4069,13 @@ export const phases: Phase[] = [
             practice: "Toca les triades majors amb canvi suau entre inversions: mantén les notes comunes i mou només els dits imprescindibles. Amb metrònom a 60-70 pots comprovar que el canvi de set no et fa perdre el pols.",
             progression: "Pujar a 80 al metrònom i canviar de tonalitat cada 2 minuts, primer amb les tres inversions i després enllaçant els tres sets sense aturar-te.",
             duration: "10 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "acords majors",
+              functions: "root, la 3a i la 5a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat"],
+            },
           },
           {
             id: "13.2",
@@ -2812,6 +4092,13 @@ export const phases: Phase[] = [
             practice: "Control de color menor i melodia superior clara: canta la veu superior mentre toques la tríada i deixa que ella decideixi la inversió. Amb backing track lent pots comprovar si la línia de dalt té sentit melòdic.",
             progression: "Aplicar-ho sobre un backing track lent i després fer el cicle complet de 5 minuts sense aturar-te, canviant d'inversió cada 4 compassos.",
             duration: "8-9 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió amb acords menors",
+              functions: "root, la 3a menor i la 5a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Transpose"],
+            },
           },
           {
             id: "13.3",
@@ -2828,6 +4115,13 @@ export const phases: Phase[] = [
             practice: "Usar triades de tensió sense perdre control harmònic: toca la tríada de tensió i resol-la sempre, sense deixar-la sonar com un acord independent. Escolta la diferència entre la disminuïda i l'augmentada i grava't per comparar.",
             progression: "Reduir temps de decisió entre acords: primer dos compassos per tríada, després un compàs i finalment mig compàs.",
             duration: "7-8 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió curta que contingui un dominant que resolgui",
+              functions: "tensions alterades del dominant: b5, #5, b9 i #9",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Transpose"],
+            },
           },
           {
             id: "13.4",
@@ -2844,6 +4138,13 @@ export const phases: Phase[] = [
             practice: "Veure funció harmònica a través de triades simples: toca sempre la mateixa forma de tríada i deixa que la seva funció canviï amb l'acord. Amb metrònom lent pots comprovar que el canvi de tríada cau al temps.",
             progression: "Afegir anticipació rítmica i després fer 10 voltes seguides sense parar, canviant a tres tonalitats més amb 'Transpose'.",
             duration: "10 min",
+            trainers: ["changes"],
+            setup: {
+              trainer: "changes",
+              material: "progressió II-V-I",
+              functions: "3a i la 7a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat"],
+            },
           },
         ],
       },
@@ -2880,6 +4181,14 @@ export const phases: Phase[] = [
             practice: "Sentir i controlar dominants que apunten a un acord objectiu: toca cada dominant pensant en el seu objectiu i resol sempre amb claredat. Amb metrònom o backing track lent pots comprovar que cada resolució cau al seu lloc.",
             progression: "Afegir una tonalitat nova cada dia amb 'Randomise Key On Repeat' i després encadenar més d'un dominant secundari dins la mateixa volta.",
             duration: "9-10 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió I-vi-ii-V",
+              functions: "3a i la 7a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Randomise Key On Repeat"],
+            },
           },
           {
             id: "14.2",
@@ -2896,6 +4205,14 @@ export const phases: Phase[] = [
             practice: "Baix melòdic i harmonia clara a la vegada: toca la nota greu amb més pes i articula-la, i deixa el voicing de sobre més suau. Amb metrònom lent pots comprovar que la línia de baix té direcció pròpia.",
             progression: "Canvis més ràpids de slash chord i repetició en tres tonalitats amb 'Transpose'.",
             duration: "8-9 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió amb acords de baix dirigit",
+              functions: "root i la 5a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat"],
+            },
           },
           {
             id: "14.4",
@@ -2913,12 +4230,20 @@ export const phases: Phase[] = [
             practice: "Substituir sense trencar el discurs rítmic: fes el mateix patró de comping amb els acords originals i amb els substituïts, i comprova que el groove no cau. Enregistra't cinc passades i escolta si el discurs es manté.",
             progression: "Afegir una tercera substitució quan les dues primeres ja sonin naturals, i després canviar de tonalitat amb 'Randomise Key On Repeat'.",
             duration: "9 min",
+            trainers: ["changes"],
+            needsPurchase: true,
+            setup: {
+              trainer: "changes",
+              material: "progressió de vuit compassos",
+              functions: "3a i la 7a de cada acord",
+              options: ["Select Chord Changes", "Select a Level", "Repeat", "Transpose"],
+            },
           },
         ],
       },
     ],
   },
-];;
+];;;
 
 export interface DailyRoutine {
   id: string;

@@ -1,0 +1,44 @@
+# PER ACTIVAR EL RECORDATORI SETMANAL:
+# aquest fitxer s'ha de moure a .github/workflows/ntfy-setmana.yml
+# (GitHub no permet crear fitxers de workflow des de l'API amb aquest token).
+# Un cop allà, ja s'executa sol cada dilluns a les 06:00 UTC.
+#name: Pla setmanal a ntfy
+
+# Envia cada dilluns al matí el pla d'exercicis de la setmana al topic de ntfy.
+# Es pot llançar a mà des de la pestanya Actions (Run workflow) i triar una setmana.
+
+on:
+  schedule:
+    # Dilluns a les 06:00 UTC (08:00 a l'estiu a Catalunya, 07:00 a l'hivern)
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+    inputs:
+      week:
+        description: "Setmana del pla (buit = calculada des de NOTIFY_START_DATE)"
+        required: false
+        default: ""
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Enviar el pla de la setmana
+        env:
+          # Si no es defineixen aquests secrets, s'usen els valors de expo/constants/notify.ts
+          NTFY_URL: ${{ secrets.NTFY_URL }}
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          NTFY_TOKEN: ${{ secrets.NTFY_TOKEN }}
+          NOTIFY_START_DATE: ${{ secrets.NOTIFY_START_DATE }}
+        run: |
+          if [ -n "${{ inputs.week }}" ]; then
+            node tools/notify-week.mjs --week "${{ inputs.week }}"
+          else
+            node tools/notify-week.mjs
+          fi
+
