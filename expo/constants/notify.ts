@@ -15,7 +15,11 @@ export const NTFY_URL = "http://hortosona:8090";
 export const NTFY_TOPIC = "solo";
 /** Primera setmana del pla: serveix per calcular en quina setmana ets. */
 export const NOTIFY_START_DATE = "2026-09-28";
-export const SITE_URL = "https://jazz-fusion-solo-training.vercel.app";
+/**
+ * Adreça pública de la web. Viu a la Raspberry (nginx, port 3020): Vercel ja no
+ * s'usa. Amb Tailscale actiu al mòbil, tant val `100.115.134.76` com `hortosona`.
+ */
+export const SITE_URL = "http://100.115.134.76:3020";
 
 /** Cert si el navegador podrà publicar directament (cal HTTPS al servidor). */
 export const canPublishFromBrowser = (): boolean => {
