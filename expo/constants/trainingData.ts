@@ -222,7 +222,7 @@ export const phases: Phase[] = [
           },
           {
             id: "1.3b",
-            title: "Connexió CAGED vertical",
+            title: "Connexió de zones del mànec (CAGED)",
             emoji: "🔗",
             soloSteps: [
               "1. Obre Solo i tria el Changes Trainer.",
