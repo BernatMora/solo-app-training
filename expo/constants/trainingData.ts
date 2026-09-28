@@ -1795,7 +1795,7 @@ export const phases: Phase[] = [
               "2. Prem 'Select Chord Changes' i tria una progressió que acabi en un dominant que resolgui al I (per exemple una II-V-I).",
               "3. Prem 'Select a Level' i tria un nivell que demani la 3a i la b7 del dominant.",
               "4. Prem 'Start Changes Workout' i toca la primera volta amb el dominant original.",
-              "5. Torna a 'Select Chord Changes' i munta la segona volta amb el substitut de tritó i la tercera amb el bVII7 (backdoor); crea les variants amb 'Buy Custom Chord Progressions' si no les trobes a la llista (és una compra dins l'app).",
+              "5. Torna a 'Select Chord Changes' i munta la segona volta amb el substitut de tritó i la tercera amb el bVII7 (backdoor). Crea-les amb 'Buy Custom Chord Progressions' si no hi són (compra dins l'app).",
               "6. Activa 'Repeat' i mantén el mateix motiu a les tres voltes per comparar els tres camins de resolució.",
             ],
             practice: "Comparar tres camins de tensió/resolució amb una sola idea: el motiu no canvia, només el camí. Grava la roda sencera i escolta-la.",
