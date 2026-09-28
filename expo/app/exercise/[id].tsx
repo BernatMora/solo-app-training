@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { CheckCircle2, Circle, ArrowLeft, Timer, Square, Save } from "lucide-react-native";
+import { CheckCircle2, Circle, ArrowLeft, Timer, Square, Save, AlertTriangle } from "lucide-react-native";
 import * as Haptics from "expo-haptics";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -13,7 +13,7 @@ import {
 } from "react-native";
 
 import Colors from "@/constants/colors";
-import { phases } from "@/constants/trainingData";
+import { phases, TRAINER_INFO } from "@/constants/trainingData";
 import { useProgress } from "@/contexts/ProgressContext";
 
 export default function ExerciseDetailScreen() {
@@ -26,6 +26,7 @@ export default function ExerciseDetailScreen() {
   const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
   const [elapsedSeconds, setElapsedSeconds] = useState<number>(0);
   const [sessionNotes, setSessionNotes] = useState<string>("");
+  const [doneSteps, setDoneSteps] = useState<number[]>([]);
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startedAtRef = useRef<number | null>(null);
@@ -233,6 +234,52 @@ export default function ExerciseDetailScreen() {
             </Text>
           </View>
 
+          {(exercise.trainers?.length ?? 0) > 0 && (
+            <View style={styles.section}>
+              <Text style={[styles.sectionTitle, { color: colors.text }]}>
+                Entrenadors que fa servir
+              </Text>
+              <View style={styles.trainerRow}>
+                {(exercise.trainers ?? []).map((trainerId) => (
+                  <View
+                    key={trainerId}
+                    style={[
+                      styles.trainerBadge,
+                      { backgroundColor: TRAINER_INFO[trainerId].color + "22" },
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.trainerBadgeText,
+                        { color: TRAINER_INFO[trainerId].color },
+                      ]}
+                    >
+                      {TRAINER_INFO[trainerId].label}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+          )}
+
+          {exercise.needsPurchase && (
+            <View
+              style={[
+                styles.noticeCard,
+                {
+                  backgroundColor: colors.warning + "18",
+                  borderColor: colors.warning,
+                },
+              ]}
+            >
+              <AlertTriangle size={18} color={colors.warning} />
+              <Text style={[styles.noticeText, { color: colors.text }]}>
+                Si la progressió que vols no és a la llista de Solo, caldrà la
+                compra dins l'app "Buy Custom Chord Progressions" (Settings).
+              </Text>
+            </View>
+          )}
+
           <View style={styles.section}>
             <Text style={[styles.sectionTitle, { color: colors.text }]}>Sessió (cronòmetre)</Text>
 
@@ -314,24 +361,147 @@ export default function ExerciseDetailScreen() {
             </View>
           </View>
 
+          {exercise.setup && (
+            <View style={styles.section}>
+              <Text style={[styles.sectionTitle, { color: colors.text }]}>
+                Què has de posar a Solo
+              </Text>
+              <View
+                style={[
+                  styles.recipeCard,
+                  { backgroundColor: colors.card, borderColor: colors.border },
+                ]}
+              >
+                {exercise.setup.trainer && (
+                  <View style={styles.recipeRow}>
+                    <Text style={[styles.recipeLabel, { color: colors.textSecondary }]}>
+                      Entrenador
+                    </Text>
+                    <Text
+                      style={[
+                        styles.recipeValue,
+                        { color: TRAINER_INFO[exercise.setup.trainer].color },
+                      ]}
+                    >
+                      {TRAINER_INFO[exercise.setup.trainer].label}
+                    </Text>
+                  </View>
+                )}
+                {exercise.setup.material && (
+                  <View style={styles.recipeRow}>
+                    <Text style={[styles.recipeLabel, { color: colors.textSecondary }]}>
+                      Què hi trio
+                    </Text>
+                    <Text style={[styles.recipeValue, { color: colors.text }]}>
+                      {exercise.setup.material}
+                    </Text>
+                  </View>
+                )}
+                {exercise.setup.functions && (
+                  <View style={styles.recipeRow}>
+                    <Text style={[styles.recipeLabel, { color: colors.textSecondary }]}>
+                      Què em demanarà
+                    </Text>
+                    <Text style={[styles.recipeValue, { color: colors.text }]}>
+                      {exercise.setup.functions}
+                    </Text>
+                  </View>
+                )}
+                {exercise.setup.root && (
+                  <View style={styles.recipeRow}>
+                    <Text style={[styles.recipeLabel, { color: colors.textSecondary }]}>
+                      Tònica
+                    </Text>
+                    <Text style={[styles.recipeValue, { color: colors.text }]}>
+                      {exercise.setup.root}
+                    </Text>
+                  </View>
+                )}
+                {exercise.setup.options && exercise.setup.options.length > 0 && (
+                  <View style={styles.recipeRow}>
+                    <Text style={[styles.recipeLabel, { color: colors.textSecondary }]}>
+                      Botons i opcions
+                    </Text>
+                    <Text style={[styles.recipeValue, { color: colors.text }]}>
+                      {exercise.setup.options.join(" → ")}
+                    </Text>
+                  </View>
+                )}
+                <View style={styles.recipeRow}>
+                  <Text style={[styles.recipeLabel, { color: colors.textSecondary }]}>
+                    Durada
+                  </Text>
+                  <Text style={[styles.recipeValue, { color: colors.text }]}>
+                    {exercise.setup.hasDuration
+                      ? "Té workout amb durada"
+                      : "Sense durada: acaba quan acaba la progressió"}
+                  </Text>
+                </View>
+                {exercise.needsPurchase && (
+                  <View style={styles.recipeRow}>
+                    <Text style={[styles.recipeLabel, { color: colors.textSecondary }]}>
+                      Compra in-app
+                    </Text>
+                    <Text style={[styles.recipeValue, { color: colors.warning }]}>
+                      Pot caldre "Buy Custom Chord Progressions"
+                    </Text>
+                  </View>
+                )}
+              </View>
+            </View>
+          )}
+
           {exercise.soloSteps && exercise.soloSteps.length > 0 && (
             <View style={styles.section}>
               <Text style={[styles.sectionTitle, { color: colors.text }]}>
-                Configuració Solo App
+                Passos, un a un
+              </Text>
+              <Text style={[styles.sectionHint, { color: colors.textSecondary }]}>
+                Ves marcant-los mentre els fas a l'app.
               </Text>
               <View style={[styles.card, { backgroundColor: colors.card }]}>
-                {exercise.soloSteps.map((step, index) => (
-                  <Text
-                    key={index}
-                    style={[
-                      styles.cardText,
-                      { color: colors.textSecondary, marginBottom: index < (exercise.soloSteps?.length || 0) - 1 ? 8 : 0 },
-                    ]}
-                  >
-                    {step}
-                  </Text>
-                ))}
+                {exercise.soloSteps.map((step, index) => {
+                  const isDone = doneSteps.includes(index);
+                  return (
+                    <TouchableOpacity
+                      key={index}
+                      style={styles.stepRow}
+                      onPress={() =>
+                        setDoneSteps((prev) =>
+                          prev.includes(index)
+                            ? prev.filter((i) => i !== index)
+                            : [...prev, index]
+                        )
+                      }
+                      testID={`soloStep-${index + 1}`}
+                    >
+                      {isDone ? (
+                        <CheckCircle2 size={20} color={colors.success} />
+                      ) : (
+                        <Circle size={20} color={colors.textSecondary} />
+                      )}
+                      <Text
+                        style={[
+                          styles.cardText,
+                          styles.stepText,
+                          { color: isDone ? colors.textSecondary : colors.text },
+                          isDone && styles.stepTextDone,
+                        ]}
+                      >
+                        {step}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
               </View>
+              <TouchableOpacity
+                style={[styles.guideLink, { borderColor: colors.border }]}
+                onPress={() => router.push("/guia" as any)}
+              >
+                <Text style={[styles.guideLinkText, { color: colors.tint }]}>
+                  Com es posa cada entrenador? Guia ràpida →
+                </Text>
+              </TouchableOpacity>
             </View>
           )}
 
@@ -538,5 +708,84 @@ const createStyles = (colors: typeof Colors.light) =>
     errorText: {
       fontSize: 18,
       fontWeight: "600" as const,
+    },
+    trainerRow: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      gap: 8,
+    },
+    trainerBadge: {
+      paddingHorizontal: 12,
+      paddingVertical: 8,
+      borderRadius: 999,
+    },
+    trainerBadgeText: {
+      fontSize: 12,
+      fontWeight: "700" as const,
+    },
+    noticeCard: {
+      flexDirection: "row",
+      alignItems: "flex-start",
+      gap: 10,
+      padding: 14,
+      borderRadius: 12,
+      borderWidth: 1,
+      marginBottom: 24,
+    },
+    noticeText: {
+      flex: 1,
+      fontSize: 13,
+      lineHeight: 19,
+    },
+    recipeCard: {
+      padding: 14,
+      borderRadius: 12,
+      borderWidth: 1,
+      gap: 8,
+    },
+    recipeRow: {
+      flexDirection: "row",
+      alignItems: "flex-start",
+      justifyContent: "space-between",
+      gap: 12,
+    },
+    recipeLabel: {
+      fontSize: 12,
+      fontWeight: "600" as const,
+      minWidth: 92,
+    },
+    recipeValue: {
+      flex: 1,
+      fontSize: 14,
+      fontWeight: "600" as const,
+      textAlign: "right",
+    },
+    sectionHint: {
+      fontSize: 12,
+      marginBottom: 12,
+      marginTop: -6,
+    },
+    stepRow: {
+      flexDirection: "row",
+      alignItems: "flex-start",
+      gap: 10,
+      paddingVertical: 8,
+    },
+    stepText: {
+      flex: 1,
+    },
+    stepTextDone: {
+      textDecorationLine: "line-through",
+    },
+    guideLink: {
+      marginTop: 12,
+      padding: 12,
+      borderRadius: 10,
+      borderWidth: 1,
+      alignItems: "center",
+    },
+    guideLinkText: {
+      fontSize: 13,
+      fontWeight: "700" as const,
     },
   });

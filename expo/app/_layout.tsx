@@ -15,6 +15,20 @@ function RootLayoutNav() {
     <Stack screenOptions={{ headerBackTitle: "Enrere" }}>
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen
+        name="progress"
+        options={{
+          title: "El meu progrés",
+          presentation: "card",
+        }}
+      />
+      <Stack.Screen
+        name="guia"
+        options={{
+          title: "Com es posa a Solo",
+          presentation: "card",
+        }}
+      />
+      <Stack.Screen
         name="exercise/[id]"
         options={{
           title: "Exercici",
