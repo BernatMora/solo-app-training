@@ -34,10 +34,16 @@ const readConfig = () => {
     const m = src.match(new RegExp(`export const ${name}\\s*=\\s*"([^"]*)"`));
     return m ? m[1] : fallback;
   };
+  // el token es pot passar per entorn o deixar en un fitxer local (mai al repositori)
+  let token = process.env.NTFY_TOKEN || '';
+  const tokenFile = process.env.NTFY_TOKEN_FILE || path.join(ROOT, '.ntfy-token');
+  if (!token && fs.existsSync(tokenFile)) {
+    token = fs.readFileSync(tokenFile, 'utf8').trim();
+  }
   return {
     url: process.env.NTFY_URL || fromFile('NTFY_URL', 'https://ntfy.sh'),
     topic: process.env.NTFY_TOPIC || fromFile('NTFY_TOPIC', 'solo'),
-    token: process.env.NTFY_TOKEN || '',
+    token,
     startDate: process.env.NOTIFY_START_DATE || fromFile('NOTIFY_START_DATE', ''),
     siteUrl: fromFile('SITE_URL', ''),
   };
@@ -180,7 +186,14 @@ const publish = async (config, message) => {
   });
   const text = await response.text();
   if (!response.ok) {
-    throw new Error(`ntfy ha respost ${response.status}: ${text.slice(0, 200)}`);
+    const hint =
+      response.status === 403
+        ? '\n\nEl servidor ntfy demana autenticació per publicar. Solucions:\n' +
+          '  a) Crea un token i deixa\'l a .ntfy-token o a la variable NTFY_TOKEN.\n' +
+          '  b) Dona permís d\'escriptura al topic:  ntfy access everyone ' +
+          `${config.topic} wo`
+        : '';
+    throw new Error(`ntfy ha respost ${response.status}: ${text.slice(0, 200)}${hint}`);
   }
   return JSON.parse(text);
 };

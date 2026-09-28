@@ -1,11 +1,31 @@
 import { lastPlannedWeek, planForWeek } from "@/constants/planner";
 import { phases, TRAINER_INFO } from "@/constants/trainingData";
 
-export const NTFY_URL = "https://ntfy.sh";
+/**
+ * ntfy: servidor propi de casa (Raspberry, port 8090).
+ * El servidor demana autenticació per publicar: el script de `tools/notify-week.mjs`
+ * hi envia el token des de la variable d'entorn NTFY_TOKEN o del fitxer .ntfy-token
+ * (que no es puja mai al repositori).
+ *
+ * NOTA: el botó de la web només pot publicar si el servidor és HTTPS (una pàgina
+ * HTTPS no pot cridar un http://) i si el topic permet escriptura. Si no, el
+ * recordatori setmanal automàtic és el camí.
+ */
+export const NTFY_URL = "http://hortosona:8090";
 export const NTFY_TOPIC = "solo";
 /** Primera setmana del pla: serveix per calcular en quina setmana ets. */
 export const NOTIFY_START_DATE = "2026-09-28";
 export const SITE_URL = "https://jazz-fusion-solo-training.vercel.app";
+
+/** Cert si el navegador podrà publicar directament (cal HTTPS al servidor). */
+export const canPublishFromBrowser = (): boolean => {
+  const isSecurePage =
+    typeof window !== "undefined" &&
+    typeof window.location !== "undefined" &&
+    window.location.protocol === "https:";
+  const isSecureServer = NTFY_URL.startsWith("https://");
+  return !isSecurePage || isSecureServer;
+};
 
 export interface NtfyMessage {
   title: string;
@@ -89,20 +109,26 @@ export const buildWeekMessage = (week: number, today: Date = new Date()): NtfyMe
 
 /** Publica el missatge a ntfy. Retorna true si el servidor l'ha acceptat. */
 export const sendToNtfy = async (message: NtfyMessage): Promise<boolean> => {
+  const headers: Record<string, string> = {
+    Title: message.title,
+    Tags: message.tags.join(","),
+    Priority: String(message.priority),
+    Markdown: "yes",
+  };
+
   try {
     const response = await fetch(`${NTFY_URL}/${NTFY_TOPIC}`, {
       method: "POST",
-      headers: {
-        Title: message.title,
-        Tags: message.tags.join(","),
-        Priority: String(message.priority),
-        Markdown: "yes",
-      },
+      headers,
       body: message.body,
     });
+    if (!response.ok) {
+      const detail = await response.text().catch(() => "");
+      console.warn("ntfy ha refusat el missatge:", response.status, detail);
+    }
     return response.ok;
   } catch (error) {
-    console.error("Error enviant a ntfy:", error);
+    console.warn("Error enviant a ntfy:", error);
     return false;
   }
 };

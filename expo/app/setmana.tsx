@@ -24,7 +24,9 @@ import { phases, TRAINER_INFO } from "@/constants/trainingData";
 import { lastPlannedWeek, planForWeek } from "@/constants/planner";
 import {
   NTFY_TOPIC,
+  NTFY_URL,
   buildWeekMessage,
+  canPublishFromBrowser,
   currentPlanWeek,
   sendToNtfy,
 } from "@/constants/notify";
@@ -90,11 +92,15 @@ export default function SetmanaScreen() {
   );
 
   const computedWeek = useMemo(() => currentPlanWeek(), []);
-  const [sendState, setSendState] = useState<"idle" | "sending" | "ok" | "error">(
-    "idle"
-  );
+  const [sendState, setSendState] = useState<
+    "idle" | "sending" | "ok" | "error" | "blocked"
+  >("idle");
 
   const sendPlan = async () => {
+    if (!canPublishFromBrowser()) {
+      setSendState("blocked");
+      return;
+    }
     setSendState("sending");
     const ok = await sendToNtfy(buildWeekMessage(week));
     setSendState(ok ? "ok" : "error");
@@ -197,9 +203,11 @@ export default function SetmanaScreen() {
               ? "Enviant..."
               : sendState === "ok"
                 ? `Enviat al mòbil (ntfy · ${NTFY_TOPIC})`
-                : sendState === "error"
-                  ? "No s'ha pogut enviar. Torna-ho a provar."
-                  : `Envia'm aquest pla al mòbil (ntfy · ${NTFY_TOPIC})`}
+                : sendState === "blocked"
+                  ? `El ntfy de casa (${NTFY_URL}) només es pot cridar per HTTPS`
+                  : sendState === "error"
+                    ? `No s'ha pogut enviar (cal permís d'escriptura al topic ${NTFY_TOPIC})`
+                    : `Envia'm aquest pla al mòbil (ntfy · ${NTFY_TOPIC})`}
           </Text>
         </TouchableOpacity>
         <Text style={[styles.ntfyHint, { color: colors.textSecondary }]}>
