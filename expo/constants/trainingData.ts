@@ -373,7 +373,7 @@ export const phases: Phase[] = [
             trainers: ["interval"],
             setup: {
               trainer: "interval",
-              functions: "dotze: 1, b2, 2, b3, 3, 4, #4, 5, b6, 6, b7 i 7",
+              functions: "1, b2, 2, b3, 3, 4, #4, 5, b6, 6, b7 i 7",
               root: "Fixa",
               options: ["Choose Intervallic Functions", "Show Fretboard"],
             },
